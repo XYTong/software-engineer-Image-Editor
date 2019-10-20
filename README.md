@@ -50,16 +50,13 @@ check:
 *Integer, Long, Byte, Double, Float, Short*  
 
 ```flow
-st=>start: Original Type 
-op1=>operation: =, equals, ArrayList, HashMap 
-ab=>operation: autoboxing 
-ub=>operation: unboxing 
-op2=>operation: +,-,*,/,=,comp 
-e=>end: Boxing Type 
-
-
-st->op->ab->cond 
-e->op2->ub->st 
+st=>start: Original Type
+op1=>operation: =, equals, ArrayList, HashMap
+ab=>operation: autoboxing
+ub=>operation: unboxing
+op2=>operation: +,-,*,/,=,comp
+e=>end: Boxing Type
+st->op->ab->cond
 ```
 
 Original Type|Boxing Type
