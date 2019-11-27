@@ -15,6 +15,7 @@
     - [Detaillierte Designspezifikation](#detaillierte-designspezifikation)
       - [Responsibility Driven Design](#responsibility-driven-design)
       - [Spezifikation des UML-Klassendiagramm und Use-Case Diagramm](#spezifikation-des-uml-klassendiagramm-und-use-case-diagramm)
+        - [UML-Klassendiagramm](#uml-klassendiagramm)
       - [Spezifikation der UML-Squenz Diagramme und UML-Zustandsdiagramme](#spezifikation-der-uml-squenz-diagramme-und-uml-zustandsdiagramme)
     - [Testplan](#testplan)
     - [Testanalysebericht](#testanalysebericht)
@@ -58,6 +59,36 @@ Hauptverantortlicher: Dongze Yang
 Im 3. Teil erstellen wir auf Grundlage des Softwareanforderungen einen geeigneten Entwurf der Klassenhierarchie als UML-Klassendiagramm, indem wir die genauen Interfaces eventueller Klassen an sowie die Attribute, welche die jeweiligen Klassen verwalten.
 
 Außerdem führen wir eine Umfeldanalyse, in dieser haben wir wertvolle Informationen über verschiedene Nutzergruppen gesammelt, und dann fassen wir die beschriebenen Ergebnisse in einem UML Use-Case-Diagramm zusammen.
+
+##### UML-Klassendiagramm
+Das UML-Diagramm, das wir ursprünglich entworfen haben, sieht wie folgt aus:  
+<div align="center">
+<img src="https://raw.githubusercontent.com/XYTong/software-engineer/master/Ue3/3.png" >
+</div>
+Und wir versuchen, eine Verhaltenssimulation über diesen Graphen durchzuführen:  
+
+(Use-case) Benutzer möchte das Bild drehen 
+Von der Auswahl von „Drehen" durch den Benutzer bis zum Abschluss der Bildrotation sollten die folgenden Schritte ausgeführt werden:
+1. Der Benutzer öffnet ein Bild
+2. Der Benutzer klickt auf den Knopf „Drehen"
+3. Das System erledigt den Dreh-Aufgabe
+4. Das System zeigt das Resultat an
+
+Dann ist der Prozess wie folgt:
+<div align="center">
+<img src="https://raw.githubusercontent.com/XYTong/software-engineer/master/Ue3/sc1.png" >
+<img src="https://raw.githubusercontent.com/XYTong/software-engineer/master/Ue3/sc2.png" >
+<img src="https://raw.githubusercontent.com/XYTong/software-engineer/master/Ue3/sc3.png" >
+</div>
+
+Zuerst dachten wir, dass dies in Ordnung ist, aber dann fanden wir beim Entwerfen des UML-Sequenzdiagramms einige Probleme mit den aktuellen UML-Diagrammen.
+
+Beispielsweise können aus Sicht der Implementierung einige Funktionen kombiniert und einige Funktionen müssen getrennt werden. Zu diesem Zweck haben wir das UML-Diagramm neu gestaltet(Der größte Dank geht an Pascal für seinen Beitrag zum Team).
+
+Das neue UML-Diagramm sieht folgendermaßen aus:
+<div align="center"><object data="https://raw.githubusercontent.com/XYTong/software-engineer/master/Ue4/Klassendiagramm_v2.svg" type="image/svg+xml">
+</object>
+</div>
 
 #### Spezifikation der UML-Squenz Diagramme und UML-Zustandsdiagramme
 Hauptverantortlicher: Schröter Pascal  
