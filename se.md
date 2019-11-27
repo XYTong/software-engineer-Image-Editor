@@ -113,7 +113,15 @@ Außerdem erstellen wir ein Zustandsdiagramm eines InterlliPhoto, dafür definie
 
 ------------
 ### Projektentwicklungsbericht
-Hauptverantortlicher: Xiangyu Tong
+Hauptverantortlicher: Xiangyu Tong  
+
+Bibliothek: OpenCV  
+
+Programmiersprach: Python  
+
+Plattform: Win/Linux  
+
+Weitere Details sehen in EntwicklungsDokumente aus.  
 
 Im 5. Teil implementieren wir diese Software. 
 
