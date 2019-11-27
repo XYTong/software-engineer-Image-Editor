@@ -15,7 +15,6 @@
     - [Detaillierte Designspezifikation](#detaillierte-designspezifikation)
       - [Responsibility Driven Design](#responsibility-driven-design)
       - [Spezifikation des UML-Klassendiagramm und Use-Case Diagramm](#spezifikation-des-uml-klassendiagramm-und-use-case-diagramm)
-        - [UML-Klassendiagramm](#uml-klassendiagramm)
       - [Spezifikation der UML-Squenz Diagramme und UML-Zustandsdiagramme](#spezifikation-der-uml-squenz-diagramme-und-uml-zustandsdiagramme)
     - [Testplan](#testplan)
     - [Testanalysebericht](#testanalysebericht)
@@ -60,14 +59,17 @@ Im 3. Teil erstellen wir auf Grundlage des Softwareanforderungen einen geeignete
 
 Außerdem führen wir eine Umfeldanalyse, in dieser haben wir wertvolle Informationen über verschiedene Nutzergruppen gesammelt, und dann fassen wir die beschriebenen Ergebnisse in einem UML Use-Case-Diagramm zusammen.
 
-##### UML-Klassendiagramm
 Das UML-Diagramm, das wir ursprünglich entworfen haben, sieht wie folgt aus:  
 <div align="center">
 <img src="https://raw.githubusercontent.com/XYTong/software-engineer/master/Ue3/3.png" >
 </div>
 Und wir versuchen, eine Verhaltenssimulation über diesen Graphen durchzuführen:  
 
-(Use-case) Benutzer möchte das Bild drehen 
+<div align="center">
+<img src="https://raw.githubusercontent.com/XYTong/software-engineer/master/Ue3/uc1.png">
+</div>
+(Geb ein einfaches Beispiel) Benutzer möchte das Bild drehen 
+
 Von der Auswahl von „Drehen" durch den Benutzer bis zum Abschluss der Bildrotation sollten die folgenden Schritte ausgeführt werden:
 1. Der Benutzer öffnet ein Bild
 2. Der Benutzer klickt auf den Knopf „Drehen"
@@ -86,9 +88,15 @@ Zuerst dachten wir, dass dies in Ordnung ist, aber dann fanden wir beim Entwerfe
 Beispielsweise können aus Sicht der Implementierung einige Funktionen kombiniert und einige Funktionen müssen getrennt werden. Zu diesem Zweck haben wir das UML-Diagramm neu gestaltet(Der größte Dank geht an Pascal für seinen Beitrag zum Team).
 
 Das neue UML-Diagramm sieht folgendermaßen aus:
-<div align="center"><object data="https://raw.githubusercontent.com/XYTong/software-engineer/master/Ue4/Klassendiagramm_v2.svg" type="image/svg+xml">
-</object>
-</div>
+![Klassendiagramm](https://raw.githubusercontent.com/XYTong/software-engineer/master/Ue4/Klassendiagramm_v2.svg?sanitize=true)
+
+Da davon ausgegangen wird, dass es in der Software neben der Bildverarbeitung auch andere Arten von Oprationen gibt, z. B. "Speichern". Diese Art von Operation ist offensichtlich nicht dieselbe Art von Operation des Bild. Aus dieser Überlegung heraus, haben wir eine Tool-Klasse aus ManipulationTools entfernt, um die Hauptfunktionen der Software aufzurufen. 
+
+Und da die Operation an dem Bild pixelbasiert, speicherbasiert oder layerbasiert sein. Um klarer darzustellen, welche Funktionen welche Teile aufrufen müssen, haben wir die Schnittstelle auf der linken Seite in ChangeLayer-Schnittstelle, ChangePixel-Schnittstelle und ChangeColormap-Schnittstelle geändert.
+
+Um die Beziehung zwischen der Bildausgabe, der Software-Interaktion, dem UI und dem Bild selbst in der Software zu verdeutlichen, wir haben das ursprüngliche InteractionTool und AnzeigeTool in GUI-Klassen, InterationTool-Klassen, ShowTool-Klassen und Picture-Klassen aufgeteilt.
+
+Obwohl das neue UML-Diagramm einige Unterschiede zum ursprünglichen UML-Diagramm aufweist, hat sich die Gesamtlogik nicht geändert. Daher ist es weiterhin auf den zuvor vorgeschlagenen Anwendungsfall anwendbar.
 
 #### Spezifikation der UML-Squenz Diagramme und UML-Zustandsdiagramme
 Hauptverantortlicher: Schröter Pascal  
