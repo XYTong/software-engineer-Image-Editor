@@ -28,13 +28,15 @@
 
 ### Einleitung
 
+-----------------
+
 ### Projektentwicklungsplan
 Die Softwareentwicklung gliedert sich in folgende Teile:
-    1. Verständnis der Anforderungen 
-    2. Responsibility Driven Design
-    3. Spezifikation des UML-Klassendiagramm und Use-Case Diagramm
-    4. Spezifikation der UML-Squenz Diagramme und UML-Zustandsdiagramme
-    5. Implementierung des Frameworks
+  1. Verständnis der Anforderungen 
+  2. Responsibility Driven Design
+  3. Spezifikation des UML-Klassendiagramm und Use-Case Diagramm
+  4. Spezifikation der UML-Squenz Diagramme und UML-Zustandsdiagramme
+  5. Implementierung des Frameworks
    
 Eine detaillierte Beschreibung der einzelnen Teile finden Sie in den folgenden Kapiteln.
 
