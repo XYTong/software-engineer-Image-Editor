@@ -117,7 +117,9 @@ Außerdem erstellen wir ein Zustandsdiagramm eines InterlliPhoto, dafür definie
 ### Projektentwicklungsbericht
 Hauptverantortlicher: Xiangyu Tong  
 
-Bibliothek: OpenCV  
+Bibliothek: OpenCV,Numpy,PyQt
+
+Compiler:PyPy 3.0
 
 Programmiersprach: Python  
 
