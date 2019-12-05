@@ -15,9 +15,17 @@ public:
     Interaction_Tool(){
         pic = new Picture();
     }
-    void show();
+    ~Interaction_Tool(){
+        delete pic;
+    }
+    void show(){
+        ShowTool show_tool;
+        show_tool.show(pic,"Tux.png");
+    }
     void useToll();
 };
 int main(){
+    Interaction_Tool ic;
+    ic.show();
     return 0;
 }
