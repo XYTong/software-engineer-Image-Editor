@@ -11,7 +11,7 @@ using namespace std;
 class ShowTool{
 public:
     void show(Picture* pic, string pic_name){
-        cout << "success of calling of ShowTool" << endl;
+        cout << "succeeded in calling of ShowTool" << endl;
         Mat img = imread(pic_name);
         int w = img.rows;
         int h = img.cols;
