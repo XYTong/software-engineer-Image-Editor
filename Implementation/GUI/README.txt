@@ -1,7 +1,7 @@
 This is the GUI presented today. 
 It is written using qt5,
 which may need to be installed on your devices for the program to work properly.
-It is adviced to use Qtcreator which is powerful IDE for developing qt projects,
+It is adviced to use Qtcreator which is a powerful IDE for developing qt projects,
 since it handels the otherwise quite annoying process of compiling and linking. 
 
 If this README file causes problems during compilation (although i tested it
