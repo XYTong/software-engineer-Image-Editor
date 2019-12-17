@@ -11,6 +11,7 @@
 - [DE](#DE)
 
 Siehe [se.md](se.md) für SE-Dokumentation
+convert 17310395011_f1a497f25f_o.png -alpha off -type palette BMP3:17310395011_f1a497f25f_o.bmp
 
 
 
