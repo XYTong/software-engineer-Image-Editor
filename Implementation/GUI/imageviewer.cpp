@@ -63,6 +63,7 @@ ImageViewer::ImageViewer(QWidget *parent)
    : QMainWindow(parent), imageLabel(new QLabel),
      scrollArea(new QScrollArea), scaleFactor(1)
 {
+    interactionTool = InteractionTool();
     imageLabel->setBackgroundRole(QPalette::Base);
     imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     imageLabel->setScaledContents(true);
@@ -82,18 +83,26 @@ ImageViewer::ImageViewer(QWidget *parent)
 
 bool ImageViewer::loadFile(const QString &fileName)
 {
+    toolParameters_t *param = new toolParameters_t;
+    param->tool=newLayer;
     QImageReader reader(fileName);
     reader.setAutoTransform(true);
-    const QImage newImage = reader.read();
-    if (newImage.isNull()) {
+    QImage *newImage = new QImage;
+    *newImage = reader.read();
+    if (newImage->isNull()) {
         QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
                                  tr("Cannot load %1: %2")
                                  .arg(QDir::toNativeSeparators(fileName), reader.errorString()));
         return false;
     }
 //! [2]
-
-    setImage(newImage);
+    param->pic = newImage;
+    interactionTool.useTool(param);
+    newImage = interactionTool.getPicture()->getCurrentLayerAsQ();
+    if (newImage==nullptr){
+        return false;
+    }
+    setImage(*newImage);
 
     setWindowFilePath(fileName);
 
@@ -103,7 +112,7 @@ bool ImageViewer::loadFile(const QString &fileName)
     return true;
 }
 
-void ImageViewer::setImage(const QImage &newImage)
+void ImageViewer::setImage(QImage newImage)
 {
     image = newImage;
     imageLabel->setPixmap(QPixmap::fromImage(image));
@@ -341,6 +350,10 @@ void ImageViewer::createActions()
     fitToWindowAct->setCheckable(true);
     fitToWindowAct->setShortcut(tr("Ctrl+F"));
 
+    QMenu *toolMenu = menuBar()->addMenu(tr("&Tools"));
+
+    QAction *drawTool = toolMenu->addAction(tr("&Draw"), this, &ImageViewer::draw);
+
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
 
     helpMenu->addAction(tr("&About"), this, &ImageViewer::about);
@@ -384,3 +397,15 @@ void ImageViewer::adjustScrollBar(QScrollBar *scrollBar, double factor)
                             + ((factor - 1) * scrollBar->pageStep()/2)));
 }
 //! [26]
+void ImageViewer::draw(){
+    isDraw = !isDraw;
+}
+void ImageViewer::mousePressEvent(QMouseEvent *event)
+{
+    if (isDraw && event->button() == Qt::LeftButton) {
+        toolParameters_t *param = new toolParameters_t;
+        param->tool = paint;
+        param->point = QCursor::pos(QGuiApplication::primaryScreen());
+        interactionTool.useTool(param);
+    }
+}

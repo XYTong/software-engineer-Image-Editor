@@ -12,7 +12,9 @@ HEADERS       = imageviewer.h \
                 ShapedImage.h \
                 ShowTool.h \
                 Tool.h \
-                main.h
+                main.h \
+                tools/drawTool.h \
+                tools/newLayer.h
 SOURCES       = imageviewer.cpp \
                 ColorMap.cpp \
                 InteractionTool.cpp \
@@ -21,7 +23,10 @@ SOURCES       = imageviewer.cpp \
                 RasterImage.cpp \
                 ShapedImage.cpp \
                 ShowTool.cpp \
-                main.cpp
+                main.cpp \
+                tools/drawTool.cpp \
+                tools/floydStrinberg.cpp \
+                tools/newLayer.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/widgets/imageviewer

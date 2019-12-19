@@ -4,12 +4,13 @@
 #define MANIPULATION_TOOL_H
 
 class ManipulationTool{
-	public:
-		Tool getTool(int index);
-        bool initTool(Tool tool);
-	
-	private:
-		Tool* tools;
+    public:
+        bool useTool(toolParameters_t *param);
+        ManipulationTool(Picture *pic);
+        ~ManipulationTool();
+
+    private:
+        Picture *pic;
 };
 
 #endif /* !MANIPULATION_TOOL_H */

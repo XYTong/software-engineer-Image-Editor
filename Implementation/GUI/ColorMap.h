@@ -7,7 +7,7 @@ class ColorMap{
 	public:
         int addColor(pixel_t pix);
         bool removeColor(pixel_t pix);
-        pixel_t* getColor(int index);
+        pixel_t* getColor(unsigned char index);
         int getIndex(pixel_t pix);
         ColorMap(bool lock = false);
         ~ColorMap();

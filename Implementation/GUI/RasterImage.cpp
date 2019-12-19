@@ -18,7 +18,12 @@ bool RasterImage::changePixel(size_t x, size_t y, pixel_t pix){
 pixel_t* RasterImage::getPixel(size_t x, size_t y){
     return colormap.getColor(pixels[y][x]);
 }
-
+size_t RasterImage::getWidth(){
+    return width;
+}
+size_t RasterImage::getHeight(){
+    return height;
+}
 RasterImage::RasterImage(size_t width, size_t height, pixel_t background){
     this->width = width;
     this->height = height;

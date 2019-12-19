@@ -1,17 +1,18 @@
 #include "Picture.h"
+#include "ManipulationTool.h"
 
 #ifndef INTERACTION_TOOL_H
 #define INTERACTION_TOOL_H
 
-class InetractionTool{
+class InteractionTool{
 	public:
-		void show(Picture pic);
-        bool useTool(Picture pic);
-        bool createPic();
-        bool importPic();
+        bool useTool(toolParameters_t* param);
+        Picture* getPicture();
+        InteractionTool();
 		
 	private:
-		Picture pic;
+        Picture *pic;
+        ManipulationTool *tools;
 };
 
 #endif /* !INTERACTION_TOOL_H */

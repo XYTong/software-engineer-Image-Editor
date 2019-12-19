@@ -47,6 +47,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
+#include "InteractionTool.h"
 
 #ifndef IMAGEVIEWER_H
 #define IMAGEVIEWER_H
@@ -74,6 +75,9 @@ public:
     ImageViewer(QWidget *parent = nullptr);
     bool loadFile(const QString &);
 
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
+
 private slots:
     void open();
     void saveAs();
@@ -85,13 +89,14 @@ private slots:
     void normalSize();
     void fitToWindow();
     void about();
+    void draw();
 
 private:
     void createActions();
     void createMenus();
     void updateActions();
     bool saveFile(const QString &fileName);
-    void setImage(const QImage &newImage);
+    void setImage(QImage newImage);
     void scaleImage(double factor);
     void adjustScrollBar(QScrollBar *scrollBar, double factor);
 
@@ -99,6 +104,8 @@ private:
     QLabel *imageLabel;
     QScrollArea *scrollArea;
     double scaleFactor;
+    bool isDraw;
+    InteractionTool interactionTool;
 
 #ifndef QT_NO_PRINTER
     QPrinter printer;

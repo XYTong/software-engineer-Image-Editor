@@ -9,6 +9,8 @@ class RasterImage{
     public:
         bool changePixel(size_t x, size_t y, pixel_t pix);
         pixel_t* getPixel(size_t x, size_t y);
+        size_t getWidth();
+        size_t getHeight();
         RasterImage(size_t width, size_t height, pixel_t background = DEFAULTCOLOR);
         ~RasterImage();
 		
