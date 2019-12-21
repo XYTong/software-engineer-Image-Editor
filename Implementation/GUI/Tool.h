@@ -12,7 +12,8 @@ typedef enum tools {resize, rotate, changeResolution, paint, light, contrast, co
 typedef struct toolParameters {
     tools_e tool;
     QImage *pic;
-    QPoint point;
+    QPoint startPoint;
+    QPoint endPoint;
 } toolParameters_t;
 
 

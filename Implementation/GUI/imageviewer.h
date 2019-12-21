@@ -77,6 +77,8 @@ public:
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
 
 private slots:
     void open();
@@ -104,7 +106,9 @@ private:
     QLabel *imageLabel;
     QScrollArea *scrollArea;
     double scaleFactor;
-    bool isDraw;
+    bool isDraw=false;
+    bool drawStart=false;
+    toolParameters_t *param;
     InteractionTool interactionTool;
 
 #ifndef QT_NO_PRINTER

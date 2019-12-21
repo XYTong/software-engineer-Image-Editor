@@ -9,7 +9,8 @@ class DrawTool : public Tool{
         bool useTool();
         DrawTool(Picture *pict) : Tool(pict){}
     private:
-        QPoint point;
+        QPoint sPoint;
+        QPoint ePoint;
 };
 
 #endif // DRAWTOOL_H

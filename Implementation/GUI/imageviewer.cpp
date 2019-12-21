@@ -83,7 +83,7 @@ ImageViewer::ImageViewer(QWidget *parent)
 
 bool ImageViewer::loadFile(const QString &fileName)
 {
-    toolParameters_t *param = new toolParameters_t;
+    param = new toolParameters_t;
     param->tool=newLayer;
     QImageReader reader(fileName);
     reader.setAutoTransform(true);
@@ -403,9 +403,29 @@ void ImageViewer::draw(){
 void ImageViewer::mousePressEvent(QMouseEvent *event)
 {
     if (isDraw && event->button() == Qt::LeftButton) {
-        toolParameters_t *param = new toolParameters_t;
+        drawStart = true;
+        param = new toolParameters_t;
         param->tool = paint;
-        param->point = QCursor::pos(QGuiApplication::primaryScreen());
+        param->startPoint = event->pos()-QPoint(scrollArea->x(),scrollArea->y());
+    }
+}
+void ImageViewer::mouseMoveEvent(QMouseEvent *event)
+{
+    if (drawStart) {
+        param->endPoint = event->pos()-QPoint(scrollArea->x(),scrollArea->y());
         interactionTool.useTool(param);
+        setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+        param = new toolParameters_t;
+        param->tool = paint;
+        param->startPoint = event->pos()-QPoint(scrollArea->x(),scrollArea->y());
+    }
+}
+void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (isDraw && event->button() == Qt::LeftButton) {
+        drawStart = false;
+        param->endPoint = event->pos()-QPoint(scrollArea->x(),scrollArea->y());
+        interactionTool.useTool(param);
+        setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
     }
 }
