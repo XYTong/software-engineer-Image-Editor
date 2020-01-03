@@ -14,6 +14,7 @@ HEADERS       = imageviewer.h \
                 Tool.h \
                 main.h \
                 tools/drawTool.h \
+                tools/floydSteinberg.h \
                 tools/newLayer.h
 SOURCES       = imageviewer.cpp \
                 ColorMap.cpp \
@@ -25,7 +26,7 @@ SOURCES       = imageviewer.cpp \
                 ShowTool.cpp \
                 main.cpp \
                 tools/drawTool.cpp \
-                tools/floydStrinberg.cpp \
+                tools/floydSteinberg.cpp \
                 tools/newLayer.cpp
 
 # install

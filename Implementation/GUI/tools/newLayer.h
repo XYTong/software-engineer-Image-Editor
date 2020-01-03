@@ -10,6 +10,7 @@ class NewLayer : public Tool{
         NewLayer(Picture *pict) : Tool(pict){}
     private:
         QImage *qPic;
+        QVector<QRgb> colorVect;
 };
 
 #endif // NEWLAYER_H

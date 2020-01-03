@@ -14,6 +14,7 @@ typedef struct toolParameters {
     QImage *pic;
     QPoint startPoint;
     QPoint endPoint;
+    QVector<QRgb> colorVect;
 } toolParameters_t;
 
 

@@ -54,6 +54,10 @@
 
 #include <QMainWindow>
 #include <QImage>
+#include <vector>
+#include <QToolButton>
+#include <QGridLayout>
+
 #ifndef QT_NO_PRINTER
 #include <QPrinter>
 #endif
@@ -92,10 +96,14 @@ private slots:
     void fitToWindow();
     void about();
     void draw();
+    void ShowColorDock();
+    void changeColor();
 
 private:
     void createActions();
+    void createColorDock();
     void createMenus();
+    void updateColors();
     void updateActions();
     bool saveFile(const QString &fileName);
     void setImage(QImage newImage);
@@ -105,6 +113,14 @@ private:
     QImage image;
     QLabel *imageLabel;
     QScrollArea *scrollArea;
+    QScrollArea *ColorScrollArea;
+    QWidget *colors;
+    QWidget *layers;
+    QMenu *viewMenu;
+    QDockWidget *colorDock;
+    QGridLayout* colorLayout;
+    std::vector<QToolButton*> colorButtons;
+    QVector<QRgb> colorVect;
     double scaleFactor;
     bool isDraw=false;
     bool drawStart=false;
@@ -122,6 +138,7 @@ private:
     QAction *zoomOutAct;
     QAction *normalSizeAct;
     QAction *fitToWindowAct;
+    QAction *showColorsAct;
 };
 //! [0]
 

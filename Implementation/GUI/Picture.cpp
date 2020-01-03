@@ -8,39 +8,21 @@ void Picture::addLayer(layer_t *layer){
     layers.push_back(layer);
     return;
 }
-void Picture::addLayer(RasterImage *rImage){
-    layer_t *layer = new layer_t;
-    layer->rImage = rImage;
-    layer->qImage = rtoq(rImage);
-    addLayer(layer);
-    return;
-}
 void Picture::addLayer(QImage *qImage){
     layer_t *layer = new layer_t;
     layer->qImage = qImage;
-    layer->rImage = qtor(qImage);
     addLayer(layer);
     return;
 }
-void Picture::addLayer(size_t width, size_t height){
+void Picture::addLayer(int width, int height){
     layer_t *layer = new layer_t;
-    layer->rImage = new RasterImage(width,height);
-    layer->qImage = rtoq(layer->rImage);
+    layer->qImage = new QImage(width,height, QImage::Format_Indexed8);
     addLayer(layer);
     return;
 }
 void Picture::removeLayer(unsigned int index){
     layers.erase(layers.begin()+index);
     return;
-}
-RasterImage* Picture::getLayerAsR(unsigned int index){
-    return layers[index]->rImage;
-}
-RasterImage* Picture::getCurrentLayerAsR(){
-    if (currentLayer==nullptr){
-        return nullptr;
-    }
-    return currentLayer->rImage;
 }
 QImage* Picture::getLayerAsQ(unsigned int index){
     if (currentLayer==nullptr){
@@ -69,32 +51,13 @@ void Picture::setCurrentLayer(unsigned int index){
 }
 void Picture::addCurrentLayer(layer_t *layer){
     addLayer(layer);
-    setCurrentLayer(0);
+    setCurrentLayer(layers.size()-1);
     return;
 }
 void Picture::addCurrentLayer(QImage *layer){
     addLayer(layer);
-    setCurrentLayer(0);
+    setCurrentLayer(layers.size()-1);
     return;
-}
-void Picture::addCurrentLayer(RasterImage *layer){
-    addLayer(layer);
-    setCurrentLayer(0);
-    return;
-}
-RasterImage* Picture::qtor(QImage *qImage){
-    RasterImage *rImage = new RasterImage(static_cast<size_t>(qImage->width()), static_cast<size_t>(qImage->height()));
-
-    //TODO
-
-    return rImage;
-}
-QImage* Picture::rtoq(RasterImage *rImage){
-    QImage *qImage = new QImage(static_cast<int>(rImage->getWidth()), static_cast<int>(rImage->getHeight()),QImage::Format_ARGB32);
-
-    //TODO
-
-    return qImage;
 }
 Picture::Picture(std::string name){
     this->name = name;

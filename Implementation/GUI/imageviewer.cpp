@@ -72,14 +72,60 @@ ImageViewer::ImageViewer(QWidget *parent)
     scrollArea->setWidget(imageLabel);
     scrollArea->setVisible(false);
     setCentralWidget(scrollArea);
-
     createActions();
+
+    colorButtons = std::vector<QToolButton*>(); //TODO vector zu Qvector ändern
+    colorVect = QVector<QRgb>();
+    QPixmap px(20, 20);
+    for(int i = 0; i <256; i++){
+        colorVect.append(QColor(255,255,255,255).rgba());
+        colorButtons.push_back(new QToolButton());
+        px.fill(colorVect[i]);
+        colorButtons[i]->setIcon(px);
+        colorButtons[i]->setCheckable(true);
+
+        connect(colorButtons[i], SIGNAL(clicked()),this, SLOT(changeColor()));
+        //connect(colorButtons[i], SIGNAL(clicked()),colorButtons[i], SLOT(toggle()));
+    }
+    createColorDock();
+    //viewMenu->addAction(colorDock->toggleViewAction());
 
     resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 }
 
 //! [0]
 //! [2]
+
+void ImageViewer::createColorDock(){
+    colorButtons = std::vector<QToolButton*>();
+    QPixmap px(20, 20);
+    for(int i = 0; i <256; i++){
+
+        colorButtons.push_back(new QToolButton());
+        px.fill(colorVect[i]);
+        colorButtons[i]->setIcon(px);
+        colorButtons[i]->setCheckable(true);
+
+        connect(colorButtons[i], SIGNAL(clicked()),this, SLOT(changeColor()));
+        //connect(colorButtons[i], SIGNAL(clicked()),colorButtons[i], SLOT(toggle()));
+    }
+
+    colorDock = new QDockWidget(tr("Colortable"), this);
+    colorDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+
+    colorLayout = new QGridLayout();
+    for (int i = 0; i < 128; i++) {
+        colorLayout->addWidget(colorButtons[2*i],0,i);
+        colorLayout->addWidget(colorButtons[2*i+1],1,i);
+    }
+
+    colors = new QWidget(colorDock);
+    colors->setLayout(colorLayout);
+    ColorScrollArea = new QScrollArea();
+    ColorScrollArea->setWidget(colors);
+    colorDock->setWidget(ColorScrollArea);
+    addDockWidget(Qt::BottomDockWidgetArea, colorDock);
+}
 
 bool ImageViewer::loadFile(const QString &fileName)
 {
@@ -97,13 +143,14 @@ bool ImageViewer::loadFile(const QString &fileName)
     }
 //! [2]
     param->pic = newImage;
+    param->colorVect = colorVect;
     interactionTool.useTool(param);
     newImage = interactionTool.getPicture()->getCurrentLayerAsQ();
     if (newImage==nullptr){
         return false;
     }
     setImage(*newImage);
-
+    updateColors();
     setWindowFilePath(fileName);
 
     const QString message = tr("Opened \"%1\", %2x%3, Depth: %4")
@@ -354,6 +401,10 @@ void ImageViewer::createActions()
 
     QAction *drawTool = toolMenu->addAction(tr("&Draw"), this, &ImageViewer::draw);
 
+    QMenu *window = menuBar()->addMenu(tr("&Window"));
+
+    showColorsAct = window->addAction(tr("&ShowColorDock"), this, &ImageViewer::ShowColorDock);
+
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
 
     helpMenu->addAction(tr("&About"), this, &ImageViewer::about);
@@ -400,6 +451,9 @@ void ImageViewer::adjustScrollBar(QScrollBar *scrollBar, double factor)
 void ImageViewer::draw(){
     isDraw = !isDraw;
 }
+void ImageViewer::ShowColorDock(){
+    createColorDock();
+}
 void ImageViewer::mousePressEvent(QMouseEvent *event)
 {
     if (isDraw && event->button() == Qt::LeftButton) {
@@ -427,5 +481,27 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
         param->endPoint = event->pos()-QPoint(scrollArea->x(),scrollArea->y());
         interactionTool.useTool(param);
         setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+    }
+}
+void ImageViewer::updateColors(){
+    QPixmap px(20, 20);
+    colorVect = interactionTool.getPicture()->getCurrentLayerAsQ()->colorTable();
+    for(int i = 0; i <256; i++){
+
+        px.fill(colorVect[i]);
+
+        colorButtons[i]->setIcon(px);
+    }
+}
+
+void ImageViewer::changeColor(){
+    for (int i = 0; i < 256; i++) {
+        if (colorButtons[i]->isChecked()){
+            QPixmap px(20, 20);
+            colorVect[i]=QColorDialog().getColor().rgba();
+            px.fill(colorVect[i]);
+            colorButtons[i]->setIcon(px);
+            colorButtons[i]->setChecked(false);
+        }
     }
 }
