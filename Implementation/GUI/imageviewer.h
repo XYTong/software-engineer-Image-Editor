@@ -56,6 +56,7 @@
 #include <QImage>
 #include <vector>
 #include <QToolButton>
+#include <QPushButton>
 #include <QGridLayout>
 
 #ifndef QT_NO_PRINTER
@@ -98,12 +99,16 @@ private slots:
     void draw();
     void ShowColorDock();
     void changeColor();
+    void changeCurrentLayer();
 
 private:
     void createActions();
     void createColorDock();
+    void createLayerDock();
     void createMenus();
     void updateColors();
+    void updateLayers();
+    void updateLayerCount();
     void updateActions();
     bool saveFile(const QString &fileName);
     void setImage(QImage newImage);
@@ -114,16 +119,21 @@ private:
     QLabel *imageLabel;
     QScrollArea *scrollArea;
     QScrollArea *ColorScrollArea;
+    QScrollArea *layerScrollArea;
     QWidget *colors;
     QWidget *layers;
     QMenu *viewMenu;
     QDockWidget *colorDock;
+    QDockWidget *layerDock;
     QGridLayout* colorLayout;
+    QGridLayout* layerLayout;
     std::vector<QToolButton*> colorButtons;
+    std::vector<QPushButton*> layerButtons;
     QVector<QRgb> colorVect;
     double scaleFactor;
     bool isDraw=false;
     bool drawStart=false;
+    bool hasLayer=false;
     toolParameters_t *param;
     InteractionTool interactionTool;
 

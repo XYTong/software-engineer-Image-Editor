@@ -22,6 +22,7 @@ class Picture{
         void addCurrentLayer(QImage *qImage);
         void addCurrentLayer(layer_t *layer);
         void setCurrentLayer(unsigned int index);
+        unsigned int getLayerCount();
         Picture(std::string name = "Unbenannt");
         ~Picture();
 	

@@ -88,6 +88,7 @@ ImageViewer::ImageViewer(QWidget *parent)
         //connect(colorButtons[i], SIGNAL(clicked()),colorButtons[i], SLOT(toggle()));
     }
     createColorDock();
+    createLayerDock();
     //viewMenu->addAction(colorDock->toggleViewAction());
 
     resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
@@ -111,7 +112,7 @@ void ImageViewer::createColorDock(){
     }
 
     colorDock = new QDockWidget(tr("Colortable"), this);
-    colorDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+    colorDock->setAllowedAreas(Qt::BottomDockWidgetArea);
 
     colorLayout = new QGridLayout();
     for (int i = 0; i < 128; i++) {
@@ -125,6 +126,19 @@ void ImageViewer::createColorDock(){
     ColorScrollArea->setWidget(colors);
     colorDock->setWidget(ColorScrollArea);
     addDockWidget(Qt::BottomDockWidgetArea, colorDock);
+}
+
+void ImageViewer::createLayerDock(){
+
+    layerDock = new QDockWidget(tr("Layers"), this);
+    layerDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    layerLayout = new QGridLayout();
+    layers = new QWidget(layerDock);
+    layers->setLayout(layerLayout);
+    layerScrollArea = new QScrollArea();
+    layerScrollArea->setWidget(layers);
+    layerDock->setWidget(layerScrollArea);
+    addDockWidget(Qt::RightDockWidgetArea, layerDock);
 }
 
 bool ImageViewer::loadFile(const QString &fileName)
@@ -151,11 +165,13 @@ bool ImageViewer::loadFile(const QString &fileName)
     }
     setImage(*newImage);
     updateColors();
+    updateLayerCount();
     setWindowFilePath(fileName);
 
     const QString message = tr("Opened \"%1\", %2x%3, Depth: %4")
         .arg(QDir::toNativeSeparators(fileName)).arg(image.width()).arg(image.height()).arg(image.depth());
     statusBar()->showMessage(message);
+    hasLayer=true;
     return true;
 }
 
@@ -481,6 +497,7 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
         param->endPoint = event->pos()-QPoint(scrollArea->x(),scrollArea->y());
         interactionTool.useTool(param);
         setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+        updateLayers();
     }
 }
 void ImageViewer::updateColors(){
@@ -491,17 +508,69 @@ void ImageViewer::updateColors(){
         px.fill(colorVect[i]);
 
         colorButtons[i]->setIcon(px);
+
     }
 }
-
+void ImageViewer::changeCurrentLayer(){
+    for (int i = 0; i < layerButtons.size(); i++) {
+        if (layerButtons[i]->isChecked()){
+            layerButtons[i]->setChecked(false);
+            interactionTool.getPicture()->setCurrentLayer(i);
+            setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+            updateColors();
+        }
+    }
+}
 void ImageViewer::changeColor(){
-    for (int i = 0; i < 256; i++) {
+    for (int i = 0; i < colorButtons.size(); i++) {
         if (colorButtons[i]->isChecked()){
             QPixmap px(20, 20);
             colorVect[i]=QColorDialog().getColor().rgba();
             px.fill(colorVect[i]);
             colorButtons[i]->setIcon(px);
+            //QString str("background-color:");
+            //str.append(qRed(colorVect[i]));
+            //str.append(";");
+            //colorButtons[i]->setStyleSheet(str);
             colorButtons[i]->setChecked(false);
+            if (hasLayer){
+                interactionTool.getPicture()->getCurrentLayerAsQ()->setColor(i,colorVect[i]);
+                setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+                updateLayers();
+            }
         }
+    }
+}
+void ImageViewer::updateLayerCount(){
+    layerButtons = std::vector<QPushButton*>(); //TODO vector zu Qvector ändern
+    layerDock->close();
+    layerDock = new QDockWidget(tr("Layers"), this);
+    layerDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    layerLayout = new QGridLayout();
+    for (unsigned int i = 0; i < interactionTool.getPicture()->getLayerCount(); i++) {
+        layerButtons.push_back(new QPushButton);
+        layerButtons[i]->setStyleSheet("width: 100px;height: 100px;");
+        QPixmap pic(100,100);
+        pic.convertFromImage(*interactionTool.getPicture()->getLayerAsQ(i));
+        layerButtons[i]->setIconSize(QSize(100,100));
+        layerButtons[i]->setIcon(pic);
+        //layerButtons[i]->setMask(pic);
+
+        layerLayout->addWidget(layerButtons[i],i,0);
+        layerButtons[i]->setCheckable(true);
+        connect(layerButtons[i], SIGNAL(clicked()),this, SLOT(changeCurrentLayer()));
+    }
+    layers = new QWidget(layerDock);
+    layers->setLayout(layerLayout);
+    layerScrollArea = new QScrollArea();
+    layerScrollArea->setWidget(layers);
+    layerDock->setWidget(layerScrollArea);
+    addDockWidget(Qt::RightDockWidgetArea, layerDock);
+}
+void ImageViewer::updateLayers(){
+    for (unsigned int i = 0; i < layerButtons.size(); i++) {
+        QPixmap pic;
+        pic.convertFromImage(*interactionTool.getPicture()->getLayerAsQ(i));
+        layerButtons[i]->setIcon(pic);
     }
 }

@@ -59,6 +59,10 @@ void Picture::addCurrentLayer(QImage *layer){
     setCurrentLayer(layers.size()-1);
     return;
 }
+unsigned int Picture::getLayerCount(){
+    return static_cast<unsigned int>(layers.size());
+}
+
 Picture::Picture(std::string name){
     this->name = name;
     currentLayer = nullptr;
