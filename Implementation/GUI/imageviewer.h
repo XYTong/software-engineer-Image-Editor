@@ -60,6 +60,8 @@
 #include <QGridLayout>
 #include <QSlider>
 #include <QSpinBox>
+#include <QLabel>
+#include <QCheckBox>
 
 #ifndef QT_NO_PRINTER
 #include <QPrinter>
@@ -101,6 +103,9 @@ private slots:
     void fitToWindow();
     void about();
     void draw();
+    void translate();
+    void calcTranslation();
+    void doTranslation();
     void pencil();
     void startDraw();
     void lines();
@@ -116,6 +121,7 @@ private:
     void createActions();
     void createColorDock();
     void createLayerDock();
+    void createTranslateDock();
     void createDrawDock();
     void createMenus();
     void updateColors();
@@ -148,6 +154,15 @@ private:
     QSpinBox *drawSpinbox;
     QPushButton *drawStartButton;
     QMenu *colorMenu;
+    QCheckBox *mirrorCheckbox;
+    QLineEdit *zoomXInp;
+    QLineEdit *zoomYInp;
+    QLineEdit *rotInp;
+    QLabel *translationLabelA;
+    QLabel *translationLabelB;
+    QLabel *translationLabelC;
+    QLabel *translationLabelD;
+    QMatrix *transMat;
     drawModus_e actDrawModus = drawModus_e::pencil;
     double scaleFactor;
     bool isDraw=false;

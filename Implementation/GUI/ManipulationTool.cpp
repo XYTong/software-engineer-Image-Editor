@@ -2,6 +2,7 @@
 
 #include "tools/newLayer.h"
 #include "tools/drawTool.h"
+#include "tools/translationTool.h"
 
 #include <stdlib.h>
 
@@ -15,6 +16,12 @@ bool ManipulationTool::useTool(toolParameters_t *param){
     }
     case paint:{
         DrawTool tool = DrawTool(pic);
+        tool.initTool(param);
+        tool.useTool();
+        return true;
+    }
+    case translationTool:{
+        TranslationTool tool = TranslationTool(pic);
         tool.initTool(param);
         tool.useTool();
         return true;

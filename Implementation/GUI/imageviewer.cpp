@@ -125,6 +125,16 @@ ImageViewer::ImageViewer(QWidget *parent)
     drawStartButton = new QPushButton("Start");
     drawStartButton->setCheckable(true);
     connect(drawStartButton, SIGNAL(clicked()),this, SLOT(startDraw()));
+    translationLabelA = new QLabel("a");
+    translationLabelB = new QLabel("b");
+    translationLabelC = new QLabel("c");
+    translationLabelD = new QLabel("d");
+    mirrorCheckbox = new QCheckBox();
+    //connect(mirrorCheckbox,SIGNAL(checked()),this, SLOT(mirror()));
+
+    zoomXInp = new QLineEdit();
+    zoomYInp = new QLineEdit();
+    rotInp = new QLineEdit();
     createColorDock();
     createLayerDock();
     //viewMenu->addAction(colorDock->toggleViewAction());
@@ -182,6 +192,77 @@ void ImageViewer::createColorDock(){
     //
 
 }
+void ImageViewer::createTranslateDock(){
+    QDockWidget *translationDock = new QDockWidget(tr("Translation"), this);
+    translationDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    QGridLayout *translationLayout = new QGridLayout();
+    QLabel *label1 = new QLabel("zoom-x:");
+    translationLayout->addWidget(label1,0,0,1,3);
+
+    translationLayout->addWidget(zoomXInp,1,0,1,3);
+    QLabel *label2 = new QLabel("zoom-y:");
+    translationLayout->addWidget(label2,2,0,1,3);
+
+    translationLayout->addWidget(zoomYInp,3,0,1,3);
+    QLabel *label3 = new QLabel("rotate\nclockwise:");
+    translationLayout->addWidget(label3,4,0,1,3);
+
+    translationLayout->addWidget(rotInp,5,0,1,3);
+    QLabel *label4 = new QLabel("mirrored:");
+    translationLayout->addWidget(label4,6,0,1,1);
+
+    translationLayout->addWidget(mirrorCheckbox,6,1,1,2);
+    QPushButton *input5 = new QPushButton("Calculate");
+    connect(input5, SIGNAL(clicked()), this, SLOT(calcTranslation()));
+    translationLayout->addWidget(input5,7,0,1,3);
+    QLabel *label5 = new QLabel("Matrix entries:");
+
+    translationLayout->addWidget(label5,8,0,2,1);
+
+    translationLayout->addWidget(translationLabelA,8,1,1,1);
+
+    translationLayout->addWidget(translationLabelB,8,2,1,1);
+
+    translationLayout->addWidget(translationLabelC,9,1,1,1);
+
+    translationLayout->addWidget(translationLabelD,9,2,1,1);
+    QPushButton *input6 = new QPushButton("Apply");
+    connect(input6, SIGNAL(clicked()), this, SLOT(doTranslation()));
+    translationLayout->addWidget(input6,10,0,1,3);
+    QSpacerItem *spacer = new QSpacerItem(1,300,QSizePolicy::Maximum,QSizePolicy::Maximum);
+    translationLayout->addItem(spacer,11,1,1,3);
+    /*
+    QRadioButton *button1 = new QRadioButton("Pencil");
+    button1->setChecked(true);
+    translationLayout->addWidget(button1,0,0,1,2);
+    connect(button1, SIGNAL(clicked()),this, SLOT(pencil()));
+    QRadioButton *button2 = new QRadioButton("Lines");
+    translationLayout->addWidget(button2,1,0,1,2);
+    connect(button2, SIGNAL(clicked()),this, SLOT(lines()));
+    QRadioButton *button3 = new QRadioButton("Rect");
+    translationLayout->addWidget(button3,2,0,1,2);
+    connect(button3, SIGNAL(clicked()),this, SLOT(notFilledRect()));
+    QRadioButton *button4 = new QRadioButton("Filled Rect");
+    translationLayout->addWidget(button4,3,0,1,2);
+    connect(button4, SIGNAL(clicked()),this, SLOT(filledRect()));
+    QLabel *color = new QLabel();
+    color->setText("Color:");
+    translationLayout->addWidget(color,4,0);
+    translationLayout->addWidget(colorButton,4,1);
+    QLabel *width = new QLabel();
+    width->setText("Width:");
+    translationLayout->addWidget(width,5,0);
+    translationLayout->addWidget(drawSpinbox,5,1);
+    QDialog *text = new QDialog();
+    translationLayout->addWidget(text,8,1,1,2);
+    translationLayout->addWidget(drawSlider,6,0,1,2);
+    translationLayout->addWidget(drawStartButton,7,0,1,2);
+    */
+    QWidget *drawControl = new QWidget(translationDock);
+    drawControl->setLayout(translationLayout);
+    translationDock->setWidget(drawControl);
+    addDockWidget(Qt::LeftDockWidgetArea, translationDock);
+}
 void ImageViewer::createDrawDock(){
     QDockWidget *drawDock = new QDockWidget(tr("Draw"), this);
     drawDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -199,23 +280,6 @@ void ImageViewer::createDrawDock(){
     QRadioButton *button4 = new QRadioButton("Filled Rect");
     drawLayout->addWidget(button4,3,0,1,2);
     connect(button4, SIGNAL(clicked()),this, SLOT(filledRect()));
-    //colorButton = new QPushButton("Color");
-    /*colorMenu = new QMenu();
-    QString str;
-    QPixmap px(20, 20);
-    for (int i = 0; i < 256; i++) {
-        str.sprintf("Color %d",i);
-        px.fill(colorVect[i]);
-        //QAction *act = new QAction(px,str);
-        //act->setCheckable(true);
-        //connect(act, SIGNAL(clicked()),this, SLOT(setDrawColor()));
-        colorMenu->addAction(px,str,this,&ImageViewer::setDrawColor);
-    }
-    QList<QAction*> act = colorMenu->actions();
-    for (int i = 0; i < 256; i++) {
-        act[i]->setCheckable(true);
-        //connect(act[i], SIGNAL(toggled()),this, SLOT(setDrawColor()));
-    }*/
     QLabel *color = new QLabel();
     color->setText("Color:");
     drawLayout->addWidget(color,4,0);
@@ -232,11 +296,6 @@ void ImageViewer::createDrawDock(){
     drawLayout->addWidget(drawSlider,6,0,1,2);
 
     drawLayout->addWidget(drawStartButton,7,0,1,2);
-    //layerButtons.push_back(new QPushButton("+"));
-    //layerLayout->addWidget(layerButtons[0],0,0,2,1);
-    //layerButtons[0]->setMaximumWidth(25);
-    //layerButtons[0]->setCheckable(true);
-    //connect(layerButtons[0], SIGNAL(clicked()),this, SLOT(changeCurrentLayer()));
     QWidget *drawControl = new QWidget(drawDock);
     drawControl->setLayout(drawLayout);
     //layerScrollArea = new QScrollArea();
@@ -468,19 +527,7 @@ void ImageViewer::fitToWindow()
 void ImageViewer::about()
 //! [15] //! [16]
 {
-    QMessageBox::about(this, tr("About Image Viewer"),
-            tr("<p>The <b>Image Viewer</b> example shows how to combine QLabel "
-               "and QScrollArea to display an image. QLabel is typically used "
-               "for displaying a text, but it can also display an image. "
-               "QScrollArea provides a scrolling view around another widget. "
-               "If the child widget exceeds the size of the frame, QScrollArea "
-               "automatically provides scroll bars. </p><p>The example "
-               "demonstrates how QLabel's ability to scale its contents "
-               "(QLabel::scaledContents), and QScrollArea's ability to "
-               "automatically resize its contents "
-               "(QScrollArea::widgetResizable), can be used to implement "
-               "zooming and scaling features. </p><p>In addition the example "
-               "shows how to use QPainter to print an image.</p>"));
+    QMessageBox::about(this, tr("About Image Viewer"),"");
 }
 //! [16]
 
@@ -539,6 +586,7 @@ void ImageViewer::createActions()
 
     QAction *drawTool = toolMenu->addAction(tr("&Draw"), this, &ImageViewer::draw);
     QAction *newLayer = toolMenu->addAction(tr("&New Layer"), this, &ImageViewer::newLayer);
+    QAction *translate = toolMenu->addAction(tr("&Translate"), this, &ImageViewer::translate);
 
     QMenu *window = menuBar()->addMenu(tr("&Window"));
 
@@ -814,6 +862,7 @@ void ImageViewer::notFilledRect(){
 }
 void ImageViewer::filledRect(){
     actDrawModus = drawModus_e::filledRect;
+
 }
 void ImageViewer::setDrawColor(){
     for (int i = 0; i < 256; i++) {
@@ -838,6 +887,7 @@ void ImageViewer::startDraw(){
         drawStartButton->setText("Start");
         //drawSlider->setEnabled(true);
         //drawSpinbox->setEnabled(true);
+
     } else {
         isDraw = true;
         drawStartButton->setText("Stop");
@@ -849,4 +899,65 @@ void ImageViewer::setWidth(int w){
     drawSpinbox->setValue(w);
     drawSlider->setValue(w);
     drawWidth=w;
+}
+void  ImageViewer::translate(){
+    createTranslateDock();
+};
+void ImageViewer::calcTranslation(){
+    translationLabelA->setText("a");
+    translationLabelB->setText("b");
+    translationLabelC->setText("c");
+    translationLabelD->setText("d");
+    double zx=0,zy=0,rot=0;
+    bool *ok = new bool;
+    zx = zoomXInp->text().toDouble(ok);
+    if(!zoomXInp->text().compare("")){
+        *ok = true;
+        zx=1;
+    }
+    if (!*ok){
+        return;
+    }
+    zy = zoomYInp->text().toDouble(ok);
+    if(!zoomYInp->text().compare("")){
+        *ok = true;
+        zy=1;
+    }
+    if (!*ok){
+        return;
+    }
+    rot = rotInp->text().toDouble(ok);
+    if(!rotInp->text().compare("")){
+        *ok = true;
+        rot=0;
+    }
+    if (!*ok){
+        return;
+    }
+    transMat = new QMatrix(zx,0,0,zy,0,0);
+    QMatrix mat;
+    mat.rotate(rot);
+    *transMat = *transMat *mat;
+    if (mirrorCheckbox->isChecked()){
+        mat.setMatrix(0,1,1,0,0,0);
+        *transMat *= mat;
+    }
+    QString str;
+    str.sprintf("%lf",transMat->m11());
+    translationLabelA->setText(str);
+    str.sprintf("%lf",transMat->m12());
+    translationLabelB->setText(str);
+    str.sprintf("%lf",transMat->m21());
+    translationLabelC->setText(str);
+    str.sprintf("%lf",transMat->m22());
+    translationLabelD->setText(str);
+}
+void ImageViewer::doTranslation(){
+    param = new toolParameters_t;
+    param->tool = translationTool;
+    param->mat = *transMat;
+    param->colorVect = colorVect;
+    interactionTool.useTool(param);
+    updateLayerCount();
+    setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
 }

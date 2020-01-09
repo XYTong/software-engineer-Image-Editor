@@ -15,7 +15,8 @@ HEADERS       = imageviewer.h \
                 main.h \
                 tools/drawTool.h \
                 tools/floydSteinberg.h \
-                tools/newLayer.h
+                tools/newLayer.h \
+                tools/translationTool.h
 SOURCES       = imageviewer.cpp \
                 ColorMap.cpp \
                 InteractionTool.cpp \
@@ -27,7 +28,8 @@ SOURCES       = imageviewer.cpp \
                 main.cpp \
                 tools/drawTool.cpp \
                 tools/floydSteinberg.cpp \
-                tools/newLayer.cpp
+                tools/newLayer.cpp \
+                tools/translationTool.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/widgets/imageviewer
