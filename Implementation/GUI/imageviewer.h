@@ -97,14 +97,21 @@ private slots:
     void fitToWindow();
     void about();
     void draw();
-    void ShowColorDock();
+    void pencil();
+    void startDraw();
+    void lines();
+    void notFilledRect();
+    void filledRect();
+    void setDrawColor();
     void changeColor();
     void changeCurrentLayer();
+    void newLayer();
 
 private:
     void createActions();
     void createColorDock();
     void createLayerDock();
+    void createDrawDock();
     void createMenus();
     void updateColors();
     void updateLayers();
@@ -130,6 +137,9 @@ private:
     std::vector<QToolButton*> colorButtons;
     std::vector<QPushButton*> layerButtons;
     QVector<QRgb> colorVect;
+    QList<QAction*> colorAct;
+    QPushButton *colorButton;
+    QMenu *colorMenu;
     double scaleFactor;
     bool isDraw=false;
     bool drawStart=false;

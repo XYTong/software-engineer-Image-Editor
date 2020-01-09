@@ -21,6 +21,9 @@ void Picture::addLayer(int width, int height){
     return;
 }
 void Picture::removeLayer(unsigned int index){
+    if (layers[index]==currentLayer){
+        currentLayer=nullptr;
+    }
     layers.erase(layers.begin()+index);
     return;
 }
@@ -29,6 +32,11 @@ QImage* Picture::getLayerAsQ(unsigned int index){
         return nullptr;
     }
     return layers[index]->qImage;
+}
+void Picture::moveLayer(int i, int j){
+    layer_t *layer = layers[i];
+    layers[i] = layers[j];
+    layers[j] = layer;
 }
 QImage* Picture::getCurrentLayerAsQ(){
     if (currentLayer==nullptr){
@@ -62,7 +70,15 @@ void Picture::addCurrentLayer(QImage *layer){
 unsigned int Picture::getLayerCount(){
     return static_cast<unsigned int>(layers.size());
 }
-
+unsigned int Picture::getCurrentLayerIndex(){
+    unsigned int i;
+    for (i = 0; i < layers.size(); i++){
+        if (layers[i]==currentLayer){
+            return i;
+        }
+    }
+    return 0;
+}
 Picture::Picture(std::string name){
     this->name = name;
     currentLayer = nullptr;

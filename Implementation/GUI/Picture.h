@@ -23,6 +23,8 @@ class Picture{
         void addCurrentLayer(layer_t *layer);
         void setCurrentLayer(unsigned int index);
         unsigned int getLayerCount();
+        unsigned int getCurrentLayerIndex();
+        void moveLayer(int i,int j);
         Picture(std::string name = "Unbenannt");
         ~Picture();
 	
