@@ -4,6 +4,8 @@
 bool DrawTool::initTool(toolParameters_t *param){
     sPoint = param->startPoint;
     ePoint = param->endPoint;
+    w = param->i;
+    colorIndex = param->colorIndex;
     delete param;
     return true;
 }
@@ -20,14 +22,14 @@ bool DrawTool::useTool(){
         }
     }*/
     QPen pen(QColor(255,255,255,255));
-    pen.setWidth(3);
+    pen.setWidth(w);
     painter.setPen(pen);
     painter.drawLine(sPoint, ePoint);
 
     for(int i = 0; i < qPic->width(); i++){
         for(int j = 0; j < qPic->height(); j++){
             if (tempImage.pixelColor(QPoint(i,j))==QColor(255,255,255,255)){
-                qPic->setPixel(QPoint(i,j),2);
+                qPic->setPixel(QPoint(i,j),colorIndex);
             }
         }
     }

@@ -11,6 +11,8 @@ class DrawTool : public Tool{
     private:
         QPoint sPoint;
         QPoint ePoint;
+        int w;
+        int colorIndex;
 };
 
 #endif // DRAWTOOL_H

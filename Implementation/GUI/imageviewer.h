@@ -58,6 +58,8 @@
 #include <QToolButton>
 #include <QPushButton>
 #include <QGridLayout>
+#include <QSlider>
+#include <QSpinBox>
 
 #ifndef QT_NO_PRINTER
 #include <QPrinter>
@@ -70,6 +72,8 @@ class QMenu;
 class QScrollArea;
 class QScrollBar;
 QT_END_NAMESPACE
+
+typedef enum drawModus {pencil, lines, notFilledRect, filledRect} drawModus_e;
 
 //! [0]
 class ImageViewer : public QMainWindow
@@ -106,6 +110,7 @@ private slots:
     void changeColor();
     void changeCurrentLayer();
     void newLayer();
+    void setWidth(int w);
 
 private:
     void createActions();
@@ -139,9 +144,15 @@ private:
     QVector<QRgb> colorVect;
     QList<QAction*> colorAct;
     QPushButton *colorButton;
+    QSlider *drawSlider;
+    QSpinBox *drawSpinbox;
+    QPushButton *drawStartButton;
     QMenu *colorMenu;
+    drawModus_e actDrawModus = drawModus_e::pencil;
     double scaleFactor;
     bool isDraw=false;
+    int drawWidth=3;
+    int drawColorIndex=0;
     bool drawStart=false;
     bool hasLayer=false;
     toolParameters_t *param;

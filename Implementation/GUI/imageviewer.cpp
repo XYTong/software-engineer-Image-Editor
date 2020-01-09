@@ -80,6 +80,7 @@ ImageViewer::ImageViewer(QWidget *parent)
     QPixmap px(20, 20);
     QString str2;
     colorMenu = new QMenu();
+    colorButton = new QPushButton();
     for(int i = 0; i <256; i++){
         colorVect.append(QColor(255,255,255,255).rgba());
         colorButtons.push_back(new QToolButton());
@@ -90,6 +91,10 @@ ImageViewer::ImageViewer(QWidget *parent)
         //str.append(";");
         str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
+        if(i==drawColorIndex){
+            colorButton->setStyleSheet(str);
+        }
+
         colorButtons[i]->setStyleSheet(str);
         colorButtons[i]->setCheckable(true);
 
@@ -107,8 +112,19 @@ ImageViewer::ImageViewer(QWidget *parent)
         colorAct[i]->setCheckable(true);
         //connect(act[i], SIGNAL(toggled()),this, SLOT(setDrawColor()));
     }
-    colorButton = new QPushButton("Color");
+
     colorButton->setMenu(colorMenu);
+    drawSpinbox = new QSpinBox();
+    drawSpinbox->setValue(3);
+    connect(drawSpinbox, QOverload<int>::of(&QSpinBox::valueChanged),this, &ImageViewer::setWidth);
+    drawSlider = new QSlider(Qt::Horizontal);
+    drawSlider->setRange(1,99);
+    drawSlider->setValue(3);
+    connect(drawSlider, QOverload<int>::of(&QSlider::valueChanged),this, &ImageViewer::setWidth);
+
+    drawStartButton = new QPushButton("Start");
+    drawStartButton->setCheckable(true);
+    connect(drawStartButton, SIGNAL(clicked()),this, SLOT(startDraw()));
     createColorDock();
     createLayerDock();
     //viewMenu->addAction(colorDock->toggleViewAction());
@@ -134,6 +150,9 @@ void ImageViewer::createColorDock(){
         str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         colorButtons[i]->setStyleSheet(str);
+        if(i==drawColorIndex){
+            colorButton->setStyleSheet(str);
+        }
         connect(colorButtons[i], SIGNAL(clicked()),this, SLOT(changeColor()));
         //connect(colorButtons[i], SIGNAL(clicked()),colorButtons[i], SLOT(toggle()));
     }
@@ -197,22 +216,22 @@ void ImageViewer::createDrawDock(){
         act[i]->setCheckable(true);
         //connect(act[i], SIGNAL(toggled()),this, SLOT(setDrawColor()));
     }*/
-
-    drawLayout->addWidget(colorButton,4,0);
+    QLabel *color = new QLabel();
+    color->setText("Color:");
+    drawLayout->addWidget(color,4,0);
+    drawLayout->addWidget(colorButton,4,1);
     QLabel *width = new QLabel();
     width->setText("Width:");
     drawLayout->addWidget(width,5,0);
-    QSpinBox *button7 = new QSpinBox();
-    drawLayout->addWidget(button7,5,1);
+
+
+    drawLayout->addWidget(drawSpinbox,5,1);
     QDialog *text = new QDialog();
     drawLayout->addWidget(text,8,1,1,2);
-    QSlider *button5 = new QSlider(Qt::Horizontal);
-    button5->setRange(1,255);
-    button5->setValue(3);
-    drawLayout->addWidget(button5,6,0,1,2);
-    QPushButton *button6 = new QPushButton("Start");
-    drawLayout->addWidget(button6,7,0,1,2);
-    connect(button6, SIGNAL(clicked()),this, SLOT(startDraw()));
+
+    drawLayout->addWidget(drawSlider,6,0,1,2);
+
+    drawLayout->addWidget(drawStartButton,7,0,1,2);
     //layerButtons.push_back(new QPushButton("+"));
     //layerLayout->addWidget(layerButtons[0],0,0,2,1);
     //layerButtons[0]->setMaximumWidth(25);
@@ -570,7 +589,6 @@ void ImageViewer::adjustScrollBar(QScrollBar *scrollBar, double factor)
 //! [26]
 void ImageViewer::draw(){
     createDrawDock();
-    isDraw = !isDraw;
 }
 
 void ImageViewer::mousePressEvent(QMouseEvent *event)
@@ -579,6 +597,8 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
         drawStart = true;
         param = new toolParameters_t;
         param->tool = paint;
+        param->i = drawWidth;
+        param->colorIndex =drawColorIndex;
         param->startPoint = event->pos()-QPoint(scrollArea->x(),scrollArea->y());
     }
 }
@@ -590,6 +610,8 @@ void ImageViewer::mouseMoveEvent(QMouseEvent *event)
         setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
         param = new toolParameters_t;
         param->tool = paint;
+        param->i = drawWidth;
+        param->colorIndex =drawColorIndex;
         param->startPoint = event->pos()-QPoint(scrollArea->x(),scrollArea->y());
     }
 }
@@ -617,6 +639,9 @@ void ImageViewer::updateColors(){
         str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         colorButtons[i]->setStyleSheet(str);
+        if(i==drawColorIndex){
+            colorButton->setStyleSheet(str);
+        }
         colorAct[i]->setIcon(px);
     }
     colorButton->setMenu(colorMenu);
@@ -674,6 +699,9 @@ void ImageViewer::changeColor(){
             str.sprintf("background-color: qlineargradient(stop:0.5 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
             //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
             colorButtons[i]->setStyleSheet(str);
+            if(i==drawColorIndex){
+                colorButton->setStyleSheet(str);
+            }
             colorButtons[i]->setChecked(false);
             if (hasLayer){
                 interactionTool.getPicture()->getCurrentLayerAsQ()->setColor(i,colorVect[i]);
@@ -761,7 +789,7 @@ void ImageViewer::updateLayers(){
 void ImageViewer::newLayer(){
     param = new toolParameters_t;
     param->tool=tools_e::newLayer;
-    QImage *newImage = new QImage(50,50,QImage::Format_ARGB32);
+    QImage *newImage = new QImage(200,200,QImage::Format_ARGB32);
     param->pic = newImage;
     param->colorVect = colorVect;
     interactionTool.useTool(param);
@@ -776,20 +804,49 @@ void ImageViewer::newLayer(){
     hasLayer=true;
 }
 void ImageViewer::pencil(){
-
+    actDrawModus = drawModus_e::pencil;
 }
 void ImageViewer::lines(){
-
+    actDrawModus = drawModus_e::lines;
 }
 void ImageViewer::notFilledRect(){
-
+    actDrawModus = drawModus_e::notFilledRect;
 }
 void ImageViewer::filledRect(){
-
+    actDrawModus = drawModus_e::filledRect;
 }
 void ImageViewer::setDrawColor(){
-    statusBar()->showMessage("test");
+    for (int i = 0; i < 256; i++) {
+        if (colorAct[i]->isChecked()){
+            colorAct[i]->setChecked(false);
+            drawColorIndex = i;
+            QString str;
+            //str.append(qRed(colorVect[i]));
+            //str.append(";");
+            str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
+            //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
+            colorButton->setStyleSheet(str);
+            //QString str;
+            //str.sprintf("%d",i);
+            //statusBar()->showMessage(str);
+        }
+    }
 }
 void ImageViewer::startDraw(){
-
+    if(isDraw){
+        isDraw = false;
+        drawStartButton->setText("Start");
+        //drawSlider->setEnabled(true);
+        //drawSpinbox->setEnabled(true);
+    } else {
+        isDraw = true;
+        drawStartButton->setText("Stop");
+        //drawSlider->setEnabled(false);
+        //drawSpinbox->setEnabled(false);
+    }
+}
+void ImageViewer::setWidth(int w){
+    drawSpinbox->setValue(w);
+    drawSlider->setValue(w);
+    drawWidth=w;
 }
