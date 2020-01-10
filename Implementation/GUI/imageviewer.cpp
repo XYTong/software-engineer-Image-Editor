@@ -135,8 +135,8 @@ ImageViewer::ImageViewer(QWidget *parent)
     zoomXInp = new QLineEdit();
     zoomYInp = new QLineEdit();
     rotInp = new QLineEdit();
-    addColor(QColor(0,0,0),0);
-    addColor(QColor(255,255,255),1);
+    addColor(QColor(0,0,0),1);
+    addColor(QColor(255,255,255),0);
     addColor(QColor(255,0,0),2);
     addColor(QColor(0,255,0),3);
     addColor(QColor(0,0,255),4);
@@ -732,6 +732,15 @@ void ImageViewer::changeCurrentLayer(){
             layerButtons[i*5+4]->setChecked(false);
         } else if(layerButtons[i*5+5]->isChecked()&&i+1!=interactionTool.getPicture()->getLayerCount()){
             layerButtons[i*5+5]->setChecked(false);
+            param = new toolParameters_t;
+            param->tool = merge;
+            param->layerIndex1 = i;
+            param->layerIndex2 = i+1;
+            param->colorVect = colorVect;
+            interactionTool.useTool(param);
+            updateLayerCount();
+            setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+
         } else if(layerButtons[i*5+5]->isChecked()&&i+1==interactionTool.getPicture()->getLayerCount()){
             newLayer();
             //interactionTool.getPicture()->moveLayer(i+1,i);
@@ -768,7 +777,9 @@ void ImageViewer::changeColor(){
     for (int i = 0; i < colorButtons.size(); i++) {
         if (colorButtons[i]->isChecked()){
             QPixmap px(20, 20);
-            colorVect[i]=QColorDialog().getColor().rgba();
+            QString str2;
+            str2.sprintf("Color %d",i);
+            colorVect[i]=QColorDialog().getColor(Qt::white,nullptr,str2,QColorDialog::ShowAlphaChannel).rgba();
             px.fill(colorVect[i]);
             //colorButtons[i]->setIcon(px);
             colorAct[i]->setIcon(px);
@@ -867,13 +878,15 @@ void ImageViewer::updateLayers(){
     }
 }
 void ImageViewer::newLayer(){
-    param = new toolParameters_t;
-    param->tool=tools_e::newLayer;
-    QImage *newImage = new QImage(200,200,QImage::Format_ARGB32);
-    param->pic = newImage;
-    param->colorVect = colorVect;
-    interactionTool.useTool(param);
-    newImage = interactionTool.getPicture()->getCurrentLayerAsQ();
+    //param = new toolParameters_t;
+    //param->tool=tools_e::newLayer;
+    QImage *newImage = new QImage(200,200,QImage::Format_Indexed8);
+    newImage->setColorTable(colorVect);
+    newImage->fill(0);
+    //param->pic = newImage;
+    //param->colorVect = colorVect;
+    //interactionTool.useTool(param);
+    interactionTool.getPicture()->addCurrentLayer(newImage);
     if (newImage==nullptr){
         return;
     }

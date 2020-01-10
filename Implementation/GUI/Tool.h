@@ -15,6 +15,7 @@ typedef struct toolParameters {
     int i;
     int colorIndex;
     int layerIndex1;
+    int layerIndex2;
     QImage *pic;
     QPoint startPoint;
     QPoint endPoint;

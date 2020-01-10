@@ -10,6 +10,8 @@ class MergeTool : public Tool{
         MergeTool(Picture *pict) : Tool(pict){}
     private:
         int layerIndex1;
+        int layerIndex2;
+        QVector<QRgb> colorVect;
 };
 
 #endif // MERGE_H
