@@ -135,6 +135,14 @@ ImageViewer::ImageViewer(QWidget *parent)
     zoomXInp = new QLineEdit();
     zoomYInp = new QLineEdit();
     rotInp = new QLineEdit();
+    addColor(QColor(0,0,0),0);
+    addColor(QColor(255,255,255),1);
+    addColor(QColor(255,0,0),2);
+    addColor(QColor(0,255,0),3);
+    addColor(QColor(0,0,255),4);
+    addColor(QColor(255,255,0),5);
+    addColor(QColor(0,255,255),6);
+    addColor(QColor(255,0,255),7);
     createColorDock();
     createLayerDock();
     //viewMenu->addAction(colorDock->toggleViewAction());
@@ -731,6 +739,30 @@ void ImageViewer::changeCurrentLayer(){
             layerButtons[i*5+5]->setChecked(false);
         }
     }
+}
+void ImageViewer::addColor(QColor col, int pos){
+    QPixmap px(20, 20);
+    colorVect[pos]=col.rgba();
+    px.fill(colorVect[pos]);
+    //colorButtons[i]->setIcon(px);
+    colorAct[pos]->setIcon(px);
+    QString str;
+    //str.append(qRed(colorVect[i]));
+    //str.append(";");
+    //str.sprintf("#%02x%02x%02x",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
+    str.sprintf("background-color: qlineargradient(stop:0.5 #%02x%02x%02x);",qRed(colorVect[pos]),qGreen(colorVect[pos]),qBlue(colorVect[pos]));
+    //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
+    colorButtons[pos]->setStyleSheet(str);
+    if(pos==drawColorIndex){
+        colorButton->setStyleSheet(str);
+    }
+    colorButtons[pos]->setChecked(false);
+    if (hasLayer){
+        interactionTool.getPicture()->getCurrentLayerAsQ()->setColor(pos,colorVect[pos]);
+        setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+        updateLayers();
+    }
+    colorButton->setMenu(colorMenu);
 }
 void ImageViewer::changeColor(){
     for (int i = 0; i < colorButtons.size(); i++) {

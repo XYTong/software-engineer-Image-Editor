@@ -3,6 +3,7 @@
 #include "tools/newLayer.h"
 #include "tools/drawTool.h"
 #include "tools/translationTool.h"
+#include "tools/merge.h"
 
 #include <stdlib.h>
 
@@ -22,6 +23,12 @@ bool ManipulationTool::useTool(toolParameters_t *param){
     }
     case translationTool:{
         TranslationTool tool = TranslationTool(pic);
+        tool.initTool(param);
+        tool.useTool();
+        return true;
+    }
+    case merge:{
+        MergeTool tool = MergeTool(pic);
         tool.initTool(param);
         tool.useTool();
         return true;

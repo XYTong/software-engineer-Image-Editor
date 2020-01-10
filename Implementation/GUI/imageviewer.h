@@ -124,6 +124,7 @@ private:
     void createTranslateDock();
     void createDrawDock();
     void createMenus();
+    void addColor(QColor col, int pos);
     void updateColors();
     void updateLayers();
     void updateLayerCount();

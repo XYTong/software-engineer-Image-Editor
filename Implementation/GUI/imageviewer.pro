@@ -15,6 +15,7 @@ HEADERS       = imageviewer.h \
                 main.h \
                 tools/drawTool.h \
                 tools/floydSteinberg.h \
+                tools/merge.h \
                 tools/newLayer.h \
                 tools/translationTool.h
 SOURCES       = imageviewer.cpp \
@@ -28,6 +29,7 @@ SOURCES       = imageviewer.cpp \
                 main.cpp \
                 tools/drawTool.cpp \
                 tools/floydSteinberg.cpp \
+                tools/merge.cpp \
                 tools/newLayer.cpp \
                 tools/translationTool.cpp
 

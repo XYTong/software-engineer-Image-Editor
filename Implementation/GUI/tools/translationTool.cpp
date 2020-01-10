@@ -9,8 +9,9 @@ bool TranslationTool::initTool(toolParameters_t *param){
 
 bool TranslationTool::useTool(){
     QImage *qPic = new QImage(pic->getCurrentLayerAsQ()->transformed(mat));
-    qPic->setColorTable(colorVect);
-    QImage *qPic2 = new QImage(qPic->convertToFormat(QImage::Format_Indexed8));
+    //qPic->setColorTable(colorVect);
+    QImage *qPic2 = new QImage(qPic->convertToFormat(QImage::Format_Indexed8,colorVect));
+    //qPic2->setColorTable(colorVect);
     pic->addCurrentLayer(qPic2);
     return true;
 }
