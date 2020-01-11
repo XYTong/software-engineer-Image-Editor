@@ -103,6 +103,7 @@ private slots:
     void fitToWindow();
     void about();
     void draw();
+    //void dockSizeChanged();
     void translate();
     void calcTranslation();
     void doTranslation();

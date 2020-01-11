@@ -135,16 +135,17 @@ ImageViewer::ImageViewer(QWidget *parent)
     zoomXInp = new QLineEdit();
     zoomYInp = new QLineEdit();
     rotInp = new QLineEdit();
-    addColor(QColor(0,0,0),1);
-    addColor(QColor(255,255,255),0);
-    addColor(QColor(255,0,0),2);
-    addColor(QColor(0,255,0),3);
-    addColor(QColor(0,0,255),4);
-    addColor(QColor(255,255,0),5);
-    addColor(QColor(0,255,255),6);
-    addColor(QColor(255,0,255),7);
+    addColor(QColor(0,0,0,255),1);
+    addColor(QColor(255,255,255,255),0);
+    addColor(QColor(255,0,0,255),2);
+    addColor(QColor(0,255,0,255),3);
+    addColor(QColor(0,0,255,255),4);
+    addColor(QColor(255,255,0,255),5);
+    addColor(QColor(0,255,255,255),6);
+    addColor(QColor(255,0,255,255),7);
     createColorDock();
     createLayerDock();
+    //connect(layerDock, SIGNAL(dockLocationChanged(Qt::DockWidgetArea area)),this, SLOT(dockSizeChanged()));
     //viewMenu->addAction(colorDock->toggleViewAction());
 
     resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
@@ -1005,4 +1006,7 @@ void ImageViewer::doTranslation(){
     interactionTool.useTool(param);
     updateLayerCount();
     setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
-}
+}/*
+void ImageViewer::dockSizeChanged(){
+    statusBar()->showMessage("str");
+}*/
