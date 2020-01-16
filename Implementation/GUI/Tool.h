@@ -5,7 +5,7 @@
 #ifndef TOOL_H
 #define TOOL_H
 
-typedef enum tools {paint, newLayer, translationTool, merge} tools_e;
+typedef enum tools {paint, newLayer, translationTool, merge, polygon} tools_e;
 
 #define TOOL_ANZ 9
 
@@ -16,9 +16,11 @@ typedef struct toolParameters {
     int colorIndex;
     int layerIndex1;
     int layerIndex2;
+    bool isInverse;
     QImage *pic;
     QPoint startPoint;
     QPoint endPoint;
+    QPolygon poly;
     QVector<QRgb> colorVect;
 } toolParameters_t;
 

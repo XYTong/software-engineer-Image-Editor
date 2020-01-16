@@ -2,13 +2,15 @@
 
 #include <sys/time.h>
 #include <stdio.h>
+#include <math.h>
 
-QRgb FloydSteiberg::errorAdd(QColor orig, int err_r, int err_g, int err_b, int weight){
-    int new_rgb[3];
+QRgb FloydSteiberg::errorAdd(QColor orig, int err_r, int err_g, int err_b, int err_a, int weight){
+    int new_rgb[4];
     new_rgb[0] = orig.red()+((err_r*weight)>>4);
     new_rgb[1] = orig.green()+((err_g*weight)>>4);
     new_rgb[2] = orig.blue()+((err_b*weight)>>4);
-    for (int i = 0; i < 3; i++){
+    new_rgb[3] = orig.blue()+((err_a*weight)>>4);
+    for (int i = 0; i < 4; i++){
         if (new_rgb[i] < 0){
             new_rgb[i] = 0;
         }
@@ -33,6 +35,7 @@ QImage *FloydSteiberg::getIndexed(QImage* source, QVector<QRgb> colors){
     int errorR;
     int errorG;
     int errorB;
+    int errorA;
     QColor currentPixel;
     QColor nextPixel;
     QColor *nextRow = static_cast<QColor*>(malloc(sizeof (QColor)*w));
@@ -60,10 +63,11 @@ QImage *FloydSteiberg::getIndexed(QImage* source, QVector<QRgb> colors){
         errorR = currentPixel.red() - qRed(colors[k]);
         errorG = currentPixel.green() - qGreen(colors[k]);
         errorB = currentPixel.blue() - qBlue(colors[k]);
+        errorA = currentPixel.blue() - qAlpha(colors[k]);
         nextPixel=thisRow[1];
-        nextPixel=errorAdd(nextPixel,errorR,errorG,errorB,7);
-        nextRow[0]=errorAdd(nextRow[0],errorR,errorG,errorB,5);
-        nextRow[1]=errorAdd(nextRow[1],errorR,errorG,errorB,1);
+        nextPixel=errorAdd(nextPixel,errorR,errorG,errorB,errorA,7);
+        nextRow[0]=errorAdd(nextRow[0],errorR,errorG,errorB,errorA,5);
+        nextRow[1]=errorAdd(nextRow[1],errorR,errorG,errorB,errorA,1);
         for(int i = 1; i < w-1; i++){
             currentPixel = nextPixel;
             gettimeofday(&t3,nullptr);
@@ -74,11 +78,12 @@ QImage *FloydSteiberg::getIndexed(QImage* source, QVector<QRgb> colors){
             errorR = currentPixel.red() - qRed(colors[k]);
             errorG = currentPixel.green() - qGreen(colors[k]);
             errorB = currentPixel.blue() - qBlue(colors[k]);
+            errorA = currentPixel.blue() - qAlpha(colors[k]);
             nextPixel=thisRow[i+1];
-            nextPixel=errorAdd(nextPixel,errorR,errorG,errorB,7);
-            nextRow[i-1]=errorAdd(nextRow[i-1],errorR,errorG,errorB,3);
-            nextRow[i]=errorAdd(nextRow[i],errorR,errorG,errorB,5);
-            nextRow[i+1]=errorAdd(nextRow[i+1],errorR,errorG,errorB,1);
+            nextPixel=errorAdd(nextPixel,errorR,errorG,errorB,errorA,7);
+            nextRow[i-1]=errorAdd(nextRow[i-1],errorR,errorG,errorB,errorA,3);
+            nextRow[i]=errorAdd(nextRow[i],errorR,errorG,errorB,errorA,5);
+            nextRow[i+1]=errorAdd(nextRow[i+1],errorR,errorG,errorB,errorA,1);
         }
         gettimeofday(&t3,nullptr);
         k = nearestColor(currentPixel, colors);
@@ -88,8 +93,9 @@ QImage *FloydSteiberg::getIndexed(QImage* source, QVector<QRgb> colors){
         errorR = currentPixel.red() - qRed(colors[k]);
         errorG = currentPixel.green() - qGreen(colors[k]);
         errorB = currentPixel.blue() - qBlue(colors[k]);
-        nextRow[w-2]=errorAdd(nextRow[w-2],errorR,errorG,errorB,5);
-        nextRow[w-1]=errorAdd(nextRow[w-1],errorR,errorG,errorB,1);
+        errorA = currentPixel.blue() - qAlpha(colors[k]);
+        nextRow[w-2]=errorAdd(nextRow[w-2],errorR,errorG,errorB,errorA,5);
+        nextRow[w-1]=errorAdd(nextRow[w-1],errorR,errorG,errorB,errorA,1);
         x = thisRow;
         thisRow=nextRow;
         nextRow=x;
@@ -97,24 +103,26 @@ QImage *FloydSteiberg::getIndexed(QImage* source, QVector<QRgb> colors){
     free(nextRow);
     free(thisRow);
     gettimeofday(&t2,nullptr);
-    printf("%ld\n%ld\n",(t2.tv_sec-t1.tv_sec)*1000000+t2.tv_usec-t1.tv_usec,t);
+    printf("%ld\n%ld\n%d x %d\n",(t2.tv_sec-t1.tv_sec)*1000000+t2.tv_usec-t1.tv_usec,t,w,h);
     delete source;
     return newImage;
 }
 int FloydSteiberg::nearestColor(QColor color, QVector<QRgb> colorVect){
-    int minDistanceSquared = 255 * 255 + 255 * 255 + 255 * 255 + 1;
+    int minDistanceSquared = 255 * 255 + 255 * 255 + 255 * 255 + 255 * 255 + 1;
     int bestIndex = 0;
     QRgb col = color.rgba();
     int Rdiff;
     int Gdiff;
     int Bdiff;
+    int Adiff;
     int distanceSquared;
     for (int i = 0; i < 256; i++)
     {
         Rdiff = qRed(col) - qRed(colorVect[i]);
         Gdiff = qGreen(col) - qGreen(colorVect[i]);
         Bdiff = qBlue(col) - qBlue(colorVect[i]);
-        if ((distanceSquared = Rdiff * Rdiff + Gdiff * Gdiff + Bdiff * Bdiff) < minDistanceSquared)
+        Adiff = qAlpha(col) - qAlpha(colorVect[i]);
+        if ((distanceSquared = Rdiff * Rdiff + Gdiff * Gdiff + Bdiff * Bdiff + Adiff * Adiff) < minDistanceSquared)
         {
             minDistanceSquared = distanceSquared;
             bestIndex = i;

@@ -4,6 +4,7 @@ bool TranslationTool::initTool(toolParameters_t *param){
     mat = param->mat;
     colorVect = param->colorVect;
     delete param;
+    param = nullptr;
     return true;
 }
 

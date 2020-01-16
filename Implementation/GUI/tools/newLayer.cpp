@@ -7,6 +7,7 @@ bool NewLayer::initTool(toolParameters_t *param){
     qPic = param->pic;
     colorVect = param->colorVect;
     delete param;
+    param = nullptr;
     return true;
 }
 

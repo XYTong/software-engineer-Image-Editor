@@ -103,7 +103,6 @@ private slots:
     void fitToWindow();
     void about();
     void draw();
-    //void dockSizeChanged();
     void translate();
     void calcTranslation();
     void doTranslation();
@@ -112,11 +111,17 @@ private slots:
     void lines();
     void notFilledRect();
     void filledRect();
+    void existingColor();
+    void newColor();
+    void setNewColor();
     void setDrawColor();
     void changeColor();
     void changeCurrentLayer();
     void newLayer();
+    void addNewLayer();
     void setWidth(int w);
+    void setNewLayerX(int w);
+    void setNewLayerY(int w);
 
 private:
     void createActions();
@@ -125,6 +130,7 @@ private:
     void createTranslateDock();
     void createDrawDock();
     void createMenus();
+    void createNewLayerDock();
     void addColor(QColor col, int pos);
     void updateColors();
     void updateLayers();
@@ -154,6 +160,10 @@ private:
     QPushButton *colorButton;
     QSlider *drawSlider;
     QSpinBox *drawSpinbox;
+    QSlider *newLayerXSlider;
+    QSpinBox *newLayerXSpinbox;
+    QSlider *newLayerYSlider;
+    QSpinBox *newLayerYSpinbox;
     QPushButton *drawStartButton;
     QMenu *colorMenu;
     QCheckBox *mirrorCheckbox;
@@ -165,14 +175,20 @@ private:
     QLabel *translationLabelC;
     QLabel *translationLabelD;
     QMatrix *transMat;
+    QPushButton *newColorButton;
     drawModus_e actDrawModus = drawModus_e::pencil;
+    QRgb newLayerColor;
+    QGridLayout *newLayerLayout;
+    bool isNewLayerColor = false;
     double scaleFactor;
     bool isDraw=false;
     int drawWidth=3;
+    int newLayerX = 100;
+    int newLayerY = 100;
     int drawColorIndex=0;
     bool drawStart=false;
     bool hasLayer=false;
-    toolParameters_t *param;
+    toolParameters_t *param = nullptr;
     InteractionTool interactionTool;
 
 #ifndef QT_NO_PRINTER

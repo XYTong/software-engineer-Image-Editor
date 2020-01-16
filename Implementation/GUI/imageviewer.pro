@@ -17,6 +17,7 @@ HEADERS       = imageviewer.h \
                 tools/floydSteinberg.h \
                 tools/merge.h \
                 tools/newLayer.h \
+                tools/polygon.h \
                 tools/translationTool.h
 SOURCES       = imageviewer.cpp \
                 ColorMap.cpp \
@@ -31,6 +32,7 @@ SOURCES       = imageviewer.cpp \
                 tools/floydSteinberg.cpp \
                 tools/merge.cpp \
                 tools/newLayer.cpp \
+                tools/polygon.cpp \
                 tools/translationTool.cpp
 
 # install

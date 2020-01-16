@@ -5,6 +5,7 @@ bool MergeTool::initTool(toolParameters_t *param){
     layerIndex2 = param->layerIndex2;
     colorVect = param->colorVect;
     delete param;
+    param = nullptr;
     return true;
 }
 

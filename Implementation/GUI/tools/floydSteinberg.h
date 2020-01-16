@@ -8,7 +8,7 @@ public:
 
 private:
     int nearestColor(QColor color, QVector<QRgb> colorVect);
-    QRgb errorAdd(QColor orig, int err_r, int err_g, int err_b, int weight);
+    QRgb errorAdd(QColor orig, int err_r, int err_g, int err_b, int err_a, int weight);
 };
 
 
