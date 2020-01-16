@@ -29,7 +29,7 @@ bool DrawTool::useTool(){
 
     for(int i = 0; i < qPic->width(); i++){
         for(int j = 0; j < qPic->height(); j++){
-            if (tempImage.pixelColor(QPoint(i,j))==QColor(255,255,255,255)){
+            if (tempImage.pixelColor(QPoint(i,j))==QColor(255,255,255,255)&&(!pic->isShaped()||qPic->pixelIndex(i,j)!=255)){
                 qPic->setPixel(QPoint(i,j),colorIndex);
             }
         }

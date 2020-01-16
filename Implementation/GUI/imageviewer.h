@@ -117,6 +117,8 @@ private slots:
     void setDrawColor();
     void changeColor();
     void changeCurrentLayer();
+    void updateVisible();
+    void makeShaped();
     void newLayer();
     void addNewLayer();
     void setWidth(int w);
@@ -140,6 +142,7 @@ private:
     void setImage(QImage newImage);
     void scaleImage(double factor);
     void adjustScrollBar(QScrollBar *scrollBar, double factor);
+    void calculateVisible();
 
     QImage image;
     QLabel *imageLabel;
@@ -155,6 +158,7 @@ private:
     QGridLayout* layerLayout;
     std::vector<QToolButton*> colorButtons;
     std::vector<QPushButton*> layerButtons;
+    std::vector<QCheckBox*> layerCheckboxes;
     QVector<QRgb> colorVect;
     QList<QAction*> colorAct;
     QPushButton *colorButton;
@@ -179,8 +183,9 @@ private:
     drawModus_e actDrawModus = drawModus_e::pencil;
     QRgb newLayerColor;
     QGridLayout *newLayerLayout;
+    QPixmap *pixmap;
     bool isNewLayerColor = false;
-    double scaleFactor;
+    double scaleFactor = 1.0;
     bool isDraw=false;
     int drawWidth=3;
     int newLayerX = 100;

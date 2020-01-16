@@ -7,6 +7,8 @@
 
 typedef struct layer_t {
     QImage *qImage;
+    bool isShaped;
+    bool isVisible;
 } layer_t;
 
 class Picture{
@@ -22,6 +24,13 @@ class Picture{
         void addCurrentLayer(QImage *qImage);
         void addCurrentLayer(layer_t *layer);
         void setCurrentLayer(unsigned int index);
+        void makeShaped(unsigned int index);
+        void makeCurrentLayerShaped();
+        bool isShaped(unsigned int index);
+        bool isShaped();
+        void makeVisible(unsigned int index, bool visible);
+        bool isVisible(unsigned int index);
+        QSize getMaxSize();
         unsigned int getLayerCount();
         unsigned int getCurrentLayerIndex();
         void moveLayer(int i,int j);
@@ -32,6 +41,8 @@ class Picture{
         std::string name;
         std::vector<layer_t*> layers;
         layer_t *currentLayer;
+        int maxX;
+        int maxY;
 };
 
 #endif /* !PICTURE_H */
