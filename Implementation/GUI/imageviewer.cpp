@@ -325,18 +325,20 @@ void ImageViewer::createDrawDock(){
     color->setText("Color:");
     drawLayout->addWidget(color,4,0);
     drawLayout->addWidget(colorButton,4,1);
+    ignoreShaped = new QCheckBox("Ignore Shape");
+    drawLayout->addWidget(ignoreShaped,5,0,1,2);
     QLabel *width = new QLabel();
     width->setText("Width:");
-    drawLayout->addWidget(width,5,0);
+    drawLayout->addWidget(width,6,0);
 
 
-    drawLayout->addWidget(drawSpinbox,5,1);
+    drawLayout->addWidget(drawSpinbox,6,1);
     QDialog *text = new QDialog();
     drawLayout->addWidget(text,8,1,1,2);
 
-    drawLayout->addWidget(drawSlider,6,0,1,2);
+    drawLayout->addWidget(drawSlider,7,0,1,2);
 
-    drawLayout->addWidget(drawStartButton,7,0,1,2);
+    drawLayout->addWidget(drawStartButton,8,0,1,2);
     QWidget *drawControl = new QWidget(drawDock);
     drawControl->setLayout(drawLayout);
     //layerScrollArea = new QScrollArea();
@@ -696,6 +698,7 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
             param = new toolParameters_t;
             param->tool = paint;
             param->i = drawWidth;
+            param->ignoreShape = ignoreShaped->isChecked();
             param->colorIndex =drawColorIndex;
             param->startPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
             break;
@@ -705,6 +708,7 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
             param = new toolParameters_t;
             param->tool = paint;
             param->i = drawWidth;
+            param->ignoreShape = ignoreShaped->isChecked();
             param->colorIndex =drawColorIndex;
             param->startPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
             break;
@@ -713,6 +717,7 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
             if (param==nullptr){
                 param = new toolParameters_t;
                 param->tool = polygon;
+                param->ignoreShape = ignoreShaped->isChecked();
                 param->poly = QPolygon();
             }
             param->isInverse = false;
@@ -723,6 +728,7 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
             if (param==nullptr){
                 param = new toolParameters_t;
                 param->tool = polygon;
+                param->ignoreShape = ignoreShaped->isChecked();
                 param->poly = QPolygon();
             }
             param->isInverse = true;
@@ -748,6 +754,7 @@ void ImageViewer::mouseMoveEvent(QMouseEvent *event)
             updateVisible();
             param = new toolParameters_t;
             param->tool = paint;
+            param->ignoreShape = ignoreShaped->isChecked();
             param->i = drawWidth;
             param->colorIndex =drawColorIndex;
             param->startPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
@@ -901,7 +908,7 @@ void ImageViewer::updateColors(){
         p.drawLine(1,19,19,1);
         p.drawLine(19,19,1,1);
         colorAct[255]->setIcon(px);
-        colorAct[255]->setEnabled(false);
+        //colorAct[255]->setEnabled(false);
         colorButtons[255]->setStyleSheet("background-color: #FFFFFF;\n");
         colorButtons[255]->setIcon(px);
         colorButtons[255]->setEnabled(false);
@@ -959,6 +966,7 @@ void ImageViewer::changeCurrentLayer(){
             interactionTool.useTool(param);
             param = nullptr;
             updateLayerCount();
+            updateColors();
             //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
             updateVisible();
 
@@ -1199,6 +1207,11 @@ void ImageViewer::calcTranslation(){
     transMat = new QMatrix(zx,0,0,zy,0,0);
     QMatrix mat;
     mat.rotate(rot);
+    if(rot!=0){
+        isRot=true;
+    }else{
+        isRot=false;
+    }
     *transMat = *transMat *mat;
     if (mirrorCheckbox->isChecked()){
         mat.setMatrix(0,1,1,0,0,0);
@@ -1218,10 +1231,12 @@ void ImageViewer::doTranslation(){
     param = new toolParameters_t;
     param->tool = translationTool;
     param->mat = *transMat;
+    param->isRot = isRot;
     param->colorVect = colorVect;
     interactionTool.useTool(param);
     param = nullptr;
     updateLayerCount();
+    updateColors();
     //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
     updateVisible();
 }/*

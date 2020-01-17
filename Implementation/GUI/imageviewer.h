@@ -184,9 +184,11 @@ private:
     QRgb newLayerColor;
     QGridLayout *newLayerLayout;
     QPixmap *pixmap;
+    QCheckBox * ignoreShaped;
     bool isNewLayerColor = false;
     double scaleFactor = 1.0;
     bool isDraw=false;
+    bool isRot;
     int drawWidth=3;
     int newLayerX = 100;
     int newLayerY = 100;

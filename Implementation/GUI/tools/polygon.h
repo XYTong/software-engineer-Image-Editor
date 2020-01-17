@@ -12,6 +12,8 @@ class PolygonTool : public Tool{
         QPolygon poly;
         bool isInverse;
         int colorIndex;
+        bool ignoreShape;
+
 };
 
 #endif // POLYGON_H

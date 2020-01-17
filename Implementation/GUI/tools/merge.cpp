@@ -1,4 +1,6 @@
 #include "merge.h"
+#include "floydSteinberg.h"
+#include <QPainter>
 
 bool MergeTool::initTool(toolParameters_t *param){
     layerIndex1 = param->layerIndex1;
@@ -17,7 +19,7 @@ bool MergeTool::useTool(){
     int w1=0;
     int h1=0;
     bool shaped = false;
-    QImage *newPic;
+
     width1=pic->getLayerAsQ(layerIndex1)->width();
     height1=pic->getLayerAsQ(layerIndex1)->height();
     width2=pic->getLayerAsQ(layerIndex2)->width();
@@ -25,7 +27,44 @@ bool MergeTool::useTool(){
     if (pic->isShaped(layerIndex1)){
         shaped= true;
     }
-    if(width1>width2){
+    if (width1>width2){
+        w1=width1;
+    } else {
+        w1=width2;
+    }
+    if (height1>height2){
+        h1 = height1;
+    } else {
+        h1 = height2;
+    }
+    //QImage tempImage = QImage(pic->getCurrentLayerAsQ()->width(), pic->getCurrentLayerAsQ()->height(), QImage::Format_ARGB32);
+    //tempImage.fill(QColor(0,0,0,0));
+    //QPainter painter(&tempImage);
+    QImage *newPic = new QImage(w1,h1,QImage::Format_ARGB32);
+    //newPic->setColorTable(pic->getLayerAsQ(layerIndex1)->colorTable());
+    QPainter painter(newPic);
+    painter.drawImage(0,0,*pic->getLayerAsQ(layerIndex2));
+    painter.drawImage(0,0,*pic->getLayerAsQ(layerIndex1));
+    FloydSteiberg fs = FloydSteiberg();
+    painter.end();
+    QImage *newPic2 = fs.getIndexed(newPic,pic->getLayerAsQ(layerIndex1)->colorTable());
+    if(width1>width2&&height1<height2){
+        for (int i = width2; i < w1; i++){
+            for (int j = height1; j < h1; j++){
+                newPic2->setPixel(i,j,255);
+            }
+        }
+        shaped=true;
+    }
+    if(width1<width2&&height1>height2){
+        for (int i = width1; i < w1; i++){
+            for (int j = height2; j < h1; j++){
+                newPic2->setPixel(i,j,255);
+            }
+        }
+        shaped=true;
+    }
+    /*if(width1>width2){
         if(height1>height2){
             //newPic = new QImage(*pic->getLayerAsQ(layerIndex1));
             //newPic->setColorTable(colorVect);
@@ -95,9 +134,9 @@ bool MergeTool::useTool(){
                 }
             }
         }
-    }
+    }*/
     //QImage *newPic2 = new QImage(newPic->convertToFormat(QImage::Format_Indexed8,colorVect));
-    pic->addCurrentLayer(newPic);
+    pic->addCurrentLayer(newPic2);
     if(shaped){
         pic->makeCurrentLayerShaped();
     }

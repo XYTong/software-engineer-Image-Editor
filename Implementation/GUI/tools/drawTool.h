@@ -13,6 +13,7 @@ class DrawTool : public Tool{
         QPoint ePoint;
         int w;
         int colorIndex;
+        bool ignoreShape;
 };
 
 #endif // DRAWTOOL_H

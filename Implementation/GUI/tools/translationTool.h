@@ -11,6 +11,7 @@ class TranslationTool : public Tool{
     private:
         QMatrix mat;
         QVector<QRgb> colorVect;
+        bool isRot;
 };
 
 #endif // TRANSLATIONTOOL_H

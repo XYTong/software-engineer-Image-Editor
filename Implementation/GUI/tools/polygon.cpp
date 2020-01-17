@@ -5,6 +5,7 @@ bool PolygonTool::initTool(toolParameters_t *param){
     poly = param->poly;
     colorIndex = param->colorIndex;
     isInverse = param->isInverse;
+    ignoreShape = param->ignoreShape;
     delete param;
     param = nullptr;
     return true;
@@ -30,7 +31,7 @@ bool PolygonTool::useTool(){
 
     for(int i = 0; i < qPic->width(); i++){
         for(int j = 0; j < qPic->height(); j++){
-            if (!pic->isShaped()||qPic->pixelIndex(i,j)!=255){
+            if (!pic->isShaped()||qPic->pixelIndex(i,j)!=255||ignoreShape){
                 if (tempImage.pixelColor(QPoint(i,j))==QColor(255,255,255,255)&&!isInverse){
                     qPic->setPixel(QPoint(i,j),colorIndex);
                 }

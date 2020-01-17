@@ -17,6 +17,8 @@ typedef struct toolParameters {
     int layerIndex1;
     int layerIndex2;
     bool isInverse;
+    bool isRot;
+    bool ignoreShape;
     QImage *pic;
     QPoint startPoint;
     QPoint endPoint;

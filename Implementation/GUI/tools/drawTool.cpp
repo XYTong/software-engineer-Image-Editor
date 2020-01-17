@@ -6,6 +6,7 @@ bool DrawTool::initTool(toolParameters_t *param){
     ePoint = param->endPoint;
     w = param->i;
     colorIndex = param->colorIndex;
+    ignoreShape = param->ignoreShape;
     delete param;
     param = nullptr;
     return true;
@@ -29,7 +30,7 @@ bool DrawTool::useTool(){
 
     for(int i = 0; i < qPic->width(); i++){
         for(int j = 0; j < qPic->height(); j++){
-            if (tempImage.pixelColor(QPoint(i,j))==QColor(255,255,255,255)&&(!pic->isShaped()||qPic->pixelIndex(i,j)!=255)){
+            if (tempImage.pixelColor(QPoint(i,j))==QColor(255,255,255,255)&&(!pic->isShaped()||qPic->pixelIndex(i,j)!=255||ignoreShape)){
                 qPic->setPixel(QPoint(i,j),colorIndex);
             }
         }
