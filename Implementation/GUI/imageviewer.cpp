@@ -249,11 +249,30 @@ void ImageViewer::createNewLayerDock(){
     newLayerLayout->addWidget(button2,6,0,1,1);
     newLayerLayout->addWidget(colorButton,5,1,1,1);
     newLayerLayout->addWidget(newColorButton,6,1,1,1);
+    QLabel *label4 = new QLabel("Colormap:");
+    newLayerLayout->addWidget(label4,7,0,1,2);
+    QButtonGroup *buttonGroup = new QButtonGroup();
+
+    newColormap[0] = new QRadioButton("actual");
+    newColormap[0]->setChecked(true);
+    buttonGroup->addButton(newColormap[0]);
+    newLayerLayout->addWidget(newColormap[0],8,0,1,2);
+    newColormap[1] = new QRadioButton("standart");
+    buttonGroup->addButton(newColormap[1]);
+    newLayerLayout->addWidget(newColormap[1],9,0,1,2);
+    newColormap[2] = new QRadioButton("small");
+    buttonGroup->addButton(newColormap[2]);
+    newLayerLayout->addWidget(newColormap[2],10,0,1,2);
+    newColormap[3] = new QRadioButton("modificated");
+    buttonGroup->addButton(newColormap[3]);
+    newLayerLayout->addWidget(newColormap[3],11,0,1,2);
+
     QPushButton *button3 = new QPushButton("Add new layer");
     connect(button3, SIGNAL(clicked()),this, SLOT(addNewLayer()));
-    newLayerLayout->addWidget(button3,7,0,1,2);
+    newLayerLayout->addWidget(button3,12,0,1,2);
+
     QSpacerItem *spacer = new QSpacerItem(1,300,QSizePolicy::Maximum,QSizePolicy::Maximum);
-    newLayerLayout->addItem(spacer,8,1,1,3);
+    newLayerLayout->addItem(spacer,13,1,1,3);
 
     QWidget *drawControl = new QWidget(newLayerDock);
     drawControl->setLayout(newLayerLayout);
@@ -339,6 +358,8 @@ void ImageViewer::createDrawDock(){
     drawLayout->addWidget(drawSlider,7,0,1,2);
 
     drawLayout->addWidget(drawStartButton,8,0,1,2);
+    QSpacerItem *spacer = new QSpacerItem(1,300,QSizePolicy::Maximum,QSizePolicy::Maximum);
+    newLayerLayout->addItem(spacer,9,0,1,2);
     QWidget *drawControl = new QWidget(drawDock);
     drawControl->setLayout(drawLayout);
     //layerScrollArea = new QScrollArea();
@@ -1271,19 +1292,42 @@ void ImageViewer::setNewColor(){
 }
 void ImageViewer::addNewLayer(){
     QImage *newImage = nullptr;
+    QVector<QRgb> newColorVect;//TODO: make color vectorsto pointer
+    if(newColormap[0]->isChecked()){
+        for (int i = 0; i < 256; i++) {
+            newColorVect.append(colorVect);
+        }
+    }else
+    if(newColormap[1]->isChecked()){
+        QImage *test = new QImage(1,1,QImage::Format_Indexed8);
+        newColorVect.append(colorVect);
+        for (int i = 0; i < 256; i++) {
+            newColorVect[i]=test->colorTable()[i];
+        }
+        //printf("%d\n",test->colorTable().length());
+        //newColorVect=colorVect;
+        //newColorVect[10]=QColor(128,128,128,255).rgba();
+    }else
+    if(newColormap[2]->isChecked()){
+        newColorVect=colorVect;
+    }else
+    if(newColormap[3]->isChecked()){
+        newColorVect=colorVect;
+    }
     if (isNewLayerColor){
         newImage = new QImage(newLayerX,newLayerY,QImage::Format_ARGB32);
         newImage->fill(QColor(newLayerColor));
         param = new toolParameters_t;
         param->tool = tools_e::newLayer;
         param->pic = newImage;
-        param->colorVect = colorVect;
+
+        param->colorVect = newColorVect;
         interactionTool.useTool(param);
         param = nullptr;
         newImage=interactionTool.getPicture()->getCurrentLayerAsQ();
     } else{
         newImage = new QImage(newLayerX,newLayerY,QImage::Format_Indexed8);
-        newImage->setColorTable(colorVect);
+        newImage->setColorTable(newColorVect);
         newImage->fill(drawColorIndex);
         interactionTool.getPicture()->addCurrentLayer(newImage);
     }

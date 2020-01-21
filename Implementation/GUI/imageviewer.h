@@ -57,6 +57,7 @@
 #include <vector>
 #include <QToolButton>
 #include <QPushButton>
+#include <QRadioButton>
 #include <QGridLayout>
 #include <QSlider>
 #include <QSpinBox>
@@ -184,7 +185,8 @@ private:
     QRgb newLayerColor;
     QGridLayout *newLayerLayout;
     QPixmap *pixmap;
-    QCheckBox * ignoreShaped;
+    QCheckBox *ignoreShaped;
+    QRadioButton *newColormap[4];
     bool isNewLayerColor = false;
     double scaleFactor = 1.0;
     bool isDraw=false;
