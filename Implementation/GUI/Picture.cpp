@@ -134,6 +134,30 @@ bool Picture::isVisible(unsigned int index){
 QSize Picture::getMaxSize(){
     return QSize(maxX,maxY);
 }
+int Picture::currentXOffset(){
+    return currentLayer->xOffset;
+}
+int Picture::currentYOffset(){
+    return currentLayer->yOffset;
+}
+int Picture::xOffset(unsigned int index){
+    return layers[index]->xOffset;
+}
+int Picture::yOffset(unsigned int index){
+    return layers[index]->yOffset;
+}
+int Picture::setCurrentXOffset(int offset){
+    currentLayer->xOffset=offset;
+}
+int Picture::setCurrentYOffset(int offset){
+    currentLayer->yOffset=offset;
+}
+int Picture::setXOffset(unsigned int index, int offset){
+    layers[index]->xOffset=offset;
+}
+int Picture::setYOffset(unsigned int index, int offset){
+    layers[index]->yOffset=offset;
+}
 Picture::Picture(std::string name){
     this->name = name;
     currentLayer = nullptr;

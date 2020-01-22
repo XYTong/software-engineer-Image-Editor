@@ -144,6 +144,7 @@ ImageViewer::ImageViewer(QWidget *parent)
     translationLabelB = new QLabel("b");
     translationLabelC = new QLabel("c");
     translationLabelD = new QLabel("d");
+    ignoreShaped = new QCheckBox("Ignore Shape");
     //QImage *newImage = new QImage(newLayerX,newLayerY,QImage::Format_ARGB32);
     //newImage->fill(QPalette::Dark);
     //setImage(*newImage);
@@ -280,6 +281,9 @@ void ImageViewer::createNewLayerDock(){
     addDockWidget(Qt::LeftDockWidgetArea, newLayerDock);
 }
 void ImageViewer::createTranslateDock(){
+    if (!hasLayer){
+        return;
+    }
     QDockWidget *translationDock = new QDockWidget(tr("Translation"), this);
     translationDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     QGridLayout *translationLayout = new QGridLayout();
@@ -324,6 +328,9 @@ void ImageViewer::createTranslateDock(){
     addDockWidget(Qt::LeftDockWidgetArea, translationDock);
 }
 void ImageViewer::createDrawDock(){
+    if (!hasLayer){
+        return;
+    }
     QDockWidget *drawDock = new QDockWidget(tr("Draw"), this);
     drawDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     QGridLayout *drawLayout = new QGridLayout();
@@ -344,7 +351,7 @@ void ImageViewer::createDrawDock(){
     color->setText("Color:");
     drawLayout->addWidget(color,4,0);
     drawLayout->addWidget(colorButton,4,1);
-    ignoreShaped = new QCheckBox("Ignore Shape");
+
     drawLayout->addWidget(ignoreShaped,5,0,1,2);
     QLabel *width = new QLabel();
     width->setText("Width:");
@@ -358,8 +365,8 @@ void ImageViewer::createDrawDock(){
     drawLayout->addWidget(drawSlider,7,0,1,2);
 
     drawLayout->addWidget(drawStartButton,8,0,1,2);
-    QSpacerItem *spacer = new QSpacerItem(1,300,QSizePolicy::Maximum,QSizePolicy::Maximum);
-    newLayerLayout->addItem(spacer,9,0,1,2);
+    //QSpacerItem *spacer = new QSpacerItem(1,300,QSizePolicy::Maximum,QSizePolicy::Maximum);
+    //newLayerLayout->addItem(spacer,9,0,1,2);
     QWidget *drawControl = new QWidget(drawDock);
     drawControl->setLayout(drawLayout);
     //layerScrollArea = new QScrollArea();
@@ -388,8 +395,7 @@ void ImageViewer::createLayerDock(){
 
 bool ImageViewer::loadFile(const QString &fileName)
 {
-    param = new toolParameters_t;
-    param->tool=tools_e::newLayer;
+
     QImageReader reader(fileName);
     reader.setAutoTransform(true);
     QImage *newImage = new QImage;
@@ -401,24 +407,26 @@ bool ImageViewer::loadFile(const QString &fileName)
         return false;
     }
 //! [2]
+    param = new toolParameters_t;
+    param->tool=tools_e::newLayer;
     param->pic = newImage;
     param->colorVect = colorVect;
     interactionTool.useTool(param);
     param = nullptr;
     newImage = interactionTool.getPicture()->getCurrentLayerAsQ();
+    //colorVect = interactionTool.getPicture()->getCurrentLayerAsQ()->colorTable();
     if (newImage==nullptr){
         return false;
     }
     //setImage(*newImage);
-    updateColors();
-    updateLayerCount();
-    updateVisible();
 
-    setWindowFilePath(fileName);
 
-    const QString message = tr("Opened \"%1\", %2x%3, Depth: %4")
-        .arg(QDir::toNativeSeparators(fileName)).arg(image.width()).arg(image.height()).arg(image.depth());
-    statusBar()->showMessage(message);
+
+    //setWindowFilePath(fileName);
+
+    //const QString message = tr("Opened \"%1\", %2x%3, Depth: %4")
+    //    .arg(QDir::toNativeSeparators(fileName)).arg(image.width()).arg(image.height()).arg(image.depth());
+    //statusBar()->showMessage(message);
     hasLayer=true;
     return true;
 }
@@ -488,6 +496,9 @@ void ImageViewer::open()
     initializeImageFileDialog(dialog, QFileDialog::AcceptOpen);
 
     while (dialog.exec() == QDialog::Accepted && !loadFile(dialog.selectedFiles().first())) {}
+    updateColors();
+    updateLayerCount();
+    updateVisible();
 }
 //! [1]
 
@@ -761,7 +772,7 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
         }
         }
 
-    }
+    } else {}
 }
 void ImageViewer::mouseMoveEvent(QMouseEvent *event)
 {
@@ -1321,22 +1332,22 @@ void ImageViewer::addNewLayer(){
         param->tool = tools_e::newLayer;
         param->pic = newImage;
 
-        param->colorVect = newColorVect;
+        param->colorVect = colorVect;
         interactionTool.useTool(param);
         param = nullptr;
         newImage=interactionTool.getPicture()->getCurrentLayerAsQ();
     } else{
         newImage = new QImage(newLayerX,newLayerY,QImage::Format_Indexed8);
-        newImage->setColorTable(newColorVect);
+        newImage->setColorTable(colorVect);
         newImage->fill(drawColorIndex);
         interactionTool.getPicture()->addCurrentLayer(newImage);
     }
 
     //
 
-    if (newImage==nullptr){
-        return;
-    }
+    //if (newImage==nullptr){
+    //    return;
+    //}
     //setImage(*newImage);
     //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
     updateColors();
@@ -1347,11 +1358,11 @@ void ImageViewer::addNewLayer(){
     hasLayer=true;
 }
 void ImageViewer::updateVisible(){
-    for (int i = 0; i < interactionTool.getPicture()->getLayerCount(); i++) {
-        if (layerCheckboxes[i]->isChecked()){
+    //for (int i = 0; i < interactionTool.getPicture()->getLayerCount(); i++) {
+    //    if (layerCheckboxes[i]->isChecked()){
             //TODO: Syncronisieren vom Bild
-        }
-    }
+    //    }
+    //}
     calculateVisible();
 }
 void ImageViewer::calculateVisible(){

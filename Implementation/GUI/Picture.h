@@ -9,6 +9,8 @@ typedef struct layer_t {
     QImage *qImage;
     bool isShaped;
     bool isVisible;
+    int xOffset;
+    int yOffset;
 } layer_t;
 
 class Picture{
@@ -33,6 +35,14 @@ class Picture{
         QSize getMaxSize();
         unsigned int getLayerCount();
         unsigned int getCurrentLayerIndex();
+        int currentXOffset();
+        int currentYOffset();
+        int xOffset(unsigned int index);
+        int yOffset(unsigned int index);
+        int setCurrentXOffset(int offset);
+        int setCurrentYOffset(int offset);
+        int setXOffset(unsigned int index, int offset);
+        int setYOffset(unsigned int index, int offset);
         void moveLayer(int i,int j);
         Picture(std::string name = "Unbenannt");
         ~Picture();
