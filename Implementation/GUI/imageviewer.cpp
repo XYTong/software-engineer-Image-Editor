@@ -432,7 +432,7 @@ bool ImageViewer::loadFile(const QString &fileName)
     param = new toolParameters_t;
     param->tool=tools_e::newLayer;
     param->pic = newImage;
-    param->colorVect = colorVect;
+    param->colorVect = newColorVect;
     interactionTool.useTool(param);
     param = nullptr;
     newImage = interactionTool.getPicture()->getCurrentLayerAsQ();
