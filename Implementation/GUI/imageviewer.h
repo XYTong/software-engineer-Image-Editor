@@ -114,6 +114,10 @@ private slots:
     void filledRect();
     void existingColor();
     void newColor();
+    void actualColorVect();
+    void standartColorVect();
+    void smallColorVect();
+    void customColorVect();
     void setNewColor();
     void setDrawColor();
     void changeColor();
@@ -161,6 +165,7 @@ private:
     std::vector<QPushButton*> layerButtons;
     std::vector<QCheckBox*> layerCheckboxes;
     QVector<QRgb> colorVect;
+    QVector<QRgb> newColorVect;
     QList<QAction*> colorAct;
     QPushButton *colorButton;
     QSlider *drawSlider;
