@@ -5,6 +5,7 @@
 #include "tools/translationTool.h"
 #include "tools/merge.h"
 #include "tools/polygon.h"
+#include "tools/movetool.h"
 
 #include <stdlib.h>
 
@@ -36,6 +37,12 @@ bool ManipulationTool::useTool(toolParameters_t *param){
     }
     case polygon:{
         PolygonTool tool = PolygonTool(pic);
+        tool.initTool(param);
+        tool.useTool();
+        return true;
+    }
+    case tools_e::move:{
+        MoveTool tool = MoveTool(pic);
         tool.initTool(param);
         tool.useTool();
         return true;

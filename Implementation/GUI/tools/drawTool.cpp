@@ -2,8 +2,8 @@
 #include <qpainter.h>
 
 bool DrawTool::initTool(toolParameters_t *param){
-    sPoint = param->startPoint;
-    ePoint = param->endPoint;
+    sPoint = param->startPoint-QPoint(pic->currentXOffset(),pic->currentYOffset());
+    ePoint = param->endPoint-QPoint(pic->currentXOffset(),pic->currentYOffset());
     w = param->i;
     colorIndex = param->colorIndex;
     ignoreShape = param->ignoreShape;

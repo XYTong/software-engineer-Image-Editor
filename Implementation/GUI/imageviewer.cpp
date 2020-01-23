@@ -454,8 +454,15 @@ void ImageViewer::setImage(QImage newImage)//remove Parameter
 bool ImageViewer::saveFile(const QString &fileName)
 {
     QImageWriter writer(fileName);
-
-    if (!writer.write(image)) {
+    QPixmap *px = new QPixmap(interactionTool.getPicture()->getMaxSize());
+    QPainter *painter= new QPainter(px);
+    for (int i = 0; i < interactionTool.getPicture()->getLayerCount(); i++) {
+        if (layerCheckboxes[i]->isChecked()){
+            painter->drawImage(interactionTool.getPicture()->xOffset(i),interactionTool.getPicture()->yOffset(i),*interactionTool.getPicture()->getLayerAsQ(i));
+            //painter->drawI
+        }
+    }
+    if (!writer.write(px->toImage())) {
         QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
                                  tr("Cannot write %1: %2")
                                  .arg(QDir::toNativeSeparators(fileName)), writer.errorString());
@@ -670,7 +677,7 @@ void ImageViewer::createActions()
     QAction *makeToShaped = toolMenu->addAction(tr("&Make Shaped"), this, &ImageViewer::makeShaped);
     //QAction *newLayerMenu = toolMenu->addAction(tr("&New layer"), this, &ImageViewer::newLayer);
 
-    QMenu *window = menuBar()->addMenu(tr("&Window"));
+    //QMenu *window = menuBar()->addMenu(tr("&Window"));
 
     //showColorsAct = window->addAction(tr("&ShowColorDock"), this, &ImageViewer::ShowColorDock);
 
@@ -751,9 +758,10 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
                 param->tool = polygon;
                 param->ignoreShape = ignoreShaped->isChecked();
                 param->poly = QPolygon();
+                polyVis = QPolygon();
             }
             param->isInverse = false;
-            param->startPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
+            param->startPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool.getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool.getPicture()->currentYOffset());
             break;
         }
         case drawModus_e::notFilledRect:{
@@ -762,9 +770,10 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
                 param->tool = polygon;
                 param->ignoreShape = ignoreShaped->isChecked();
                 param->poly = QPolygon();
+                polyVis = QPolygon();
             }
             param->isInverse = true;
-            param->startPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
+            param->startPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool.getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool.getPicture()->currentYOffset());
             break;
         }
         default:{
@@ -772,7 +781,11 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
         }
         }
 
-    } else {}
+    } else if (event->button() == Qt::LeftButton){
+        moveStart=true;
+
+        move = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
+    }
 }
 void ImageViewer::mouseMoveEvent(QMouseEvent *event)
 {
@@ -810,6 +823,17 @@ void ImageViewer::mouseMoveEvent(QMouseEvent *event)
         }
         }
 
+    } else if (moveStart){
+        move -= event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
+        param = new toolParameters_t;
+        param->tool = tools_e::move;
+        param->offsetX = (-1)*move.x();
+        param->offsetY = (-1)*move.y();
+        interactionTool.useTool(param);
+        param = nullptr;
+        //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+        updateVisible();
+        move = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
     }
 }
 void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
@@ -840,7 +864,8 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
         }
         case drawModus_e::filledRect:{
             //if () TODO: Start & Endpkt vergleichen
-            param->poly.push_back(event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value()));
+            param->poly.push_back(event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool.getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool.getPicture()->currentYOffset()));
+            polyVis.push_back(event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value()));
             //param->poly.setPoint();
             //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
             updateVisible();
@@ -849,14 +874,15 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
             QBrush *pen = new QBrush(QColor(colorVect[drawColorIndex]));
             painter->setBrush(*pen);
             QPainterPath path;
-            path.addPolygon(param->poly);
+            path.addPolygon(polyVis);
             painter->fillPath(path,*pen);
             imageLabel->setPixmap(*px);
             break;
         }
         case drawModus_e::notFilledRect:{
             //if () TODO: Start & Endpkt vergleichen
-            param->poly.push_back(event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value()));
+            param->poly.push_back(event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool.getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool.getPicture()->currentYOffset()));
+            polyVis.push_back(event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value()));
             //param->poly.setPoint();
             //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
             updateVisible();
@@ -865,7 +891,7 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
             QBrush *pen = new QBrush(QColor(colorVect[drawColorIndex]));
             painter->setBrush(*pen);
             QPainterPath path;
-            path.addPolygon(param->poly);
+            path.addPolygon(polyVis);
             painter->fillPath(path,*pen);
             imageLabel->setPixmap(*px);
             break;
@@ -905,6 +931,17 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
             break;
         }
         }
+    } else if (event->button() == Qt::LeftButton){
+        move -= event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
+        param = new toolParameters_t;
+        param->tool = tools_e::move;
+        param->offsetX = (-1)*move.x();
+        param->offsetY = (-1)*move.y();
+        interactionTool.useTool(param);
+        moveStart=false;
+        param = nullptr;
+        //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+        updateVisible();
     }
 }
 void ImageViewer::updateColors(){
@@ -972,6 +1009,7 @@ void ImageViewer::changeCurrentLayer(){
             interactionTool.getPicture()->moveLayer(i,i-1);
             updateLayers();
             layerButtons[i*5+2]->setChecked(false);
+            updateVisible();
         } else if(layerButtons[i*5+3]->isChecked()){
             layerButtons[i*5+3]->setChecked(false);
             interactionTool.getPicture()->removeLayer(i);
@@ -983,11 +1021,12 @@ void ImageViewer::changeCurrentLayer(){
                 imageLabel->setScaledContents(true);
             }
             updateLayerCount();
-
+            updateVisible();
         } else if(layerButtons[i*5+4]->isChecked()){
             interactionTool.getPicture()->moveLayer(i+1,i);
             updateLayers();
             layerButtons[i*5+4]->setChecked(false);
+            updateVisible();
         } else if(layerButtons[i*5+5]->isChecked()&&i+1!=interactionTool.getPicture()->getLayerCount()){
             layerButtons[i*5+5]->setChecked(false);
             param = new toolParameters_t;
@@ -996,6 +1035,8 @@ void ImageViewer::changeCurrentLayer(){
             param->layerIndex2 = i+1;
             param->colorVect = colorVect;
             interactionTool.useTool(param);
+            interactionTool.getPicture()->removeLayer(i+1);
+            interactionTool.getPicture()->removeLayer(i);
             param = nullptr;
             updateLayerCount();
             updateColors();
@@ -1260,6 +1301,7 @@ void ImageViewer::calcTranslation(){
     translationLabelD->setText(str);
 }
 void ImageViewer::doTranslation(){
+    unsigned int i = interactionTool.getPicture()->getCurrentLayerIndex();
     param = new toolParameters_t;
     param->tool = translationTool;
     param->mat = *transMat;
@@ -1267,6 +1309,7 @@ void ImageViewer::doTranslation(){
     param->colorVect = colorVect;
     interactionTool.useTool(param);
     param = nullptr;
+    interactionTool.getPicture()->removeLayer(i);
     updateLayerCount();
     updateColors();
     //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
@@ -1310,17 +1353,293 @@ void ImageViewer::addNewLayer(){
         }
     }else
     if(newColormap[1]->isChecked()){
-        QImage *test = new QImage(1,1,QImage::Format_Indexed8);
         newColorVect.append(colorVect);
-        for (int i = 0; i < 256; i++) {
-            newColorVect[i]=test->colorTable()[i];
-        }
+        newColorVect[0]=QColor(0,0,0,255).rgba();
+        newColorVect[1]=QColor(0,0,63,255).rgba();
+        newColorVect[2]=QColor(0,0,127,255).rgba();
+        newColorVect[3]=QColor(0,0,191,255).rgba();
+        newColorVect[4]=QColor(0,0,255,255).rgba();
+        newColorVect[5]=QColor(0,63,0,255).rgba();
+        newColorVect[6]=QColor(0,63,63,255).rgba();
+        newColorVect[7]=QColor(0,63,127,255).rgba();
+        newColorVect[8]=QColor(0,63,191,255).rgba();
+        newColorVect[9]=QColor(0,63,255,255).rgba();
+        newColorVect[10]=QColor(0,127,0,255).rgba();
+        newColorVect[11]=QColor(0,127,63,255).rgba();
+        newColorVect[12]=QColor(0,127,127,255).rgba();
+        newColorVect[13]=QColor(0,127,191,255).rgba();
+        newColorVect[14]=QColor(0,127,255,255).rgba();
+        newColorVect[15]=QColor(0,191,0,255).rgba();
+        newColorVect[16]=QColor(0,191,63,255).rgba();
+        newColorVect[17]=QColor(0,191,127,255).rgba();
+        newColorVect[18]=QColor(0,191,191,255).rgba();
+        newColorVect[19]=QColor(0,191,255,255).rgba();
+        newColorVect[20]=QColor(0,255,0,255).rgba();
+        newColorVect[21]=QColor(0,255,63,255).rgba();
+        newColorVect[22]=QColor(0,255,127,255).rgba();
+        newColorVect[23]=QColor(0,255,191,255).rgba();
+        newColorVect[24]=QColor(0,255,255,255).rgba();
+        newColorVect[25]=QColor(63,0,0,255).rgba();
+        newColorVect[26]=QColor(63,0,63,255).rgba();
+        newColorVect[27]=QColor(63,0,127,255).rgba();
+        newColorVect[28]=QColor(63,0,191,255).rgba();
+        newColorVect[29]=QColor(63,0,255,255).rgba();
+        newColorVect[30]=QColor(63,63,0,255).rgba();
+        newColorVect[31]=QColor(63,63,63,255).rgba();
+        newColorVect[32]=QColor(63,63,127,255).rgba();
+        newColorVect[33]=QColor(63,63,191,255).rgba();
+        newColorVect[34]=QColor(63,63,255,255).rgba();
+        newColorVect[35]=QColor(63,127,0,255).rgba();
+        newColorVect[36]=QColor(63,127,63,255).rgba();
+        newColorVect[37]=QColor(63,127,127,255).rgba();
+        newColorVect[38]=QColor(63,127,191,255).rgba();
+        newColorVect[39]=QColor(63,127,255,255).rgba();
+        newColorVect[40]=QColor(63,191,0,255).rgba();
+        newColorVect[41]=QColor(63,191,63,255).rgba();
+        newColorVect[42]=QColor(63,191,127,255).rgba();
+        newColorVect[43]=QColor(63,191,191,255).rgba();
+        newColorVect[44]=QColor(63,191,255,255).rgba();
+        newColorVect[45]=QColor(63,255,0,255).rgba();
+        newColorVect[46]=QColor(63,255,63,255).rgba();
+        newColorVect[47]=QColor(63,255,127,255).rgba();
+        newColorVect[48]=QColor(63,255,191,255).rgba();
+        newColorVect[49]=QColor(63,255,255,255).rgba();
+        newColorVect[50]=QColor(127,0,0,255).rgba();
+        newColorVect[51]=QColor(127,0,63,255).rgba();
+        newColorVect[52]=QColor(127,0,127,255).rgba();
+        newColorVect[53]=QColor(127,0,191,255).rgba();
+        newColorVect[54]=QColor(127,0,255,255).rgba();
+        newColorVect[55]=QColor(127,63,0,255).rgba();
+        newColorVect[56]=QColor(127,63,63,255).rgba();
+        newColorVect[57]=QColor(127,63,127,255).rgba();
+        newColorVect[58]=QColor(127,63,191,255).rgba();
+        newColorVect[59]=QColor(127,63,255,255).rgba();
+        newColorVect[60]=QColor(127,127,0,255).rgba();
+        newColorVect[61]=QColor(127,127,63,255).rgba();
+        newColorVect[62]=QColor(127,127,127,255).rgba();
+        newColorVect[63]=QColor(127,127,191,255).rgba();
+        newColorVect[64]=QColor(127,127,255,255).rgba();
+        newColorVect[65]=QColor(127,191,0,255).rgba();
+        newColorVect[66]=QColor(127,191,63,255).rgba();
+        newColorVect[67]=QColor(127,191,127,255).rgba();
+        newColorVect[68]=QColor(127,191,191,255).rgba();
+        newColorVect[69]=QColor(127,191,255,255).rgba();
+        newColorVect[70]=QColor(127,255,0,255).rgba();
+        newColorVect[71]=QColor(127,255,63,255).rgba();
+        newColorVect[72]=QColor(127,255,127,255).rgba();
+        newColorVect[73]=QColor(127,255,191,255).rgba();
+        newColorVect[74]=QColor(127,255,255,255).rgba();
+        newColorVect[75]=QColor(191,0,0,255).rgba();
+        newColorVect[76]=QColor(191,0,63,255).rgba();
+        newColorVect[77]=QColor(191,0,127,255).rgba();
+        newColorVect[78]=QColor(191,0,191,255).rgba();
+        newColorVect[79]=QColor(191,0,255,255).rgba();
+        newColorVect[80]=QColor(191,63,0,255).rgba();
+        newColorVect[81]=QColor(191,63,63,255).rgba();
+        newColorVect[82]=QColor(191,63,127,255).rgba();
+        newColorVect[83]=QColor(191,63,191,255).rgba();
+        newColorVect[84]=QColor(191,63,255,255).rgba();
+        newColorVect[85]=QColor(191,127,0,255).rgba();
+        newColorVect[86]=QColor(191,127,63,255).rgba();
+        newColorVect[87]=QColor(191,127,127,255).rgba();
+        newColorVect[88]=QColor(191,127,191,255).rgba();
+        newColorVect[89]=QColor(191,127,255,255).rgba();
+        newColorVect[90]=QColor(191,191,0,255).rgba();
+        newColorVect[91]=QColor(191,191,63,255).rgba();
+        newColorVect[92]=QColor(191,191,127,255).rgba();
+        newColorVect[93]=QColor(191,191,191,255).rgba();
+        newColorVect[94]=QColor(191,191,255,255).rgba();
+        newColorVect[95]=QColor(191,255,0,255).rgba();
+        newColorVect[96]=QColor(191,255,63,255).rgba();
+        newColorVect[97]=QColor(191,255,127,255).rgba();
+        newColorVect[98]=QColor(191,255,191,255).rgba();
+        newColorVect[99]=QColor(191,255,255,255).rgba();
+        newColorVect[100]=QColor(255,0,0,255).rgba();
+        newColorVect[101]=QColor(255,0,63,255).rgba();
+        newColorVect[102]=QColor(255,0,127,255).rgba();
+        newColorVect[103]=QColor(255,0,191,255).rgba();
+        newColorVect[104]=QColor(255,0,255,255).rgba();
+        newColorVect[105]=QColor(255,63,0,255).rgba();
+        newColorVect[106]=QColor(255,63,63,255).rgba();
+        newColorVect[107]=QColor(255,63,127,255).rgba();
+        newColorVect[108]=QColor(255,63,191,255).rgba();
+        newColorVect[109]=QColor(255,63,255,255).rgba();
+        newColorVect[110]=QColor(255,127,0,255).rgba();
+        newColorVect[111]=QColor(255,127,63,255).rgba();
+        newColorVect[112]=QColor(255,127,127,255).rgba();
+        newColorVect[113]=QColor(255,127,191,255).rgba();
+        newColorVect[114]=QColor(255,127,255,255).rgba();
+        newColorVect[115]=QColor(255,191,0,255).rgba();
+        newColorVect[116]=QColor(255,191,63,255).rgba();
+        newColorVect[117]=QColor(255,191,127,255).rgba();
+        newColorVect[118]=QColor(255,191,191,255).rgba();
+        newColorVect[119]=QColor(255,191,255,255).rgba();
+        newColorVect[120]=QColor(255,255,0,255).rgba();
+        newColorVect[121]=QColor(255,255,63,255).rgba();
+        newColorVect[122]=QColor(255,255,127,255).rgba();
+        newColorVect[123]=QColor(255,255,191,255).rgba();
+        newColorVect[124]=QColor(255,255,255,255).rgba();
+        newColorVect[125]=QColor(0,0,0,127).rgba();
+        newColorVect[126]=QColor(0,0,63,127).rgba();
+        newColorVect[127]=QColor(0,0,127,127).rgba();
+        newColorVect[128]=QColor(0,0,191,127).rgba();
+        newColorVect[129]=QColor(0,0,255,127).rgba();
+        newColorVect[130]=QColor(0,63,0,127).rgba();
+        newColorVect[131]=QColor(0,63,63,127).rgba();
+        newColorVect[132]=QColor(0,63,127,127).rgba();
+        newColorVect[133]=QColor(0,63,191,127).rgba();
+        newColorVect[134]=QColor(0,63,255,127).rgba();
+        newColorVect[135]=QColor(0,127,0,127).rgba();
+        newColorVect[136]=QColor(0,127,63,127).rgba();
+        newColorVect[137]=QColor(0,127,127,127).rgba();
+        newColorVect[138]=QColor(0,127,191,127).rgba();
+        newColorVect[139]=QColor(0,127,255,127).rgba();
+        newColorVect[140]=QColor(0,191,0,127).rgba();
+        newColorVect[141]=QColor(0,191,63,127).rgba();
+        newColorVect[142]=QColor(0,191,127,127).rgba();
+        newColorVect[143]=QColor(0,191,191,127).rgba();
+        newColorVect[144]=QColor(0,191,255,127).rgba();
+        newColorVect[145]=QColor(0,255,0,127).rgba();
+        newColorVect[146]=QColor(0,255,63,127).rgba();
+        newColorVect[147]=QColor(0,255,127,127).rgba();
+        newColorVect[148]=QColor(0,255,191,127).rgba();
+        newColorVect[149]=QColor(0,255,255,127).rgba();
+        newColorVect[150]=QColor(63,0,0,127).rgba();
+        newColorVect[151]=QColor(63,0,63,127).rgba();
+        newColorVect[152]=QColor(63,0,127,127).rgba();
+        newColorVect[153]=QColor(63,0,191,127).rgba();
+        newColorVect[154]=QColor(63,0,255,127).rgba();
+        newColorVect[155]=QColor(63,63,0,127).rgba();
+        newColorVect[156]=QColor(63,63,63,127).rgba();
+        newColorVect[157]=QColor(63,63,127,127).rgba();
+        newColorVect[158]=QColor(63,63,191,127).rgba();
+        newColorVect[159]=QColor(63,63,255,127).rgba();
+        newColorVect[160]=QColor(63,127,0,127).rgba();
+        newColorVect[161]=QColor(63,127,63,127).rgba();
+        newColorVect[162]=QColor(63,127,127,127).rgba();
+        newColorVect[163]=QColor(63,127,191,127).rgba();
+        newColorVect[164]=QColor(63,127,255,127).rgba();
+        newColorVect[165]=QColor(63,191,0,127).rgba();
+        newColorVect[166]=QColor(63,191,63,127).rgba();
+        newColorVect[167]=QColor(63,191,127,127).rgba();
+        newColorVect[168]=QColor(63,191,191,127).rgba();
+        newColorVect[169]=QColor(63,191,255,127).rgba();
+        newColorVect[170]=QColor(63,255,0,127).rgba();
+        newColorVect[171]=QColor(63,255,63,127).rgba();
+        newColorVect[172]=QColor(63,255,127,127).rgba();
+        newColorVect[173]=QColor(63,255,191,127).rgba();
+        newColorVect[174]=QColor(63,255,255,127).rgba();
+        newColorVect[175]=QColor(127,0,0,127).rgba();
+        newColorVect[176]=QColor(127,0,63,127).rgba();
+        newColorVect[177]=QColor(127,0,127,127).rgba();
+        newColorVect[178]=QColor(127,0,191,127).rgba();
+        newColorVect[179]=QColor(127,0,255,127).rgba();
+        newColorVect[180]=QColor(127,63,0,127).rgba();
+        newColorVect[181]=QColor(127,63,63,127).rgba();
+        newColorVect[182]=QColor(127,63,127,127).rgba();
+        newColorVect[183]=QColor(127,63,191,127).rgba();
+        newColorVect[184]=QColor(127,63,255,127).rgba();
+        newColorVect[185]=QColor(127,127,0,127).rgba();
+        newColorVect[186]=QColor(127,127,63,127).rgba();
+        newColorVect[187]=QColor(127,127,127,127).rgba();
+        newColorVect[188]=QColor(127,127,191,127).rgba();
+        newColorVect[189]=QColor(127,127,255,127).rgba();
+        newColorVect[190]=QColor(127,191,0,127).rgba();
+        newColorVect[191]=QColor(127,191,63,127).rgba();
+        newColorVect[192]=QColor(127,191,127,127).rgba();
+        newColorVect[193]=QColor(127,191,191,127).rgba();
+        newColorVect[194]=QColor(127,191,255,127).rgba();
+        newColorVect[195]=QColor(127,255,0,127).rgba();
+        newColorVect[196]=QColor(127,255,63,127).rgba();
+        newColorVect[197]=QColor(127,255,127,127).rgba();
+        newColorVect[198]=QColor(127,255,191,127).rgba();
+        newColorVect[199]=QColor(127,255,255,127).rgba();
+        newColorVect[200]=QColor(191,0,0,127).rgba();
+        newColorVect[201]=QColor(191,0,63,127).rgba();
+        newColorVect[202]=QColor(191,0,127,127).rgba();
+        newColorVect[203]=QColor(191,0,191,127).rgba();
+        newColorVect[204]=QColor(191,0,255,127).rgba();
+        newColorVect[205]=QColor(191,63,0,127).rgba();
+        newColorVect[206]=QColor(191,63,63,127).rgba();
+        newColorVect[207]=QColor(191,63,127,127).rgba();
+        newColorVect[208]=QColor(191,63,191,127).rgba();
+        newColorVect[209]=QColor(191,63,255,127).rgba();
+        newColorVect[210]=QColor(191,127,0,127).rgba();
+        newColorVect[211]=QColor(191,127,63,127).rgba();
+        newColorVect[212]=QColor(191,127,127,127).rgba();
+        newColorVect[213]=QColor(191,127,191,127).rgba();
+        newColorVect[214]=QColor(191,127,255,127).rgba();
+        newColorVect[215]=QColor(191,191,0,127).rgba();
+        newColorVect[216]=QColor(191,191,63,127).rgba();
+        newColorVect[217]=QColor(191,191,127,127).rgba();
+        newColorVect[218]=QColor(191,191,191,127).rgba();
+        newColorVect[219]=QColor(191,191,255,127).rgba();
+        newColorVect[220]=QColor(191,255,0,127).rgba();
+        newColorVect[221]=QColor(191,255,63,127).rgba();
+        newColorVect[222]=QColor(191,255,127,127).rgba();
+        newColorVect[223]=QColor(191,255,191,127).rgba();
+        newColorVect[224]=QColor(191,255,255,127).rgba();
+        newColorVect[225]=QColor(255,0,0,127).rgba();
+        newColorVect[226]=QColor(255,0,63,127).rgba();
+        newColorVect[227]=QColor(255,0,127,127).rgba();
+        newColorVect[228]=QColor(255,0,191,127).rgba();
+        newColorVect[229]=QColor(255,0,255,127).rgba();
+        newColorVect[230]=QColor(255,63,0,127).rgba();
+        newColorVect[231]=QColor(255,63,63,127).rgba();
+        newColorVect[232]=QColor(255,63,127,127).rgba();
+        newColorVect[233]=QColor(255,63,191,127).rgba();
+        newColorVect[234]=QColor(255,63,255,127).rgba();
+        newColorVect[235]=QColor(255,127,0,127).rgba();
+        newColorVect[236]=QColor(255,127,63,127).rgba();
+        newColorVect[237]=QColor(255,127,127,127).rgba();
+        newColorVect[238]=QColor(255,127,191,127).rgba();
+        newColorVect[239]=QColor(255,127,255,127).rgba();
+        newColorVect[240]=QColor(255,191,0,127).rgba();
+        newColorVect[241]=QColor(255,191,63,127).rgba();
+        newColorVect[242]=QColor(255,191,127,127).rgba();
+        newColorVect[243]=QColor(255,191,191,127).rgba();
+        newColorVect[244]=QColor(255,191,255,127).rgba();
+        newColorVect[245]=QColor(255,255,0,127).rgba();
+        newColorVect[246]=QColor(255,255,63,127).rgba();
+        newColorVect[247]=QColor(255,255,127,127).rgba();
+        newColorVect[248]=QColor(255,255,191,127).rgba();
+        newColorVect[249]=QColor(255,255,255,127).rgba();
+        newColorVect[250]=QColor(25,25,25,127).rgba();
+        //Bis hier äquidistant, dann noch paar random Farben
+        newColorVect[251]=QColor(100,100,100,255).rgba();
+        newColorVect[252]=QColor(170,170,170,255).rgba();
+        newColorVect[253]=QColor(225,225,225,225).rgba();
+        newColorVect[254]=QColor(25,25,25,255).rgba();
+        newColorVect[255]=QColor(0,0,0,0).rgba();
         //printf("%d\n",test->colorTable().length());
         //newColorVect=colorVect;
         //newColorVect[10]=QColor(128,128,128,255).rgba();
     }else
     if(newColormap[2]->isChecked()){
-        newColorVect=colorVect;
+        newColorVect.append(colorVect);
+        newColorVect[0]=QColor(255,255,255,255).rgba();
+        newColorVect[1]=QColor(127,127,127,255).rgba();
+        newColorVect[2]=QColor(0,0,0,255).rgba();
+        newColorVect[3]=QColor(0,255,255,255).rgba();
+        newColorVect[4]=QColor(0,127,127,255).rgba();
+        newColorVect[5]=QColor(127,255,255,255).rgba();
+        newColorVect[6]=QColor(127,0,0,255).rgba();
+        newColorVect[7]=QColor(255,127,127,255).rgba();
+        newColorVect[8]=QColor(255,0,0,255).rgba();
+        newColorVect[9]=QColor(255,0,255,255).rgba();
+        newColorVect[10]=QColor(127,0,127,255).rgba();
+        newColorVect[11]=QColor(255,127,255,255).rgba();
+        newColorVect[12]=QColor(0,127,0,255).rgba();
+        newColorVect[13]=QColor(127,255,127,255).rgba();
+        newColorVect[14]=QColor(0,255,0,255).rgba();
+        newColorVect[15]=QColor(255,255,0,255).rgba();
+        newColorVect[16]=QColor(127,127,0,255).rgba();
+        newColorVect[17]=QColor(255,255,127,255).rgba();
+        newColorVect[18]=QColor(0,0,127,255).rgba();
+        newColorVect[19]=QColor(127,127,255,255).rgba();
+        newColorVect[20]=QColor(0,0,255,255).rgba();
+
+        newColorVect[255]=QColor(0,0,0,0).rgba();
     }else
     if(newColormap[3]->isChecked()){
         newColorVect=colorVect;
@@ -1332,13 +1651,13 @@ void ImageViewer::addNewLayer(){
         param->tool = tools_e::newLayer;
         param->pic = newImage;
 
-        param->colorVect = colorVect;
+        param->colorVect = newColorVect;
         interactionTool.useTool(param);
         param = nullptr;
         newImage=interactionTool.getPicture()->getCurrentLayerAsQ();
     } else{
         newImage = new QImage(newLayerX,newLayerY,QImage::Format_Indexed8);
-        newImage->setColorTable(colorVect);
+        newImage->setColorTable(newColorVect);
         newImage->fill(drawColorIndex);
         interactionTool.getPicture()->addCurrentLayer(newImage);
     }
@@ -1381,7 +1700,8 @@ void ImageViewer::calculateVisible(){
     }
     for (int i = 0; i < interactionTool.getPicture()->getLayerCount(); i++) {
         if (layerCheckboxes[i]->isChecked()){
-            painter->drawImage(0,0,*interactionTool.getPicture()->getLayerAsQ(i));
+            painter->drawImage(interactionTool.getPicture()->xOffset(i),interactionTool.getPicture()->yOffset(i),*interactionTool.getPicture()->getLayerAsQ(i));
+            //painter->drawI
         }
     }
     pixmap=px;

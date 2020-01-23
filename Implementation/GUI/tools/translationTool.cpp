@@ -14,7 +14,8 @@ bool TranslationTool::useTool(){
     QImage *qPic = new QImage(pic->getCurrentLayerAsQ()->transformed(mat));
     //qPic->setColorTable(colorVect);
     bool shaped = pic->isShaped();
-
+    int xOffset=pic->currentXOffset();
+    int yOffset=pic->currentYOffset();
     if(shaped){
         colorVect[255]=QColor(255,255,255,0).rgba();
     }
@@ -46,6 +47,8 @@ bool TranslationTool::useTool(){
         }
     }
     pic->addCurrentLayer(qPic2);
+    pic->setCurrentXOffset(xOffset);
+    pic->setCurrentYOffset(yOffset);
     if(isRot||shaped){
         pic->makeCurrentLayerShaped();
     }

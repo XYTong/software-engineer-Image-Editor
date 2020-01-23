@@ -6,11 +6,11 @@
 
 void Picture::addLayer(layer_t *layer){
     layers.push_back(layer);
-    if(maxX<layer->qImage->size().width()){
-        maxX=layer->qImage->size().width();
+    if(maxX<layer->qImage->size().width()+layer->xOffset){
+        maxX=layer->qImage->size().width()+layer->xOffset;
     }
-    if(maxY<layer->qImage->size().height()){
-        maxY=layer->qImage->size().height();
+    if(maxY<layer->qImage->size().height()+layer->yOffset){
+        maxY=layer->qImage->size().height()+layer->yOffset;
     }
     return;
 }
@@ -19,6 +19,8 @@ void Picture::addLayer(QImage *qImage){
     layer->qImage = qImage;
     layer->isShaped = false;
     layer->isVisible = true;
+    layer->xOffset = 0;
+    layer->yOffset = 0;
     if(maxX<qImage->size().width()){
         maxX=qImage->size().width();
     }
@@ -33,6 +35,8 @@ void Picture::addLayer(int width, int height){
     layer->qImage = new QImage(width,height, QImage::Format_Indexed8);
     layer->isShaped =false;
     layer->isVisible = true;
+    layer->xOffset = 0;
+    layer->yOffset = 0;
     if(maxX<width){
         maxX=width;
     }
@@ -48,11 +52,11 @@ void Picture::removeLayer(unsigned int index){
     }
     layers.erase(layers.begin()+index);
     for (int i = 0; i < layers.size(); i++){
-        if(maxX<layers[i]->qImage->size().width()){
-            maxX=layers[i]->qImage->size().width();
+        if(maxX<layers[i]->qImage->size().width()+layers[i]->xOffset){
+            maxX=layers[i]->qImage->size().width()+layers[i]->xOffset;
         }
-        if(maxY<layers[i]->qImage->size().height()){
-            maxY=layers[i]->qImage->size().height();
+        if(maxY<layers[i]->qImage->size().height()+layers[i]->yOffset){
+            maxY=layers[i]->qImage->size().height()+layers[i]->yOffset;
         }
     }
     return;
@@ -146,17 +150,45 @@ int Picture::xOffset(unsigned int index){
 int Picture::yOffset(unsigned int index){
     return layers[index]->yOffset;
 }
-int Picture::setCurrentXOffset(int offset){
-    currentLayer->xOffset=offset;
+void Picture::setCurrentXOffset(int offset){
+    currentLayer->xOffset+=offset;
+    maxX=0;
+    for (int i = 0; i < layers.size(); i++){
+        if(maxX<layers[i]->qImage->size().width()+layers[i]->xOffset){
+            maxX=layers[i]->qImage->size().width()+layers[i]->xOffset;
+        }
+    }
+    return;
 }
-int Picture::setCurrentYOffset(int offset){
-    currentLayer->yOffset=offset;
+void Picture::setCurrentYOffset(int offset){
+    currentLayer->yOffset+=offset;
+    maxY=0;
+    for (int i = 0; i < layers.size(); i++){
+        if(maxY<layers[i]->qImage->size().height()+layers[i]->yOffset){
+            maxY=layers[i]->qImage->size().height()+layers[i]->yOffset;
+        }
+    }
+    return;
 }
-int Picture::setXOffset(unsigned int index, int offset){
-    layers[index]->xOffset=offset;
+void Picture::setXOffset(unsigned int index, int offset){
+    layers[index]->xOffset+=offset;
+    maxX=0;
+    for (int i = 0; i < layers.size(); i++){
+        if(maxX<layers[i]->qImage->size().width()+layers[i]->xOffset){
+            maxX=layers[i]->qImage->size().width()+layers[i]->xOffset;
+        }
+    }
+    return;
 }
-int Picture::setYOffset(unsigned int index, int offset){
-    layers[index]->yOffset=offset;
+void Picture::setYOffset(unsigned int index, int offset){
+    layers[index]->yOffset+=offset;
+    maxY=0;
+    for (int i = 0; i < layers.size(); i++){
+        if(maxY<layers[i]->qImage->size().height()+layers[i]->yOffset){
+            maxY=layers[i]->qImage->size().height()+layers[i]->yOffset;
+        }
+    }
+    return;
 }
 Picture::Picture(std::string name){
     this->name = name;

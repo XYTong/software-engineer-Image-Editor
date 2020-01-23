@@ -104,7 +104,7 @@ QImage *FloydSteiberg::getIndexed(QImage* source, QVector<QRgb> colors){
     free(thisRow);
     gettimeofday(&t2,nullptr);
     printf("%ld\n%ld\n%d x %d\n",(t2.tv_sec-t1.tv_sec)*1000000+t2.tv_usec-t1.tv_usec,t,w,h);
-    delete source;
+    //delete source;
     return newImage;
 }
 int FloydSteiberg::nearestColor(QColor color, QVector<QRgb> colorVect){

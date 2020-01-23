@@ -39,10 +39,10 @@ class Picture{
         int currentYOffset();
         int xOffset(unsigned int index);
         int yOffset(unsigned int index);
-        int setCurrentXOffset(int offset);
-        int setCurrentYOffset(int offset);
-        int setXOffset(unsigned int index, int offset);
-        int setYOffset(unsigned int index, int offset);
+        void setCurrentXOffset(int offset);
+        void setCurrentYOffset(int offset);
+        void setXOffset(unsigned int index, int offset);
+        void setYOffset(unsigned int index, int offset);
         void moveLayer(int i,int j);
         Picture(std::string name = "Unbenannt");
         ~Picture();

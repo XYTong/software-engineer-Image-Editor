@@ -187,6 +187,9 @@ private:
     QPixmap *pixmap;
     QCheckBox *ignoreShaped;
     QRadioButton *newColormap[4];
+    QPoint move;
+    QPolygon polyVis;
+    bool moveStart = false;
     bool isNewLayerColor = false;
     double scaleFactor = 1.0;
     bool isDraw=false;

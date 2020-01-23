@@ -17,8 +17,8 @@ bool NewLayer::useTool(){
 
     //*qPic = qPic->convertToFormat(QImage::Format_Indexed8, colorVect, Qt::PreferDither);
     FloydSteiberg fs = FloydSteiberg();
-    qPic = fs.getIndexed(qPic,colorVect);
-
-    pic->addCurrentLayer(qPic);
+    QImage *qPic2 = fs.getIndexed(qPic,colorVect);
+    delete qPic;
+    pic->addCurrentLayer(qPic2);
     return true;
 }
