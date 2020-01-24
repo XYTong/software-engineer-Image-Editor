@@ -8,6 +8,7 @@ class NewLayer : public Tool{
         bool initTool(toolParameters_t *param);
         bool useTool();
         NewLayer(Picture *pict) : Tool(pict){}
+        ~NewLayer();
     private:
         QImage *qPic;
         QVector<QRgb> colorVect;

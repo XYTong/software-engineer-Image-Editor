@@ -53,8 +53,9 @@ bool MergeTool::useTool(){
     //newPic->fill(QColor(0,0,0,0));
     //newPic->setColorTable(pic->getLayerAsQ(layerIndex1)->colorTable());
     QPainter painter(newPic);
-    painter.drawImage(p2xa,p2ya,*pic->getLayerAsQ(layerIndex2));
     painter.drawImage(p1xa,p1ya,*pic->getLayerAsQ(layerIndex1));
+    painter.drawImage(p2xa,p2ya,*pic->getLayerAsQ(layerIndex2));
+
     FloydSteiberg fs = FloydSteiberg();
     painter.end();
     QImage *newPic2 = fs.getIndexed(newPic,pic->getLayerAsQ(layerIndex1)->colorTable());

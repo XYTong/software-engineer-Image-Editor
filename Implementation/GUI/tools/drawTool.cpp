@@ -14,27 +14,32 @@ bool DrawTool::initTool(toolParameters_t *param){
 
 bool DrawTool::useTool(){
     //QPainter painter(pic->getCurrentLayerAsQ());
-    QImage tempImage = QImage(pic->getCurrentLayerAsQ()->width(), pic->getCurrentLayerAsQ()->height(), QImage::Format_ARGB32);
-    tempImage.fill(QColor(0,0,0,0));
-    QPainter painter(&tempImage);
+    QImage *tempImage = new QImage(pic->getCurrentLayerAsQ()->width(), pic->getCurrentLayerAsQ()->height(), QImage::Format_ARGB32);
+    tempImage->fill(QColor(0,0,0,0));
+    QPainter painter(tempImage);
     QImage *qPic = pic->getCurrentLayer()->qImage;
     /*for(int i = -5; i <= 5; i++){
         for(int j = -5; j <= 5; j++){
             qPic->setPixel(point+QPoint(i,j),2);
         }
     }*/
-    QPen pen(QColor(255,255,255,255));
+    QColor white(255,255,255,255);
+    QPen pen(white);
     pen.setWidth(w);
     painter.setPen(pen);
     painter.drawLine(sPoint, ePoint);
-
+    QRgb whiteRgba = white.rgba();
     for(int i = 0; i < qPic->width(); i++){
         for(int j = 0; j < qPic->height(); j++){
-            if (tempImage.pixelColor(QPoint(i,j))==QColor(255,255,255,255)&&(!pic->isShaped()||qPic->pixelIndex(i,j)!=255||ignoreShape)){
+            if (tempImage->pixel(i,j)==whiteRgba&&(!pic->isShaped()||qPic->pixelIndex(i,j)!=255||ignoreShape)){
                 qPic->setPixel(QPoint(i,j),colorIndex);
             }
         }
     }
-
+    painter.end();
+    delete tempImage;
     return true;
+}
+DrawTool::~DrawTool(){
+
 }

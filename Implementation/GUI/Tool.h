@@ -34,6 +34,7 @@ class Tool{
         bool useTool(){return false;}
         bool initTool(toolParameters_t *param){return false;}
         Tool(Picture *pic){this->pic = pic;}
+        ~Tool(){}
 
     protected:
         Picture *pic;

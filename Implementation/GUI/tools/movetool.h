@@ -9,6 +9,7 @@ class MoveTool : public Tool{
         bool initTool(toolParameters_t *param);
         bool useTool();
         MoveTool(Picture *pict) : Tool(pict){}
+        ~MoveTool();
     private:
         int offsetX;
         int offsetY;

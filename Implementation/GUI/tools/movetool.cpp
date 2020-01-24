@@ -14,3 +14,6 @@ bool MoveTool::useTool(){
 
     return true;
 }
+MoveTool::~MoveTool(){
+
+}

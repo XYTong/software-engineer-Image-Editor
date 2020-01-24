@@ -12,39 +12,45 @@
 bool ManipulationTool::useTool(toolParameters_t *param){
     switch (param->tool) {
     case newLayer:{
-        NewLayer tool = NewLayer(pic);
-        tool.initTool(param);
-        tool.useTool();
+        NewLayer *tool = new NewLayer(pic);
+        tool->initTool(param);
+        tool->useTool();
+        delete tool;
         return true;
     }
     case paint:{
-        DrawTool tool = DrawTool(pic);
-        tool.initTool(param);
-        tool.useTool();
+        DrawTool *tool = new DrawTool(pic);
+        tool->initTool(param);
+        tool->useTool();
+        delete tool;
         return true;
     }
     case translationTool:{
-        TranslationTool tool = TranslationTool(pic);
-        tool.initTool(param);
-        tool.useTool();
+        TranslationTool *tool = new TranslationTool(pic);
+        tool->initTool(param);
+        tool->useTool();
+        delete tool;
         return true;
     }
     case merge:{
-        MergeTool tool = MergeTool(pic);
-        tool.initTool(param);
-        tool.useTool();
+        MergeTool *tool = new MergeTool(pic);
+        tool->initTool(param);
+        tool->useTool();
+        delete tool;
         return true;
     }
     case polygon:{
-        PolygonTool tool = PolygonTool(pic);
-        tool.initTool(param);
-        tool.useTool();
+        PolygonTool *tool = new PolygonTool(pic);
+        tool->initTool(param);
+        tool->useTool();
+        delete tool;
         return true;
     }
     case tools_e::move:{
-        MoveTool tool = MoveTool(pic);
-        tool.initTool(param);
-        tool.useTool();
+        MoveTool *tool = new MoveTool(pic);
+        tool->initTool(param);
+        tool->useTool();
+        delete tool;
         return true;
     }
     default:{

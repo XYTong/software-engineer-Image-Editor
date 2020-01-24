@@ -22,3 +22,6 @@ bool NewLayer::useTool(){
     pic->addCurrentLayer(qPic2);
     return true;
 }
+NewLayer::~NewLayer(){
+
+}
