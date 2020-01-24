@@ -811,6 +811,13 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
 }
 void ImageViewer::mouseMoveEvent(QMouseEvent *event)
 {
+    /*if(hasLayer){
+        QString message;
+        QPoint mousepos = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool.getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool.getPicture()->currentYOffset());
+        message.sprintf("Dimensions: %dx%d; Mouse position: %dx%d",interactionTool.getPicture()->getCurrentLayerAsQ()->width(),interactionTool.getPicture()->getCurrentLayerAsQ()->height(),mousepos.x(),mousepos.y());
+        statusBar()->showMessage(message);
+    }*/
+
     if (drawStart) {
         switch (actDrawModus) {
         case drawModus_e::pencil:{

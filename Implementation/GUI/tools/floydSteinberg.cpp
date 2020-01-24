@@ -9,7 +9,7 @@ QRgb FloydSteiberg::errorAdd(QColor orig, int err_r, int err_g, int err_b, int e
     new_rgb[0] = orig.red()+((err_r*weight)>>4);
     new_rgb[1] = orig.green()+((err_g*weight)>>4);
     new_rgb[2] = orig.blue()+((err_b*weight)>>4);
-    new_rgb[3] = orig.blue()+((err_a*weight)>>4);
+    new_rgb[3] = orig.alpha()+((err_a*weight)>>4);
     for (int i = 0; i < 4; i++){
         if (new_rgb[i] < 0){
             new_rgb[i] = 0;
@@ -18,7 +18,7 @@ QRgb FloydSteiberg::errorAdd(QColor orig, int err_r, int err_g, int err_b, int e
             new_rgb[i] = 255;
         }
     }
-    return QColor(new_rgb[0],new_rgb[1],new_rgb[2]).rgb();
+    return QColor(new_rgb[0],new_rgb[1],new_rgb[2],new_rgb[3]).rgba();
 }
 
 //
@@ -57,10 +57,10 @@ QImage *FloydSteiberg::getIndexed(QImage* source, QVector<QRgb> colors){
         for(int i = 0; i < width; i++){
             thisRow[i]=source->pixelColor(i,j);
         }
-        gettimeofday(&t3,nullptr);
+        //gettimeofday(&t3,nullptr);
         k = nearestColor(currentPixel, colors);
-        gettimeofday(&t4,nullptr);
-        t += (t4.tv_sec-t3.tv_sec)*1000000+t4.tv_usec-t3.tv_usec;
+        //gettimeofday(&t4,nullptr);
+        //t += (t4.tv_sec-t3.tv_sec)*1000000+t4.tv_usec-t3.tv_usec;
         newImage->setPixel(0,j,k);
         errorR = currentPixel.red() - qRed(colors[k]);
         errorG = currentPixel.green() - qGreen(colors[k]);
@@ -72,10 +72,10 @@ QImage *FloydSteiberg::getIndexed(QImage* source, QVector<QRgb> colors){
         nextRow[1]=errorAdd(nextRow[1],errorR,errorG,errorB,errorA,1);
         for(int i = 1; i < width-1; i++){
             currentPixel = nextPixel;
-            gettimeofday(&t3,nullptr);
+            //gettimeofday(&t3,nullptr);
             k = nearestColor(currentPixel, colors);
-            gettimeofday(&t4,nullptr);
-            t += (t4.tv_sec-t3.tv_sec)*1000000+t4.tv_usec-t3.tv_usec;
+            //gettimeofday(&t4,nullptr);
+            //t += (t4.tv_sec-t3.tv_sec)*1000000+t4.tv_usec-t3.tv_usec;
             newImage->setPixel(i,j,k);
             errorR = currentPixel.red() - qRed(colors[k]);
             errorG = currentPixel.green() - qGreen(colors[k]);
@@ -104,10 +104,10 @@ QImage *FloydSteiberg::getIndexed(QImage* source, QVector<QRgb> colors){
     }
     for(int i = 0; i < width-1; i++){
         currentPixel = nextPixel;
-        gettimeofday(&t3,nullptr);
+        //gettimeofday(&t3,nullptr);
         k = nearestColor(currentPixel, colors);
-        gettimeofday(&t4,nullptr);
-        t += (t4.tv_sec-t3.tv_sec)*1000000+t4.tv_usec-t3.tv_usec;
+        //gettimeofday(&t4,nullptr);
+        //t += (t4.tv_sec-t3.tv_sec)*1000000+t4.tv_usec-t3.tv_usec;
         newImage->setPixel(i,height-1,k);
         errorR = currentPixel.red() - qRed(colors[k]);
         errorG = currentPixel.green() - qGreen(colors[k]);
@@ -120,8 +120,8 @@ QImage *FloydSteiberg::getIndexed(QImage* source, QVector<QRgb> colors){
     newImage->setPixel(width-1,height-1,k);
     free(nextRow);
     free(thisRow);
-    gettimeofday(&t2,nullptr);
-    printf("%ld\n%ld\n%d x %d\n",(t2.tv_sec-t1.tv_sec)*1000000+t2.tv_usec-t1.tv_usec,t,width,height);
+    //gettimeofday(&t2,nullptr);
+    //printf("%ld\n%ld\n%d x %d\n",(t2.tv_sec-t1.tv_sec)*1000000+t2.tv_usec-t1.tv_usec,t,width,height);
     //delete source;
     return newImage;
 }
