@@ -1,0 +1,23 @@
+#ifndef TRANSLATIONDOCK_H
+#define TRANSLATIONDOCK_H
+
+class TranslationDock : public QDockWidget{
+    public:
+        TranslationDock();
+    private:
+        QCheckBox *mirrorCheckbox;
+        QLineEdit *zoomXInp;
+        QLineEdit *zoomYInp;
+        QLineEdit *rotInp;
+        QLabel *translationLabelA;
+        QLabel *translationLabelB;
+        QLabel *translationLabelC;
+        QLabel *translationLabelD;
+        QMatrix *transMat;
+        
+    private slots:
+        translate();
+        calcTranslation();
+};
+
+#endif // TRANSLATIONDOCK_H

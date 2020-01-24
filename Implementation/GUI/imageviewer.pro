@@ -7,6 +7,7 @@ HEADERS       = imageviewer.h \
                 ManipulationTool.h \
                 Picture.h \
                 Tool.h \
+                TranslationDock.h \
                 main.h \
                 tools/drawTool.h \
                 tools/floydSteinberg.h \
@@ -19,6 +20,7 @@ SOURCES       = imageviewer.cpp \
                 InteractionTool.cpp \
                 ManipulationTool.cpp \
                 Picture.cpp \
+                TranslationDock.cpp \
                 main.cpp \
                 tools/drawTool.cpp \
                 tools/floydSteinberg.cpp \
