@@ -27,7 +27,7 @@ bool MergeTool::useTool(){
     int p1xa = pic->xOffset(layerIndex1)-xOffset;
     int p1xe = p1xa+pic->getLayerAsQ(layerIndex1)->width();
     int p1ya = pic->yOffset(layerIndex1)-yOffset;
-    int p1ye = p1ya+pic->getLayerAsQ(layerIndex1)->width();
+    int p1ye = p1ya+pic->getLayerAsQ(layerIndex1)->height();
     int p2xa = pic->xOffset(layerIndex2)-xOffset;
     int p2xe = p2xa+pic->getLayerAsQ(layerIndex2)->width();
     int p2ya = pic->yOffset(layerIndex2)-yOffset;

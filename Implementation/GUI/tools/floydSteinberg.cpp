@@ -52,7 +52,7 @@ QImage *FloydSteiberg::getIndexed(QImage* source, QVector<QRgb> colors){
     gettimeofday(&t1,nullptr);
     for(int j = 0; j < h-1; j++){
         currentPixel = thisRow[0];
-        for(int i = 1; i < w-1; i++){
+        for(int i = 0; i < w; i++){
             thisRow[i]=source->pixelColor(i,j);
         }
         gettimeofday(&t3,nullptr);
@@ -100,6 +100,22 @@ QImage *FloydSteiberg::getIndexed(QImage* source, QVector<QRgb> colors){
         thisRow=nextRow;
         nextRow=x;
     }
+    for(int i = 0; i < w-1; i++){
+        currentPixel = nextPixel;
+        gettimeofday(&t3,nullptr);
+        k = nearestColor(currentPixel, colors);
+        gettimeofday(&t4,nullptr);
+        t += (t4.tv_sec-t3.tv_sec)*1000000+t4.tv_usec-t3.tv_usec;
+        newImage->setPixel(i,h-1,k);
+        errorR = currentPixel.red() - qRed(colors[k]);
+        errorG = currentPixel.green() - qGreen(colors[k]);
+        errorB = currentPixel.blue() - qBlue(colors[k]);
+        errorA = currentPixel.blue() - qAlpha(colors[k]);
+        nextPixel=thisRow[i+1];
+        nextPixel=errorAdd(nextPixel,errorR,errorG,errorB,errorA,7);
+    }
+    k = nearestColor(thisRow[w-1], colors);
+    newImage->setPixel(w-1,h-1,k);
     free(nextRow);
     free(thisRow);
     gettimeofday(&t2,nullptr);
