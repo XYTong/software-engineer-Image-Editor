@@ -1414,6 +1414,9 @@ void ImageViewer::updateVisible(){
             //TODO: Syncronisieren vom Bild
     //    }
     //}
+    QString message;
+    message.sprintf("Dimensions: %dx%d",interactionTool.getPicture()->getCurrentLayerAsQ()->width(),interactionTool.getPicture()->getCurrentLayerAsQ()->height());
+    statusBar()->showMessage(message);
     calculateVisible();
 }
 void ImageViewer::calculateVisible(){
