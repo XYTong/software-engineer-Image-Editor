@@ -23,7 +23,7 @@ TranslationDock::~TranslationDock(){
     delete rotInp;
     delete dockWidget;
 }
-void TranslationDock::createTranslateDock(){
+QDockWidget *TranslationDock::createTranslateDock(){
     dockWidget = new QDockWidget(tr("Translation"));
     dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     QGridLayout *translationLayout = new QGridLayout();
@@ -67,6 +67,7 @@ void TranslationDock::createTranslateDock(){
     dockWidget->setWidget(drawControl);
     //addDockWidget(Qt::LeftDockWidgetArea, translationDock);
     //mainWindow->addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+    return dockWidget;
 }
 
 /*void  TranslationDock::translate(){
@@ -146,9 +147,9 @@ void TranslationDock::doTranslationI(){
 //void TranslationDock::init(ImageViewer *mainWindow){
 //    this->mainWindow = mainWindow;
 //}
-QDockWidget *TranslationDock::getDockWidget(){
-    return dockWidget;
-}
+//QDockWidget *TranslationDock::getDockWidget(){
+//    return dockWidget;
+//}
 void TranslationDock::doTranslationII(toolParameters_t *param){
     this->param = param;
     unsigned int i = interactionTool->getPicture()->getCurrentLayerIndex();

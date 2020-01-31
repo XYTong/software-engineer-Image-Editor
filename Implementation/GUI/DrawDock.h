@@ -34,9 +34,10 @@ class DrawDock : public QObject
 public:
     DrawDock(InteractionTool *interaction);
     ~DrawDock();
-    QDockWidget *getDockWidget();
+    //QDockWidget *getDockWidget();
     bool mouseEvent(QMouseEvent *event,eventType_e type,int w1,int w2,int h1,int h2);
     void setColorVect(QVector<QRgb> colorVect);
+    QDockWidget *createDrawDock();
 
 signals:
     void update();
@@ -53,7 +54,7 @@ private slots:
     void setWidth(int w);
 
 private:
-    void createDrawDock();
+
 
     QDockWidget *drawDock;
     QList<QAction*> colorAct;

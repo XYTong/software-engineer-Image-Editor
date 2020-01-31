@@ -20,8 +20,9 @@ public:
     TranslationDock(InteractionTool *interaction);
     //void init(ImageViewer *mainWindow);
     ~TranslationDock();
-    QDockWidget *getDockWidget();
+    //QDockWidget *getDockWidget();
     void doTranslationII(toolParameters_t *param);
+    QDockWidget *createTranslateDock();
 
 signals:
     void getParams(toolParameters_t *param);
@@ -33,7 +34,7 @@ private slots:
     void doTranslationI();
 
 private:
-    void createTranslateDock();
+
 
     toolParameters_t *param;
     QDockWidget *dockWidget;

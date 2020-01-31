@@ -46,7 +46,7 @@ DrawDock::DrawDock(InteractionTool *interaction){
     connect(drawStartButton, SIGNAL(clicked()),this, SLOT(startDraw()));
     ignoreShaped = new QCheckBox("Ignore Shape");
     interactionTool=interaction;
-    createDrawDock();
+    //createDrawDock();
 }
 DrawDock::~DrawDock(){
 
@@ -235,9 +235,9 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
     }
     }
 }
-QDockWidget *DrawDock::getDockWidget(){
-    return drawDock;
-}
+//QDockWidget *DrawDock::getDockWidget(){
+//    return drawDock;
+//}
 void DrawDock::pencil(){
     actDrawModus = drawModus_e::pencil;
 }
@@ -287,7 +287,7 @@ void DrawDock::setWidth(int w){
     drawSlider->setValue(w);
     drawWidth=w;
 }
-void DrawDock::createDrawDock(){
+QDockWidget *DrawDock::createDrawDock(){
     drawDock = new QDockWidget(tr("Draw"));
     drawDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     QGridLayout *drawLayout = new QGridLayout();
@@ -330,6 +330,7 @@ void DrawDock::createDrawDock(){
     //layerScrollArea->setWidget(layers);
     drawDock->setWidget(drawControl);
     //addDockWidget(Qt::LeftDockWidgetArea, drawDock);
+    return drawDock;
 }
 void DrawDock::setColorVect(QVector<QRgb> colorVect){
     this->colorVect=colorVect;

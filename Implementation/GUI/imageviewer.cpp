@@ -78,10 +78,6 @@ ImageViewer::ImageViewer(QWidget *parent)
     colorVect = QVector<QRgb>();
     QPixmap px(20, 20);
     QString str2;
-    /*
-    colorMenu = new QMenu();
-    colorButton = new QPushButton();
-    */
     newLayerDock = new NewLayerDock(interactionTool);
     connect(newLayerDock,&NewLayerDock::update,this,&ImageViewer::updateall);
     connect(newLayerDock,QOverload<bool>::of(&NewLayerDock::updateHasLayer),this,&ImageViewer::updateHasLayer);
@@ -94,62 +90,21 @@ ImageViewer::ImageViewer(QWidget *parent)
     for(int i = 0; i <256; i++){
         colorVect.append(QColor(255,255,255,255).rgba());
         colorButtons.push_back(new QToolButton());
-        //px.fill(colorVect[i]);
-        //colorButtons[i]->setIcon(px);
         QString str;
-        //str.append(qRed(colorVect[i]));
-        //str.append(";");
         str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
-        //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
-        //if(i==drawColorIndex){
-        //    colorButton->setStyleSheet(str);
-        //}
 
         colorButtons[i]->setStyleSheet(str);
         colorButtons[i]->setCheckable(true);
 
         connect(colorButtons[i], SIGNAL(clicked()),this, SLOT(changeColor()));
-        //connect(colorButtons[i], SIGNAL(clicked()),colorButtons[i], SLOT(toggle()));
-        //str2.sprintf("Color %d",i);
-        //px.fill(colorVect[i]);
-        //QAction *act = new QAction(px,str);
-        //act->setCheckable(true);
-        //connect(act, SIGNAL(clicked()),this, SLOT(setDrawColor()));
-        //colorMenu->addAction(px,str2,this,&ImageViewer::setDrawColor);
     }
 
     newLayerDock->setColorVect(colorVect);
     drawDock->setColorVect(colorVect);
-    //newLayerDock->setDrawColorIndex(0);
-    /*
-    colorAct = colorMenu->actions();
-    for (int i = 0; i < 256; i++) {
-        colorAct[i]->setCheckable(true);
-        //connect(act[i], SIGNAL(toggled()),this, SLOT(setDrawColor()));
-    }
 
-    colorButton->setMenu(colorMenu);
-
-    drawSpinbox = new QSpinBox();
-    drawSpinbox->setValue(3);
-    connect(drawSpinbox, QOverload<int>::of(&QSpinBox::valueChanged),this, &ImageViewer::setWidth);
-    drawSlider = new QSlider(Qt::Horizontal);
-    drawSlider->setRange(1,99);
-    drawSlider->setValue(3);
-    connect(drawSlider, QOverload<int>::of(&QSlider::valueChanged),this, &ImageViewer::setWidth);
-
-    drawStartButton = new QPushButton("Start");
-    drawStartButton->setCheckable(true);
-    connect(drawStartButton, SIGNAL(clicked()),this, SLOT(startDraw()));
-    */
     transLationDock = new TranslationDock(interactionTool);
     connect(transLationDock,QOverload<toolParameters_t*>::of(&TranslationDock::getParams),this,&ImageViewer::setTranslationParams);
     connect(transLationDock,&TranslationDock::update,this,&ImageViewer::updateall);
-    //transLationDock->init(this);
-
-    //newLayerDock = new NewLayerDock(interactionTool);
-
-    //ignoreShaped = new QCheckBox("Ignore Shape");
 
     addColor(QColor(255,255,255,255),0);
     addColor(QColor(127,127,127,255),1);
@@ -180,8 +135,6 @@ ImageViewer::ImageViewer(QWidget *parent)
     drawDock->setColorVect(colorVect);
     createColorDock();
     createLayerDock();
-    //connect(layerDock, SIGNAL(dockLocationChanged(Qt::DockWidgetArea area)),this, SLOT(dockSizeChanged()));
-    //viewMenu->addAction(colorDock->toggleViewAction());
 
     resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 }
@@ -234,54 +187,7 @@ void ImageViewer::createColorDock(){
     //
 
 }
-/*
-void ImageViewer::createDrawDock(){
-    if (!hasLayer){
-        return;
-    }
-    QDockWidget *drawDock = new QDockWidget(tr("Draw"), this);
-    drawDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    QGridLayout *drawLayout = new QGridLayout();
-    QRadioButton *button1 = new QRadioButton("Pencil");
-    button1->setChecked(true);
-    drawLayout->addWidget(button1,0,0,1,2);
-    connect(button1, SIGNAL(clicked()),this, SLOT(pencil()));
-    QRadioButton *button2 = new QRadioButton("Lines");
-    drawLayout->addWidget(button2,1,0,1,2);
-    connect(button2, SIGNAL(clicked()),this, SLOT(lines()));
-    QRadioButton *button3 = new QRadioButton("Filled polygon");
-    drawLayout->addWidget(button3,2,0,1,2);
-    connect(button3, SIGNAL(clicked()),this, SLOT(filledRect()));
-    QRadioButton *button4 = new QRadioButton("Inverse polygon");
-    drawLayout->addWidget(button4,3,0,1,2);
-    connect(button4, SIGNAL(clicked()),this, SLOT(notFilledRect()));
-    QLabel *color = new QLabel();
-    color->setText("Color:");
-    drawLayout->addWidget(color,4,0);
-    drawLayout->addWidget(colorButton,4,1);
 
-    drawLayout->addWidget(ignoreShaped,5,0,1,2);
-    QLabel *width = new QLabel();
-    width->setText("Width:");
-    drawLayout->addWidget(width,6,0);
-
-
-    drawLayout->addWidget(drawSpinbox,6,1);
-    QDialog *text = new QDialog();
-    drawLayout->addWidget(text,8,1,1,2);
-
-    drawLayout->addWidget(drawSlider,7,0,1,2);
-
-    drawLayout->addWidget(drawStartButton,8,0,1,2);
-    //QSpacerItem *spacer = new QSpacerItem(1,300,QSizePolicy::Maximum,QSizePolicy::Maximum);
-    //newLayerLayout->addItem(spacer,9,0,1,2);
-    QWidget *drawControl = new QWidget(drawDock);
-    drawControl->setLayout(drawLayout);
-    //layerScrollArea = new QScrollArea();
-    //layerScrollArea->setWidget(layers);
-    drawDock->setWidget(drawControl);
-    addDockWidget(Qt::LeftDockWidgetArea, drawDock);
-}*/
 void ImageViewer::createLayerDock(){
 
     layerDock = new QDockWidget(tr("Layers"), this);
@@ -621,63 +527,11 @@ void ImageViewer::adjustScrollBar(QScrollBar *scrollBar, double factor)
 //! [26]
 void ImageViewer::draw(){
     //createDrawDock();
-    addDockWidget(Qt::LeftDockWidgetArea, drawDock->getDockWidget());
+    addDockWidget(Qt::LeftDockWidgetArea, drawDock->createDrawDock());
 }
 
 void ImageViewer::mousePressEvent(QMouseEvent *event)
 {
-    /*if (isDraw && event->button() == Qt::LeftButton) {
-        switch (actDrawModus) {
-        case drawModus_e::pencil:{
-            drawStart = true;
-            param = new toolParameters_t;
-            param->tool = paint;
-            param->i = drawWidth;
-            param->ignoreShape = ignoreShaped->isChecked();
-            param->colorIndex =drawColorIndex;
-            param->startPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
-            break;
-        }
-        case drawModus_e::lines:{
-            drawStart = true;
-            param = new toolParameters_t;
-            param->tool = paint;
-            param->i = drawWidth;
-            param->ignoreShape = ignoreShaped->isChecked();
-            param->colorIndex =drawColorIndex;
-            param->startPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
-            break;
-        }
-        case drawModus_e::filledRect:{
-            if (param==nullptr){
-                param = new toolParameters_t;
-                param->tool = polygon;
-                param->ignoreShape = ignoreShaped->isChecked();
-                param->poly = QPolygon();
-                polyVis = QPolygon();
-            }
-            param->isInverse = false;
-            param->startPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool->getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool->getPicture()->currentYOffset());
-            break;
-        }
-        case drawModus_e::notFilledRect:{
-            if (param==nullptr){
-                param = new toolParameters_t;
-                param->tool = polygon;
-                param->ignoreShape = ignoreShaped->isChecked();
-                param->poly = QPolygon();
-                polyVis = QPolygon();
-            }
-            param->isInverse = true;
-            param->startPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool->getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool->getPicture()->currentYOffset());
-            break;
-        }
-        default:{
-            break;
-        }
-        }
-
-    } else */
     if(drawDock->mouseEvent(event,press,scrollArea->x(),scrollArea->horizontalScrollBar()->value(),scrollArea->y(),scrollArea->verticalScrollBar()->value())){
 
     } else
@@ -689,48 +543,6 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
 }
 void ImageViewer::mouseMoveEvent(QMouseEvent *event)
 {
-    /*if(hasLayer){
-        QString message;
-        QPoint mousepos = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool->getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool->getPicture()->currentYOffset());
-        message.sprintf("Dimensions: %dx%d; Mouse position: %dx%d",interactionTool->getPicture()->getCurrentLayerAsQ()->width(),interactionTool->getPicture()->getCurrentLayerAsQ()->height(),mousepos.x(),mousepos.y());
-        statusBar()->showMessage(message);
-    }*/
-
-    /*if (drawStart) {
-        switch (actDrawModus) {
-        case drawModus_e::pencil:{
-            param->endPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
-            interactionTool->useTool(param);
-            param = nullptr;
-            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-            updateVisible();
-            param = new toolParameters_t;
-            param->tool = paint;
-            param->ignoreShape = ignoreShaped->isChecked();
-            param->i = drawWidth;
-            param->colorIndex =drawColorIndex;
-            param->startPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
-            break;
-        }
-        case drawModus_e::lines:{
-            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-            updateVisible();
-            QPixmap *px = new QPixmap(*imageLabel->pixmap());
-            QPainter *painter= new QPainter(px);
-            QPen *pen = new QPen(QColor(colorVect[drawColorIndex]));
-            pen->setWidth(drawWidth);
-            painter->setPen(*pen);
-            QPoint p2 = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
-            painter->drawLine(param->startPoint, p2);
-            imageLabel->setPixmap(*px);
-            break;
-        }
-        default:{
-            break;
-        }
-        }
-
-    } else*/
     if(drawDock->mouseEvent(event,movee,scrollArea->x(),scrollArea->horizontalScrollBar()->value(),scrollArea->y(),scrollArea->verticalScrollBar()->value())){
 
     } else if (moveStart){
@@ -748,100 +560,6 @@ void ImageViewer::mouseMoveEvent(QMouseEvent *event)
 }
 void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
 {
-    /*if (isDraw && event->button() == Qt::LeftButton) {
-        switch (actDrawModus) {
-        case drawModus_e::pencil:{
-            drawStart = false;
-            param->endPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
-            interactionTool->useTool(param);
-            param = nullptr;
-            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-            updateLayers();
-            updateVisible();
-
-            break;
-        }
-        case drawModus_e::lines:{
-            drawStart = false;
-            param->endPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
-            interactionTool->useTool(param);
-            param = nullptr;
-            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-            updateLayers();
-            updateVisible();
-
-            break;
-        }
-        case drawModus_e::filledRect:{
-            //if () TODO: Start & Endpkt vergleichen
-            param->poly.push_back(event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool->getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool->getPicture()->currentYOffset()));
-            polyVis.push_back(event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value()));
-            //param->poly.setPoint();
-            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-            updateVisible();
-            QPixmap *px = new QPixmap(*imageLabel->pixmap());
-            QPainter *painter= new QPainter(px);
-            QBrush *pen = new QBrush(QColor(colorVect[drawColorIndex]));
-            painter->setBrush(*pen);
-            QPainterPath path;
-            path.addPolygon(polyVis);
-            painter->fillPath(path,*pen);
-            imageLabel->setPixmap(*px);
-            break;
-        }
-        case drawModus_e::notFilledRect:{
-            //if () TODO: Start & Endpkt vergleichen
-            param->poly.push_back(event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool->getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool->getPicture()->currentYOffset()));
-            polyVis.push_back(event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value()));
-            //param->poly.setPoint();
-            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-            updateVisible();
-            QPixmap *px = new QPixmap(*imageLabel->pixmap());
-            QPainter *painter= new QPainter(px);
-            QBrush *pen = new QBrush(QColor(colorVect[drawColorIndex]));
-            painter->setBrush(*pen);
-            QPainterPath path;
-            path.addPolygon(polyVis);
-            painter->fillPath(path,*pen);
-            imageLabel->setPixmap(*px);
-            break;
-        }
-        default:{
-            break;
-        }
-        }
-
-    } else if (isDraw && event->button() == Qt::RightButton){
-        switch (actDrawModus) {
-        case drawModus_e::filledRect:{
-            //if () TODO: Start & Endpkt vergleichen
-            param->colorIndex=drawColorIndex;
-            interactionTool->useTool(param);
-            param = nullptr;
-            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-            updateLayers();
-            updateVisible();
-
-            //statusBar()->showMessage("message");
-            break;
-        }
-        case drawModus_e::notFilledRect:{
-            //if () TODO: Start & Endpkt vergleichen
-            param->colorIndex=drawColorIndex;
-            interactionTool->useTool(param);
-            param = nullptr;
-            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-            updateLayers();
-            updateVisible();
-
-            //statusBar()->showMessage("message");
-            break;
-        }
-        default:{
-            break;
-        }
-        }
-    } else*/
     if(drawDock->mouseEvent(event,release,scrollArea->x(),scrollArea->horizontalScrollBar()->value(),scrollArea->y(),scrollArea->verticalScrollBar()->value())){
 
     } else if (event->button() == Qt::LeftButton){
@@ -1104,62 +822,12 @@ void ImageViewer::updateLayers(){
 void ImageViewer::newLayer(){
     //param = new toolParameters_t;
     //param->tool=tools_e::newLayer;
-    addDockWidget(Qt::LeftDockWidgetArea, newLayerDock->getDockWidget());
+    addDockWidget(Qt::LeftDockWidgetArea, newLayerDock->createNewLayerDock());
     //createNewLayerDock();
 }
-/*void ImageViewer::pencil(){
-    actDrawModus = drawModus_e::pencil;
-}
-void ImageViewer::lines(){
-    actDrawModus = drawModus_e::lines;
-}
-void ImageViewer::notFilledRect(){
-    actDrawModus = drawModus_e::notFilledRect;
-}
-void ImageViewer::filledRect(){
-    actDrawModus = drawModus_e::filledRect;
 
-}
-void ImageViewer::setDrawColor(){
-    for (int i = 0; i < 256; i++) {
-        if (colorAct[i]->isChecked()){
-            colorAct[i]->setChecked(false);
-            drawColorIndex = i;
-            //newLayerDock->setDrawColorIndex(drawColorIndex);
-            QString str;
-            //str.append(qRed(colorVect[i]));
-            //str.append(";");
-            str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(newColorVect[i]),qGreen(newColorVect[i]),qBlue(newColorVect[i]));
-            //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
-            colorButton->setStyleSheet(str);
-            //QString str;
-            //str.sprintf("%d",i);
-            //statusBar()->showMessage(str);
-        }
-    }
-}
-void ImageViewer::startDraw(){
-    if(isDraw){
-        isDraw = false;
-        drawStartButton->setText("Start");
-        //drawSlider->setEnabled(true);
-        //drawSpinbox->setEnabled(true);
-
-    } else {
-        isDraw = true;
-        drawStartButton->setText("Stop");
-        //drawSlider->setEnabled(false);
-        //drawSpinbox->setEnabled(false);
-    }
-}
-void ImageViewer::setWidth(int w){
-    drawSpinbox->setValue(w);
-    drawSlider->setValue(w);
-    drawWidth=w;
-}
-*/
 void  ImageViewer::translate(){
-    addDockWidget(Qt::LeftDockWidgetArea, transLationDock->getDockWidget());
+    addDockWidget(Qt::LeftDockWidgetArea, transLationDock->createTranslateDock());
 };
 
 void ImageViewer::updateVisible(){

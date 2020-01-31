@@ -20,8 +20,9 @@ class NewLayerDock : public QObject
 public:
     NewLayerDock(InteractionTool *interaction);
     ~NewLayerDock();
-    QDockWidget *getDockWidget();
+    //QDockWidget *getDockWidget();
     void setColorVect(QVector<QRgb> colorVect);
+    QDockWidget *createNewLayerDock();
     //void setDrawColorIndex(int i);
 
 signals:
@@ -43,7 +44,7 @@ private slots:
     void setNewLayerColor();
 
 private:
-    void createNewLayerDock();
+
 
     toolParameters_t *param;
     QDockWidget *dockWidget;

@@ -478,7 +478,7 @@ void NewLayerDock::setNewLayerY(int w){
     newLayerYSlider->setValue(w);
     newLayerY=w;
 }
-void NewLayerDock::createNewLayerDock(){
+QDockWidget *NewLayerDock::createNewLayerDock(){
     dockWidget = new QDockWidget(tr("New layer"));
     dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     newLayerLayout = new QGridLayout(); //TODO: make private
@@ -535,6 +535,7 @@ void NewLayerDock::createNewLayerDock(){
     drawControl->setLayout(newLayerLayout);
     dockWidget->setWidget(drawControl);
     //addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+    return dockWidget;
 }
 void NewLayerDock::setColorVect(QVector<QRgb> colorVect){
     this->colorVect=colorVect;
@@ -568,9 +569,9 @@ void NewLayerDock::setColorVect(QVector<QRgb> colorVect){
 //void NewLayerDock::setDrawColorIndex(int i){
 //    drawColorIndex = i;
 //}
-QDockWidget *NewLayerDock::getDockWidget(){
-    return dockWidget;
-}
+//QDockWidget *NewLayerDock::getDockWidget(){
+//    return dockWidget;
+//}
 void NewLayerDock::setNewLayerColor(){
     for (int i = 0; i < 256; i++) {
         if (colorAct[i]->isChecked()){
