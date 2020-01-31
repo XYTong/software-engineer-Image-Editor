@@ -49,7 +49,6 @@
 ****************************************************************************/
 
 #include "imageviewer.h"
-
 #include <QtWidgets>
 #include <cstdlib>
 #if defined(QT_PRINTSUPPORT_LIB)
@@ -64,7 +63,7 @@ ImageViewer::ImageViewer(QWidget *parent)
    : QMainWindow(parent), imageLabel(new QLabel),
      scrollArea(new QScrollArea), scaleFactor(1)
 {
-    interactionTool = InteractionTool();
+    interactionTool = new InteractionTool();
     imageLabel->setBackgroundRole(QPalette::Dark);
     imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     imageLabel->setScaledContents(true);
@@ -81,6 +80,11 @@ ImageViewer::ImageViewer(QWidget *parent)
     QString str2;
     colorMenu = new QMenu();
     colorButton = new QPushButton();
+
+    newLayerDock = new NewLayerDock(interactionTool);
+    connect(newLayerDock,&NewLayerDock::update,this,&ImageViewer::updateall);
+    connect(newLayerDock,QOverload<bool>::of(&NewLayerDock::updateHasLayer),this,&ImageViewer::updateHasLayer);
+
     for(int i = 0; i <256; i++){
         colorVect.append(QColor(255,255,255,255).rgba());
         colorButtons.push_back(new QToolButton());
@@ -107,6 +111,10 @@ ImageViewer::ImageViewer(QWidget *parent)
         //connect(act, SIGNAL(clicked()),this, SLOT(setDrawColor()));
         colorMenu->addAction(px,str2,this,&ImageViewer::setDrawColor);
     }
+
+    newLayerDock->setColorVect(colorVect);
+    //newLayerDock->setDrawColorIndex(0);
+
     colorAct = colorMenu->actions();
     for (int i = 0; i < 256; i++) {
         colorAct[i]->setCheckable(true);
@@ -114,6 +122,7 @@ ImageViewer::ImageViewer(QWidget *parent)
     }
 
     colorButton->setMenu(colorMenu);
+
     drawSpinbox = new QSpinBox();
     drawSpinbox->setValue(3);
     connect(drawSpinbox, QOverload<int>::of(&QSpinBox::valueChanged),this, &ImageViewer::setWidth);
@@ -121,7 +130,7 @@ ImageViewer::ImageViewer(QWidget *parent)
     drawSlider->setRange(1,99);
     drawSlider->setValue(3);
     connect(drawSlider, QOverload<int>::of(&QSlider::valueChanged),this, &ImageViewer::setWidth);
-    newLayerXSpinbox = new QSpinBox();
+    /*newLayerXSpinbox = new QSpinBox();
     newLayerXSpinbox->setRange(1,1000);
     newLayerXSpinbox->setValue(100);
     connect(newLayerXSpinbox, QOverload<int>::of(&QSpinBox::valueChanged),this, &ImageViewer::setNewLayerX);
@@ -136,28 +145,34 @@ ImageViewer::ImageViewer(QWidget *parent)
     newLayerYSlider = new QSlider(Qt::Horizontal);
     newLayerYSlider->setRange(1,1000);
     newLayerYSlider->setValue(100);
-    connect(newLayerYSlider, QOverload<int>::of(&QSlider::valueChanged),this, &ImageViewer::setNewLayerY);
+    connect(newLayerYSlider, QOverload<int>::of(&QSlider::valueChanged),this, &ImageViewer::setNewLayerY);*/
     drawStartButton = new QPushButton("Start");
     drawStartButton->setCheckable(true);
     connect(drawStartButton, SIGNAL(clicked()),this, SLOT(startDraw()));
-    translationLabelA = new QLabel("a");
-    translationLabelB = new QLabel("b");
-    translationLabelC = new QLabel("c");
-    translationLabelD = new QLabel("d");
+
+    transLationDock = new TranslationDock(interactionTool);
+    connect(transLationDock,QOverload<toolParameters_t*>::of(&TranslationDock::getParams),this,&ImageViewer::setTranslationParams);
+    connect(transLationDock,&TranslationDock::update,this,&ImageViewer::updateall);
+    //transLationDock->init(this);
+
+    //newLayerDock = new NewLayerDock(interactionTool);
+
     ignoreShaped = new QCheckBox("Ignore Shape");
     //QImage *newImage = new QImage(newLayerX,newLayerY,QImage::Format_ARGB32);
     //newImage->fill(QPalette::Dark);
     //setImage(*newImage);
-    mirrorCheckbox = new QCheckBox();
-    newColorButton = new QPushButton();
+
+    //mirrorCheckbox = new QCheckBox();
+
+    /*newColorButton = new QPushButton();
     newLayerColor = QColor(255,255,255,255).rgba();
     newColorButton->setStyleSheet(QString("background-color: qlineargradient(stop:0 #FFFFFF);"));
-    connect(newColorButton, SIGNAL(clicked()), this, SLOT(setNewColor()));
+    connect(newColorButton, SIGNAL(clicked()), this, SLOT(setNewColor()));*/
     //connect(mirrorCheckbox,SIGNAL(checked()),this, SLOT(mirror()));
 
-    zoomXInp = new QLineEdit();
+    /*zoomXInp = new QLineEdit();
     zoomYInp = new QLineEdit();
-    rotInp = new QLineEdit();
+    rotInp = new QLineEdit();*/
 
     addColor(QColor(255,255,255,255),0);
     addColor(QColor(127,127,127,255),1);
@@ -184,6 +199,7 @@ ImageViewer::ImageViewer(QWidget *parent)
     addColor(QColor(0,0,0,0),255);
     newColorVect = QVector<QRgb>();
     newColorVect.append(colorVect);
+    newLayerDock->setColorVect(colorVect);
     createColorDock();
     createLayerDock();
     //connect(layerDock, SIGNAL(dockLocationChanged(Qt::DockWidgetArea area)),this, SLOT(dockSizeChanged()));
@@ -244,7 +260,7 @@ void ImageViewer::createColorDock(){
     //
 
 }
-void ImageViewer::createNewLayerDock(){
+/*void ImageViewer::createNewLayerDock(){
     QDockWidget *newLayerDock = new QDockWidget(tr("New layer"), this);
     newLayerDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     newLayerLayout = new QGridLayout(); //TODO: make private
@@ -301,54 +317,7 @@ void ImageViewer::createNewLayerDock(){
     drawControl->setLayout(newLayerLayout);
     newLayerDock->setWidget(drawControl);
     addDockWidget(Qt::LeftDockWidgetArea, newLayerDock);
-}
-void ImageViewer::createTranslateDock(){
-    if (!hasLayer){
-        return;
-    }
-    QDockWidget *translationDock = new QDockWidget(tr("Translation"), this);
-    translationDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    QGridLayout *translationLayout = new QGridLayout();
-    QLabel *label1 = new QLabel("zoom-x:");
-    translationLayout->addWidget(label1,0,0,1,3);
-
-    translationLayout->addWidget(zoomXInp,1,0,1,3);
-    QLabel *label2 = new QLabel("zoom-y:");
-    translationLayout->addWidget(label2,2,0,1,3);
-
-    translationLayout->addWidget(zoomYInp,3,0,1,3);
-    QLabel *label3 = new QLabel("rotate\nclockwise:");
-    translationLayout->addWidget(label3,4,0,1,3);
-
-    translationLayout->addWidget(rotInp,5,0,1,3);
-    QLabel *label4 = new QLabel("mirrored:");
-    translationLayout->addWidget(label4,6,0,1,1);
-
-    translationLayout->addWidget(mirrorCheckbox,6,1,1,2);
-    QPushButton *input5 = new QPushButton("Calculate");
-    connect(input5, SIGNAL(clicked()), this, SLOT(calcTranslation()));
-    translationLayout->addWidget(input5,7,0,1,3);
-    QLabel *label5 = new QLabel("Matrix entries:");
-
-    translationLayout->addWidget(label5,8,0,2,1);
-
-    translationLayout->addWidget(translationLabelA,8,1,1,1);
-
-    translationLayout->addWidget(translationLabelB,8,2,1,1);
-
-    translationLayout->addWidget(translationLabelC,9,1,1,1);
-
-    translationLayout->addWidget(translationLabelD,9,2,1,1);
-    QPushButton *input6 = new QPushButton("Apply");
-    connect(input6, SIGNAL(clicked()), this, SLOT(doTranslation()));
-    translationLayout->addWidget(input6,10,0,1,3);
-    QSpacerItem *spacer = new QSpacerItem(1,300,QSizePolicy::Maximum,QSizePolicy::Maximum);
-    translationLayout->addItem(spacer,11,1,1,3);
-    QWidget *drawControl = new QWidget(translationDock);
-    drawControl->setLayout(translationLayout);
-    translationDock->setWidget(drawControl);
-    addDockWidget(Qt::LeftDockWidgetArea, translationDock);
-}
+}*/
 void ImageViewer::createDrawDock(){
     if (!hasLayer){
         return;
@@ -433,10 +402,10 @@ bool ImageViewer::loadFile(const QString &fileName)
     param->tool=tools_e::newLayer;
     param->pic = newImage;
     param->colorVect = newColorVect;
-    interactionTool.useTool(param);
+    interactionTool->useTool(param);
     param = nullptr;
-    newImage = interactionTool.getPicture()->getCurrentLayerAsQ();
-    //colorVect = interactionTool.getPicture()->getCurrentLayerAsQ()->colorTable();
+    newImage = interactionTool->getPicture()->getCurrentLayerAsQ();
+    //colorVect = interactionTool->getPicture()->getCurrentLayerAsQ()->colorTable();
     if (newImage==nullptr){
         return false;
     }
@@ -476,11 +445,11 @@ void ImageViewer::setImage(QImage newImage)//remove Parameter
 bool ImageViewer::saveFile(const QString &fileName)
 {
     QImageWriter writer(fileName);
-    QPixmap *px = new QPixmap(interactionTool.getPicture()->getMaxSize());
+    QPixmap *px = new QPixmap(interactionTool->getPicture()->getMaxSize());
     QPainter *painter= new QPainter(px);
-    for (int i = 0; i < interactionTool.getPicture()->getLayerCount(); i++) {
+    for (int i = 0; i < interactionTool->getPicture()->getLayerCount(); i++) {
         if (layerCheckboxes[i]->isChecked()){
-            painter->drawImage(interactionTool.getPicture()->xOffset(i),interactionTool.getPicture()->yOffset(i),*interactionTool.getPicture()->getLayerAsQ(i));
+            painter->drawImage(interactionTool->getPicture()->xOffset(i),interactionTool->getPicture()->yOffset(i),*interactionTool->getPicture()->getLayerAsQ(i));
             //painter->drawI
         }
     }
@@ -783,7 +752,7 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
                 polyVis = QPolygon();
             }
             param->isInverse = false;
-            param->startPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool.getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool.getPicture()->currentYOffset());
+            param->startPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool->getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool->getPicture()->currentYOffset());
             break;
         }
         case drawModus_e::notFilledRect:{
@@ -795,7 +764,7 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
                 polyVis = QPolygon();
             }
             param->isInverse = true;
-            param->startPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool.getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool.getPicture()->currentYOffset());
+            param->startPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool->getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool->getPicture()->currentYOffset());
             break;
         }
         default:{
@@ -813,8 +782,8 @@ void ImageViewer::mouseMoveEvent(QMouseEvent *event)
 {
     /*if(hasLayer){
         QString message;
-        QPoint mousepos = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool.getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool.getPicture()->currentYOffset());
-        message.sprintf("Dimensions: %dx%d; Mouse position: %dx%d",interactionTool.getPicture()->getCurrentLayerAsQ()->width(),interactionTool.getPicture()->getCurrentLayerAsQ()->height(),mousepos.x(),mousepos.y());
+        QPoint mousepos = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool->getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool->getPicture()->currentYOffset());
+        message.sprintf("Dimensions: %dx%d; Mouse position: %dx%d",interactionTool->getPicture()->getCurrentLayerAsQ()->width(),interactionTool->getPicture()->getCurrentLayerAsQ()->height(),mousepos.x(),mousepos.y());
         statusBar()->showMessage(message);
     }*/
 
@@ -822,9 +791,9 @@ void ImageViewer::mouseMoveEvent(QMouseEvent *event)
         switch (actDrawModus) {
         case drawModus_e::pencil:{
             param->endPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
-            interactionTool.useTool(param);
+            interactionTool->useTool(param);
             param = nullptr;
-            //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
             updateVisible();
             param = new toolParameters_t;
             param->tool = paint;
@@ -835,7 +804,7 @@ void ImageViewer::mouseMoveEvent(QMouseEvent *event)
             break;
         }
         case drawModus_e::lines:{
-            //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
             updateVisible();
             QPixmap *px = new QPixmap(*imageLabel->pixmap());
             QPainter *painter= new QPainter(px);
@@ -858,9 +827,9 @@ void ImageViewer::mouseMoveEvent(QMouseEvent *event)
         param->tool = tools_e::move;
         param->offsetX = (-1)*move.x();
         param->offsetY = (-1)*move.y();
-        interactionTool.useTool(param);
+        interactionTool->useTool(param);
         param = nullptr;
-        //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+        //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
         updateVisible();
         move = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
     }
@@ -872,9 +841,9 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
         case drawModus_e::pencil:{
             drawStart = false;
             param->endPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
-            interactionTool.useTool(param);
+            interactionTool->useTool(param);
             param = nullptr;
-            //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
             updateLayers();
             updateVisible();
 
@@ -883,9 +852,9 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
         case drawModus_e::lines:{
             drawStart = false;
             param->endPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
-            interactionTool.useTool(param);
+            interactionTool->useTool(param);
             param = nullptr;
-            //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
             updateLayers();
             updateVisible();
 
@@ -893,10 +862,10 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
         }
         case drawModus_e::filledRect:{
             //if () TODO: Start & Endpkt vergleichen
-            param->poly.push_back(event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool.getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool.getPicture()->currentYOffset()));
+            param->poly.push_back(event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool->getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool->getPicture()->currentYOffset()));
             polyVis.push_back(event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value()));
             //param->poly.setPoint();
-            //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
             updateVisible();
             QPixmap *px = new QPixmap(*imageLabel->pixmap());
             QPainter *painter= new QPainter(px);
@@ -910,10 +879,10 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
         }
         case drawModus_e::notFilledRect:{
             //if () TODO: Start & Endpkt vergleichen
-            param->poly.push_back(event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool.getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool.getPicture()->currentYOffset()));
+            param->poly.push_back(event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value()+interactionTool->getPicture()->currentXOffset(),scrollArea->y()-scrollArea->verticalScrollBar()->value()+interactionTool->getPicture()->currentYOffset()));
             polyVis.push_back(event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value()));
             //param->poly.setPoint();
-            //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
             updateVisible();
             QPixmap *px = new QPixmap(*imageLabel->pixmap());
             QPainter *painter= new QPainter(px);
@@ -935,9 +904,9 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
         case drawModus_e::filledRect:{
             //if () TODO: Start & Endpkt vergleichen
             param->colorIndex=drawColorIndex;
-            interactionTool.useTool(param);
+            interactionTool->useTool(param);
             param = nullptr;
-            //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
             updateLayers();
             updateVisible();
 
@@ -947,9 +916,9 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
         case drawModus_e::notFilledRect:{
             //if () TODO: Start & Endpkt vergleichen
             param->colorIndex=drawColorIndex;
-            interactionTool.useTool(param);
+            interactionTool->useTool(param);
             param = nullptr;
-            //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
             updateLayers();
             updateVisible();
 
@@ -966,16 +935,16 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
         param->tool = tools_e::move;
         param->offsetX = (-1)*move.x();
         param->offsetY = (-1)*move.y();
-        interactionTool.useTool(param);
+        interactionTool->useTool(param);
         moveStart=false;
         param = nullptr;
-        //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+        //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
         updateVisible();
     }
 }
 void ImageViewer::updateColors(){
     QPixmap px(20, 20);
-    colorVect = interactionTool.getPicture()->getCurrentLayerAsQ()->colorTable();
+    colorVect = interactionTool->getPicture()->getCurrentLayerAsQ()->colorTable();
     for(int i = 0; i <256; i++){
 
         px.fill(colorVect[i]);
@@ -994,8 +963,9 @@ void ImageViewer::updateColors(){
         }
         colorAct[i]->setIcon(px);
     }
+    newLayerDock->setColorVect(colorVect);
 
-    if(interactionTool.getPicture()->isShaped()){
+    if(interactionTool->getPicture()->isShaped()){
         addColor(QColor(255,255,255,0),255);
         QPainter p(&px);
         QPen pen(QColor(255,0,0,255));
@@ -1023,28 +993,28 @@ void ImageViewer::updateColors(){
 void ImageViewer::changeCurrentLayer(){
     if (layerButtons[0]->isChecked()){
         newLayer();
-        //interactionTool.getPicture()->moveLayer(0,interactionTool.getPicture()->getLayerCount()-1);
+        //interactionTool->getPicture()->moveLayer(0,interactionTool->getPicture()->getLayerCount()-1);
         //updateLayers();
         layerButtons[0]->setChecked(false);
     }
-    for (int i = 0; i < interactionTool.getPicture()->getLayerCount(); i++) {
-        if (layerButtons[i*5+1]->isChecked()&&i!=interactionTool.getPicture()->getCurrentLayerIndex()){
-            layerButtons[interactionTool.getPicture()->getCurrentLayerIndex()*5+1]->setChecked(false);
-            layerButtons[interactionTool.getPicture()->getCurrentLayerIndex()*5+3]->setEnabled(true);
-            interactionTool.getPicture()->setCurrentLayer(i);
-            //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+    for (int i = 0; i < interactionTool->getPicture()->getLayerCount(); i++) {
+        if (layerButtons[i*5+1]->isChecked()&&i!=interactionTool->getPicture()->getCurrentLayerIndex()){
+            layerButtons[interactionTool->getPicture()->getCurrentLayerIndex()*5+1]->setChecked(false);
+            layerButtons[interactionTool->getPicture()->getCurrentLayerIndex()*5+3]->setEnabled(true);
+            interactionTool->getPicture()->setCurrentLayer(i);
+            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
             updateVisible();
             updateColors();
-            layerButtons[interactionTool.getPicture()->getCurrentLayerIndex()*5+3]->setEnabled(false);
+            layerButtons[interactionTool->getPicture()->getCurrentLayerIndex()*5+3]->setEnabled(false);
         } else if(layerButtons[i*5+2]->isChecked()){
-            interactionTool.getPicture()->moveLayer(i,i-1);
+            interactionTool->getPicture()->moveLayer(i,i-1);
             updateLayers();
             layerButtons[i*5+2]->setChecked(false);
             updateVisible();
         } else if(layerButtons[i*5+3]->isChecked()){
             layerButtons[i*5+3]->setChecked(false);
-            interactionTool.getPicture()->removeLayer(i);
-            if(interactionTool.getPicture()->getLayerCount()==0){//TODO
+            interactionTool->getPicture()->removeLayer(i);
+            if(interactionTool->getPicture()->getLayerCount()==0){//TODO
                 hasLayer=false;
                 imageLabel = new QLabel();
                 imageLabel->setBackgroundRole(QPalette::Dark);
@@ -1054,29 +1024,29 @@ void ImageViewer::changeCurrentLayer(){
             updateLayerCount();
             updateVisible();
         } else if(layerButtons[i*5+4]->isChecked()){
-            interactionTool.getPicture()->moveLayer(i+1,i);
+            interactionTool->getPicture()->moveLayer(i+1,i);
             updateLayers();
             layerButtons[i*5+4]->setChecked(false);
             updateVisible();
-        } else if(layerButtons[i*5+5]->isChecked()&&i+1!=interactionTool.getPicture()->getLayerCount()){
+        } else if(layerButtons[i*5+5]->isChecked()&&i+1!=interactionTool->getPicture()->getLayerCount()){
             layerButtons[i*5+5]->setChecked(false);
             param = new toolParameters_t;
             param->tool = merge;
             param->layerIndex1 = i;
             param->layerIndex2 = i+1;
             param->colorVect = colorVect;
-            interactionTool.useTool(param);
-            interactionTool.getPicture()->removeLayer(i+1);
-            interactionTool.getPicture()->removeLayer(i);
+            interactionTool->useTool(param);
+            interactionTool->getPicture()->removeLayer(i+1);
+            interactionTool->getPicture()->removeLayer(i);
             param = nullptr;
             updateLayerCount();
             updateColors();
-            //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
             updateVisible();
 
-        } else if(layerButtons[i*5+5]->isChecked()&&i+1==interactionTool.getPicture()->getLayerCount()){
+        } else if(layerButtons[i*5+5]->isChecked()&&i+1==interactionTool->getPicture()->getLayerCount()){
             newLayer();
-            //interactionTool.getPicture()->moveLayer(i+1,i);
+            //interactionTool->getPicture()->moveLayer(i+1,i);
             //updateLayers();
             layerButtons[i*5+5]->setChecked(false);
         }
@@ -1085,6 +1055,7 @@ void ImageViewer::changeCurrentLayer(){
 void ImageViewer::addColor(QColor col, int pos){
     QPixmap px(20, 20);
     colorVect[pos]=col.rgba();
+    newLayerDock->setColorVect(colorVect);
     px.fill(colorVect[pos]);
     //colorButtons[i]->setIcon(px);
     colorAct[pos]->setIcon(px);
@@ -1100,8 +1071,8 @@ void ImageViewer::addColor(QColor col, int pos){
     }
     colorButtons[pos]->setChecked(false);
     if (hasLayer){
-        interactionTool.getPicture()->getCurrentLayerAsQ()->setColor(pos,colorVect[pos]);
-        //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+        interactionTool->getPicture()->getCurrentLayerAsQ()->setColor(pos,colorVect[pos]);
+        //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
         updateLayers();
         updateVisible();
 
@@ -1115,6 +1086,7 @@ void ImageViewer::changeColor(){
             QString str2;
             str2.sprintf("Color %d",i);
             colorVect[i]=QColorDialog().getColor(Qt::white,nullptr,str2,QColorDialog::ShowAlphaChannel).rgba();
+            newLayerDock->setColorVect(colorVect);
             px.fill(colorVect[i]);
             //colorButtons[i]->setIcon(px);
             colorAct[i]->setIcon(px);
@@ -1130,8 +1102,8 @@ void ImageViewer::changeColor(){
             }
             colorButtons[i]->setChecked(false);
             if (hasLayer){
-                interactionTool.getPicture()->getCurrentLayerAsQ()->setColor(i,colorVect[i]);
-                //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+                interactionTool->getPicture()->getCurrentLayerAsQ()->setColor(i,colorVect[i]);
+                //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
                 updateLayers();
                 updateVisible();
 
@@ -1153,11 +1125,11 @@ void ImageViewer::updateLayerCount(){
     layerButtons[0]->setMaximumWidth(25);
     layerButtons[0]->setCheckable(true);
     connect(layerButtons[0], SIGNAL(clicked()),this, SLOT(changeCurrentLayer()));
-    for (unsigned int i = 0; i < interactionTool.getPicture()->getLayerCount(); i++) {
+    for (unsigned int i = 0; i < interactionTool->getPicture()->getLayerCount(); i++) {
         layerButtons.push_back(new QPushButton);
         //layerButtons[i]->setStyleSheet("width: 100px;height: 100px;");
         QPixmap pic(100,100);
-        pic.convertFromImage(*interactionTool.getPicture()->getLayerAsQ(i));
+        pic.convertFromImage(*interactionTool->getPicture()->getLayerAsQ(i));
         layerButtons[i*5+1]->setIconSize(QSize(100,100));
         layerButtons[i*5+1]->setIcon(pic);
         //layerButtons[i]->setMask(pic);
@@ -1185,7 +1157,7 @@ void ImageViewer::updateLayerCount(){
         layerLayout->addWidget(layerButtons[i*5+4],i*5+4,0,1,2);
         layerButtons[i*5+4]->setMaximumWidth(25);
         layerButtons[i*5+4]->setCheckable(true);
-        if (i+1==interactionTool.getPicture()->getLayerCount()){
+        if (i+1==interactionTool->getPicture()->getLayerCount()){
             layerButtons[i*5+4]->setEnabled(false);
         }
         connect(layerButtons[i*5+4], SIGNAL(clicked()),this, SLOT(changeCurrentLayer()));
@@ -1195,9 +1167,9 @@ void ImageViewer::updateLayerCount(){
         layerButtons[i*5+5]->setCheckable(true);
         connect(layerButtons[i*5+5], SIGNAL(clicked()),this, SLOT(changeCurrentLayer()));
     }
-    layerButtons[interactionTool.getPicture()->getCurrentLayerIndex()*5+1]->setChecked(true);
-    if(interactionTool.getPicture()->getLayerCount()>1){
-        layerButtons[interactionTool.getPicture()->getCurrentLayerIndex()*5+3]->setEnabled(false);
+    layerButtons[interactionTool->getPicture()->getCurrentLayerIndex()*5+1]->setChecked(true);
+    if(interactionTool->getPicture()->getLayerCount()>1){
+        layerButtons[interactionTool->getPicture()->getCurrentLayerIndex()*5+3]->setEnabled(false);
     }
     layers = new QWidget(layerDock);
     layers->setLayout(layerLayout);
@@ -1208,22 +1180,22 @@ void ImageViewer::updateLayerCount(){
     layerDock->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
 }
 void ImageViewer::updateLayers(){
-    for (unsigned int i = 0; i < interactionTool.getPicture()->getLayerCount(); i++) {
+    for (unsigned int i = 0; i < interactionTool->getPicture()->getLayerCount(); i++) {
         QPixmap pic;
-        pic.convertFromImage(*interactionTool.getPicture()->getLayerAsQ(i));
+        pic.convertFromImage(*interactionTool->getPicture()->getLayerAsQ(i));
         layerButtons[i*5+1]->setIcon(pic);
         layerButtons[i*5+1]->setChecked(false);
     }
-    layerButtons[interactionTool.getPicture()->getCurrentLayerIndex()*5+1]->setChecked(true);
-    if(interactionTool.getPicture()->getLayerCount()>1){
-        layerButtons[interactionTool.getPicture()->getCurrentLayerIndex()*5+3]->setEnabled(false);
+    layerButtons[interactionTool->getPicture()->getCurrentLayerIndex()*5+1]->setChecked(true);
+    if(interactionTool->getPicture()->getLayerCount()>1){
+        layerButtons[interactionTool->getPicture()->getCurrentLayerIndex()*5+3]->setEnabled(false);
     }
 }
 void ImageViewer::newLayer(){
     //param = new toolParameters_t;
     //param->tool=tools_e::newLayer;
-
-    createNewLayerDock();
+    addDockWidget(Qt::LeftDockWidgetArea, newLayerDock->getDockWidget());
+    //createNewLayerDock();
 }
 void ImageViewer::pencil(){
     actDrawModus = drawModus_e::pencil;
@@ -1243,6 +1215,7 @@ void ImageViewer::setDrawColor(){
         if (colorAct[i]->isChecked()){
             colorAct[i]->setChecked(false);
             drawColorIndex = i;
+            //newLayerDock->setDrawColorIndex(drawColorIndex);
             QString str;
             //str.append(qRed(colorVect[i]));
             //str.append(";");
@@ -1274,82 +1247,11 @@ void ImageViewer::setWidth(int w){
     drawSlider->setValue(w);
     drawWidth=w;
 }
+
 void  ImageViewer::translate(){
-    createTranslateDock();
+    addDockWidget(Qt::LeftDockWidgetArea, transLationDock->getDockWidget());
 };
-void ImageViewer::calcTranslation(){
-    translationLabelA->setText("a");
-    translationLabelB->setText("b");
-    translationLabelC->setText("c");
-    translationLabelD->setText("d");
-    double zx=0,zy=0,rot=0;
-    bool *ok = new bool;
-    zx = zoomXInp->text().toDouble(ok);
-    if(!zoomXInp->text().compare("")){
-        *ok = true;
-        zx=1;
-    }
-    if (!*ok){
-        return;
-    }
-    zy = zoomYInp->text().toDouble(ok);
-    if(!zoomYInp->text().compare("")){
-        *ok = true;
-        zy=1;
-    }
-    if (!*ok){
-        return;
-    }
-    rot = rotInp->text().toDouble(ok);
-    if(!rotInp->text().compare("")){
-        *ok = true;
-        rot=0;
-    }
-    if (!*ok){
-        return;
-    }
-    transMat = new QMatrix(zx,0,0,zy,0,0);
-    QMatrix mat;
-    mat.rotate(rot);
-    if(rot!=0){
-        isRot=true;
-    }else{
-        isRot=false;
-    }
-    *transMat = *transMat *mat;
-    if (mirrorCheckbox->isChecked()){
-        mat.setMatrix(0,1,1,0,0,0);
-        *transMat *= mat;
-    }
-    QString str;
-    str.sprintf("%lf",transMat->m11());
-    translationLabelA->setText(str);
-    str.sprintf("%lf",transMat->m12());
-    translationLabelB->setText(str);
-    str.sprintf("%lf",transMat->m21());
-    translationLabelC->setText(str);
-    str.sprintf("%lf",transMat->m22());
-    translationLabelD->setText(str);
-}
-void ImageViewer::doTranslation(){
-    unsigned int i = interactionTool.getPicture()->getCurrentLayerIndex();
-    param = new toolParameters_t;
-    param->tool = translationTool;
-    param->mat = *transMat;
-    param->isRot = isRot;
-    param->colorVect = colorVect;
-    interactionTool.useTool(param);
-    param = nullptr;
-    interactionTool.getPicture()->removeLayer(i);
-    updateLayerCount();
-    updateColors();
-    //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
-    updateVisible();
-}/*
-void ImageViewer::dockSizeChanged(){
-    statusBar()->showMessage("str");
-}*/
-void ImageViewer::setNewLayerX(int x){
+/*void ImageViewer::setNewLayerX(int x){
     newLayerXSpinbox->setValue(x);
     newLayerXSlider->setValue(x);
     newLayerX=x;
@@ -1390,14 +1292,14 @@ void ImageViewer::addNewLayer(){
         param->pic = newImage;
 
         param->colorVect = newColorVect;
-        interactionTool.useTool(param);
+        interactionTool->useTool(param);
         param = nullptr;
-        newImage=interactionTool.getPicture()->getCurrentLayerAsQ();
+        newImage=interactionTool->getPicture()->getCurrentLayerAsQ();
     } else{
         newImage = new QImage(newLayerX,newLayerY,QImage::Format_Indexed8);
         newImage->setColorTable(newColorVect);
         newImage->fill(drawColorIndex);
-        interactionTool.getPicture()->addCurrentLayer(newImage);
+        interactionTool->getPicture()->addCurrentLayer(newImage);
     }
 
     //
@@ -1406,7 +1308,7 @@ void ImageViewer::addNewLayer(){
     //    return;
     //}
     //setImage(*newImage);
-    //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+    //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
     updateColors();
     updateLayerCount();
     updateVisible();
@@ -1414,20 +1316,20 @@ void ImageViewer::addNewLayer(){
     newColorVect.append(colorVect);
     //statusBar()->showMessage(message);
     hasLayer=true;
-}
+}*/
 void ImageViewer::updateVisible(){
-    //for (int i = 0; i < interactionTool.getPicture()->getLayerCount(); i++) {
+    //for (int i = 0; i < interactionTool->getPicture()->getLayerCount(); i++) {
     //    if (layerCheckboxes[i]->isChecked()){
             //TODO: Syncronisieren vom Bild
     //    }
     //}
     QString message;
-    message.sprintf("Dimensions: %dx%d",interactionTool.getPicture()->getCurrentLayerAsQ()->width(),interactionTool.getPicture()->getCurrentLayerAsQ()->height());
+    message.sprintf("Dimensions: %dx%d",interactionTool->getPicture()->getCurrentLayerAsQ()->width(),interactionTool->getPicture()->getCurrentLayerAsQ()->height());
     statusBar()->showMessage(message);
     calculateVisible();
 }
 void ImageViewer::calculateVisible(){
-    QPixmap *px = new QPixmap(interactionTool.getPicture()->getMaxSize());
+    QPixmap *px = new QPixmap(interactionTool->getPicture()->getMaxSize());
     QPainter *painter= new QPainter(px);
     QBrush *br1 = new QBrush(QColor(100,100,100));
     QBrush *br2 = new QBrush(QColor(200,200,200));
@@ -1440,9 +1342,9 @@ void ImageViewer::calculateVisible(){
             }
         }
     }
-    for (int i = 0; i < interactionTool.getPicture()->getLayerCount(); i++) {
+    for (int i = 0; i < interactionTool->getPicture()->getLayerCount(); i++) {
         if (layerCheckboxes[i]->isChecked()){
-            painter->drawImage(interactionTool.getPicture()->xOffset(i),interactionTool.getPicture()->yOffset(i),*interactionTool.getPicture()->getLayerAsQ(i));
+            painter->drawImage(interactionTool->getPicture()->xOffset(i),interactionTool->getPicture()->yOffset(i),*interactionTool->getPicture()->getLayerAsQ(i));
             //painter->drawI
         }
     }
@@ -1451,12 +1353,12 @@ void ImageViewer::calculateVisible(){
 }
 void ImageViewer::makeShaped(){
     if(hasLayer){
-        interactionTool.getPicture()->makeCurrentLayerShaped();
+        interactionTool->getPicture()->makeCurrentLayerShaped();
         updateColors();
     }
 
 }
-void ImageViewer::actualColorVect(){
+/*void ImageViewer::actualColorVect(){
     newColorVect = QVector<QRgb>();
     for (int i = 0; i < 256; i++) {
         newColorVect.append(colorVect);
@@ -1800,4 +1702,23 @@ void ImageViewer::customColorVect(){
         }
         colorAct[i]->setIcon(px);
     }
+}*/
+bool ImageViewer::getHasLayer(){
+    return hasLayer;
+}
+QVector<QRgb> ImageViewer::getColorVect(){
+    return colorVect;
+}
+void ImageViewer::setTranslationParams(toolParameters_t *param){
+    param->colorVect = colorVect;
+    transLationDock->doTranslationII(param);
+}
+void ImageViewer::updateall(){
+    updateLayerCount();
+    updateColors();
+    //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+    updateVisible();
+}
+void ImageViewer::updateHasLayer(bool b){
+    hasLayer = b;
 }

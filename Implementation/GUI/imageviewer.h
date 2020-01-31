@@ -48,9 +48,13 @@
 **
 ****************************************************************************/
 #include "InteractionTool.h"
+#include "TranslationDock.h"
+#include "NewLayerDock.h"
 
 #ifndef IMAGEVIEWER_H
 #define IMAGEVIEWER_H
+
+
 
 #include <QMainWindow>
 #include <QImage>
@@ -86,6 +90,14 @@ class ImageViewer : public QMainWindow
 public:
     ImageViewer(QWidget *parent = nullptr);
     bool loadFile(const QString &);
+    bool getHasLayer();
+    void updateColors();
+    void updateLayers();
+    void updateLayerCount();
+    QVector<QRgb> getColorVect();
+
+public slots:
+    void updateVisible();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -105,43 +117,44 @@ private slots:
     void about();
     void draw();
     void translate();
-    void calcTranslation();
-    void doTranslation();
+    //void calcTranslation();
+    //void doTranslation();
+    void setTranslationParams(toolParameters_t * param);
+    void updateHasLayer(bool b);
+    void updateall();
     void pencil();
     void startDraw();
     void lines();
     void notFilledRect();
     void filledRect();
-    void existingColor();
-    void newColor();
-    void actualColorVect();
-    void standartColorVect();
-    void smallColorVect();
-    void customColorVect();
-    void setNewColor();
+    //void existingColor();
+    //void newColor();
+    //void actualColorVect();
+    //void standartColorVect();
+    //void smallColorVect();
+    //void customColorVect();
+    //void setNewColor();
     void setDrawColor();
     void changeColor();
     void changeCurrentLayer();
-    void updateVisible();
+    //void updateVisible();
     void makeShaped();
     void newLayer();
-    void addNewLayer();
+    //void addNewLayer();
     void setWidth(int w);
-    void setNewLayerX(int w);
-    void setNewLayerY(int w);
+    //void setNewLayerX(int w);
+    //void setNewLayerY(int w);
 
 private:
     void createActions();
     void createColorDock();
     void createLayerDock();
-    void createTranslateDock();
+    //void createTranslateDock();
     void createDrawDock();
     void createMenus();
-    void createNewLayerDock();
+    //void createNewLayerDock();
     void addColor(QColor col, int pos);
-    void updateColors();
-    void updateLayers();
-    void updateLayerCount();
+
     void updateActions();
     bool saveFile(const QString &fileName);
     void setImage(QImage newImage);
@@ -170,13 +183,13 @@ private:
     QPushButton *colorButton;
     QSlider *drawSlider;
     QSpinBox *drawSpinbox;
-    QSlider *newLayerXSlider;
-    QSpinBox *newLayerXSpinbox;
-    QSlider *newLayerYSlider;
-    QSpinBox *newLayerYSpinbox;
+    //QSlider *newLayerXSlider;
+    //QSpinBox *newLayerXSpinbox;
+    //QSlider *newLayerYSlider;
+    //QSpinBox *newLayerYSpinbox;
     QPushButton *drawStartButton;
     QMenu *colorMenu;
-    QCheckBox *mirrorCheckbox;
+    /*QCheckBox *mirrorCheckbox;
     QLineEdit *zoomXInp;
     QLineEdit *zoomYInp;
     QLineEdit *rotInp;
@@ -184,29 +197,32 @@ private:
     QLabel *translationLabelB;
     QLabel *translationLabelC;
     QLabel *translationLabelD;
-    QMatrix *transMat;
-    QPushButton *newColorButton;
+    QMatrix *transMat;*/
+    //QPushButton *newColorButton;
     drawModus_e actDrawModus = drawModus_e::pencil;
-    QRgb newLayerColor;
-    QGridLayout *newLayerLayout;
+    //QRgb newLayerColor;
+    //QGridLayout *newLayerLayout;
     QPixmap *pixmap;
     QCheckBox *ignoreShaped;
-    QRadioButton *newColormap[4];
+    //QRadioButton *newColormap[4];
     QPoint move;
     QPolygon polyVis;
     bool moveStart = false;
-    bool isNewLayerColor = false;
+    //bool isNewLayerColor = false;
     double scaleFactor = 1.0;
     bool isDraw=false;
-    bool isRot;
+    //bool isRot;
     int drawWidth=3;
-    int newLayerX = 100;
-    int newLayerY = 100;
+    //int newLayerX = 100;
+    //int newLayerY = 100;
     int drawColorIndex=0;
     bool drawStart=false;
     bool hasLayer=false;
     toolParameters_t *param = nullptr;
-    InteractionTool interactionTool;
+    InteractionTool *interactionTool;
+
+    TranslationDock *transLationDock;
+    NewLayerDock *newLayerDock;
 
 #ifndef QT_NO_PRINTER
     QPrinter printer;
