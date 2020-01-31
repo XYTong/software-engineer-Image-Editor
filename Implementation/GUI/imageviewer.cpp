@@ -78,12 +78,18 @@ ImageViewer::ImageViewer(QWidget *parent)
     colorVect = QVector<QRgb>();
     QPixmap px(20, 20);
     QString str2;
+    /*
     colorMenu = new QMenu();
     colorButton = new QPushButton();
-
+    */
     newLayerDock = new NewLayerDock(interactionTool);
     connect(newLayerDock,&NewLayerDock::update,this,&ImageViewer::updateall);
     connect(newLayerDock,QOverload<bool>::of(&NewLayerDock::updateHasLayer),this,&ImageViewer::updateHasLayer);
+
+    drawDock = new DrawDock(interactionTool);
+    connect(drawDock,&DrawDock::update,this,&ImageViewer::updateall);
+    connect(drawDock,QOverload<para1>::of(&DrawDock::drawShowI),this,&ImageViewer::drawShowI);
+    connect(drawDock,QOverload<para2>::of(&DrawDock::drawShowII),this,&ImageViewer::drawShowII);
 
     for(int i = 0; i <256; i++){
         colorVect.append(QColor(255,255,255,255).rgba());
@@ -95,26 +101,27 @@ ImageViewer::ImageViewer(QWidget *parent)
         //str.append(";");
         str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
-        if(i==drawColorIndex){
-            colorButton->setStyleSheet(str);
-        }
+        //if(i==drawColorIndex){
+        //    colorButton->setStyleSheet(str);
+        //}
 
         colorButtons[i]->setStyleSheet(str);
         colorButtons[i]->setCheckable(true);
 
         connect(colorButtons[i], SIGNAL(clicked()),this, SLOT(changeColor()));
         //connect(colorButtons[i], SIGNAL(clicked()),colorButtons[i], SLOT(toggle()));
-        str2.sprintf("Color %d",i);
-        px.fill(colorVect[i]);
+        //str2.sprintf("Color %d",i);
+        //px.fill(colorVect[i]);
         //QAction *act = new QAction(px,str);
         //act->setCheckable(true);
         //connect(act, SIGNAL(clicked()),this, SLOT(setDrawColor()));
-        colorMenu->addAction(px,str2,this,&ImageViewer::setDrawColor);
+        //colorMenu->addAction(px,str2,this,&ImageViewer::setDrawColor);
     }
 
     newLayerDock->setColorVect(colorVect);
+    drawDock->setColorVect(colorVect);
     //newLayerDock->setDrawColorIndex(0);
-
+    /*
     colorAct = colorMenu->actions();
     for (int i = 0; i < 256; i++) {
         colorAct[i]->setCheckable(true);
@@ -130,26 +137,11 @@ ImageViewer::ImageViewer(QWidget *parent)
     drawSlider->setRange(1,99);
     drawSlider->setValue(3);
     connect(drawSlider, QOverload<int>::of(&QSlider::valueChanged),this, &ImageViewer::setWidth);
-    /*newLayerXSpinbox = new QSpinBox();
-    newLayerXSpinbox->setRange(1,1000);
-    newLayerXSpinbox->setValue(100);
-    connect(newLayerXSpinbox, QOverload<int>::of(&QSpinBox::valueChanged),this, &ImageViewer::setNewLayerX);
-    newLayerXSlider = new QSlider(Qt::Horizontal);
-    newLayerXSlider->setRange(1,1000);
-    newLayerXSlider->setValue(100);
-    connect(newLayerXSlider, QOverload<int>::of(&QSlider::valueChanged),this, &ImageViewer::setNewLayerX);
-    newLayerYSpinbox = new QSpinBox();
-    newLayerYSpinbox->setRange(1,1000);
-    newLayerYSpinbox->setValue(100);
-    connect(newLayerYSpinbox, QOverload<int>::of(&QSpinBox::valueChanged),this, &ImageViewer::setNewLayerY);
-    newLayerYSlider = new QSlider(Qt::Horizontal);
-    newLayerYSlider->setRange(1,1000);
-    newLayerYSlider->setValue(100);
-    connect(newLayerYSlider, QOverload<int>::of(&QSlider::valueChanged),this, &ImageViewer::setNewLayerY);*/
+
     drawStartButton = new QPushButton("Start");
     drawStartButton->setCheckable(true);
     connect(drawStartButton, SIGNAL(clicked()),this, SLOT(startDraw()));
-
+    */
     transLationDock = new TranslationDock(interactionTool);
     connect(transLationDock,QOverload<toolParameters_t*>::of(&TranslationDock::getParams),this,&ImageViewer::setTranslationParams);
     connect(transLationDock,&TranslationDock::update,this,&ImageViewer::updateall);
@@ -157,22 +149,7 @@ ImageViewer::ImageViewer(QWidget *parent)
 
     //newLayerDock = new NewLayerDock(interactionTool);
 
-    ignoreShaped = new QCheckBox("Ignore Shape");
-    //QImage *newImage = new QImage(newLayerX,newLayerY,QImage::Format_ARGB32);
-    //newImage->fill(QPalette::Dark);
-    //setImage(*newImage);
-
-    //mirrorCheckbox = new QCheckBox();
-
-    /*newColorButton = new QPushButton();
-    newLayerColor = QColor(255,255,255,255).rgba();
-    newColorButton->setStyleSheet(QString("background-color: qlineargradient(stop:0 #FFFFFF);"));
-    connect(newColorButton, SIGNAL(clicked()), this, SLOT(setNewColor()));*/
-    //connect(mirrorCheckbox,SIGNAL(checked()),this, SLOT(mirror()));
-
-    /*zoomXInp = new QLineEdit();
-    zoomYInp = new QLineEdit();
-    rotInp = new QLineEdit();*/
+    //ignoreShaped = new QCheckBox("Ignore Shape");
 
     addColor(QColor(255,255,255,255),0);
     addColor(QColor(127,127,127,255),1);
@@ -200,6 +177,7 @@ ImageViewer::ImageViewer(QWidget *parent)
     newColorVect = QVector<QRgb>();
     newColorVect.append(colorVect);
     newLayerDock->setColorVect(colorVect);
+    drawDock->setColorVect(colorVect);
     createColorDock();
     createLayerDock();
     //connect(layerDock, SIGNAL(dockLocationChanged(Qt::DockWidgetArea area)),this, SLOT(dockSizeChanged()));
@@ -226,9 +204,9 @@ void ImageViewer::createColorDock(){
         str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         colorButtons[i]->setStyleSheet(str);
-        if(i==drawColorIndex){
-            colorButton->setStyleSheet(str);
-        }
+        //if(i==drawColorIndex){
+        //    colorButton->setStyleSheet(str);
+        //}
         connect(colorButtons[i], SIGNAL(clicked()),this, SLOT(changeColor()));
         //connect(colorButtons[i], SIGNAL(clicked()),colorButtons[i], SLOT(toggle()));
     }
@@ -249,75 +227,14 @@ void ImageViewer::createColorDock(){
     ColorScrollArea = new QScrollArea();
     ColorScrollArea->setWidget(colors);
     colorDock->setWidget(ColorScrollArea);
-    //QString str;
-    //str.sprintf("height: %dpx;",colorDock->height()*2-colors->height());
-    //printf("%d,%d,%d\n",colorDock->height(),colors->height(),ColorScrollArea->height());
-    //str.sprintf("height: 30px;");
-    //colorDock->setStyleSheet(str);
+
     addDockWidget(Qt::BottomDockWidgetArea, colorDock);
     colorDock->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
 
     //
 
 }
-/*void ImageViewer::createNewLayerDock(){
-    QDockWidget *newLayerDock = new QDockWidget(tr("New layer"), this);
-    newLayerDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    newLayerLayout = new QGridLayout(); //TODO: make private
-    QLabel *label1 = new QLabel("Size-x:");
-    newLayerLayout->addWidget(label1,0,0,1,1);
-    newLayerLayout->addWidget(newLayerXSpinbox,0,1,1,1);
-    newLayerLayout->addWidget(newLayerXSlider,1,0,1,2);
-    QLabel *label2 = new QLabel("Size-y:");
-    newLayerLayout->addWidget(label2,2,0,1,1);
-    newLayerLayout->addWidget(newLayerYSpinbox,2,1,1,1);
-    newLayerLayout->addWidget(newLayerYSlider,3,0,1,2);
-    QLabel *label3 = new QLabel("Color:");
-    newLayerLayout->addWidget(label3,9,0,1,1);
-
-    QRadioButton *button1 = new QRadioButton("Existing Color");
-    button1->setChecked(true);
-    connect(button1, SIGNAL(clicked()),this, SLOT(existingColor()));
-    newLayerLayout->addWidget(button1,10,0,1,1);
-    QRadioButton *button2 = new QRadioButton("New Color");
-    connect(button2, SIGNAL(clicked()),this, SLOT(newColor()));
-    newLayerLayout->addWidget(button2,11,0,1,1);
-    newLayerLayout->addWidget(colorButton,10,1,1,1);
-    newLayerLayout->addWidget(newColorButton,11,1,1,1);
-    QLabel *label4 = new QLabel("Colormap:");
-    newLayerLayout->addWidget(label4,4,0,1,2);
-    QButtonGroup *buttonGroup = new QButtonGroup();
-
-    newColormap[0] = new QRadioButton("actual");
-    newColormap[0]->setChecked(true);
-    buttonGroup->addButton(newColormap[0]);
-    connect(newColormap[0], SIGNAL(clicked()),this, SLOT(actualColorVect()));
-    newLayerLayout->addWidget(newColormap[0],5,0,1,2);
-    newColormap[1] = new QRadioButton("standart");
-    buttonGroup->addButton(newColormap[1]);
-    connect(newColormap[1], SIGNAL(clicked()),this, SLOT(standartColorVect()));
-    newLayerLayout->addWidget(newColormap[1],6,0,1,2);
-    newColormap[2] = new QRadioButton("small");
-    buttonGroup->addButton(newColormap[2]);
-    connect(newColormap[2], SIGNAL(clicked()),this, SLOT(smallColorVect()));
-    newLayerLayout->addWidget(newColormap[2],7,0,1,2);
-    newColormap[3] = new QRadioButton("modificated");
-    buttonGroup->addButton(newColormap[3]);
-    connect(newColormap[3], SIGNAL(clicked()),this, SLOT(customColorVect()));
-    newLayerLayout->addWidget(newColormap[3],8,0,1,2);
-
-    QPushButton *button3 = new QPushButton("Add new layer");
-    connect(button3, SIGNAL(clicked()),this, SLOT(addNewLayer()));
-    newLayerLayout->addWidget(button3,12,0,1,2);
-
-    QSpacerItem *spacer = new QSpacerItem(1,300,QSizePolicy::Maximum,QSizePolicy::Maximum);
-    newLayerLayout->addItem(spacer,13,1,1,3);
-
-    QWidget *drawControl = new QWidget(newLayerDock);
-    drawControl->setLayout(newLayerLayout);
-    newLayerDock->setWidget(drawControl);
-    addDockWidget(Qt::LeftDockWidgetArea, newLayerDock);
-}*/
+/*
 void ImageViewer::createDrawDock(){
     if (!hasLayer){
         return;
@@ -364,7 +281,7 @@ void ImageViewer::createDrawDock(){
     //layerScrollArea->setWidget(layers);
     drawDock->setWidget(drawControl);
     addDockWidget(Qt::LeftDockWidgetArea, drawDock);
-}
+}*/
 void ImageViewer::createLayerDock(){
 
     layerDock = new QDockWidget(tr("Layers"), this);
@@ -409,15 +326,7 @@ bool ImageViewer::loadFile(const QString &fileName)
     if (newImage==nullptr){
         return false;
     }
-    //setImage(*newImage);
 
-
-
-    //setWindowFilePath(fileName);
-
-    //const QString message = tr("Opened \"%1\", %2x%3, Depth: %4")
-    //    .arg(QDir::toNativeSeparators(fileName)).arg(image.width()).arg(image.height()).arg(image.depth());
-    //statusBar()->showMessage(message);
     hasLayer=true;
     return true;
 }
@@ -666,11 +575,6 @@ void ImageViewer::createActions()
     QAction *newLayer = toolMenu->addAction(tr("&New Layer"), this, &ImageViewer::newLayer);
     QAction *translate = toolMenu->addAction(tr("&Translate"), this, &ImageViewer::translate);
     QAction *makeToShaped = toolMenu->addAction(tr("&Make Shaped"), this, &ImageViewer::makeShaped);
-    //QAction *newLayerMenu = toolMenu->addAction(tr("&New layer"), this, &ImageViewer::newLayer);
-
-    //QMenu *window = menuBar()->addMenu(tr("&Window"));
-
-    //showColorsAct = window->addAction(tr("&ShowColorDock"), this, &ImageViewer::ShowColorDock);
 
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
 
@@ -716,12 +620,13 @@ void ImageViewer::adjustScrollBar(QScrollBar *scrollBar, double factor)
 }
 //! [26]
 void ImageViewer::draw(){
-    createDrawDock();
+    //createDrawDock();
+    addDockWidget(Qt::LeftDockWidgetArea, drawDock->getDockWidget());
 }
 
 void ImageViewer::mousePressEvent(QMouseEvent *event)
 {
-    if (isDraw && event->button() == Qt::LeftButton) {
+    /*if (isDraw && event->button() == Qt::LeftButton) {
         switch (actDrawModus) {
         case drawModus_e::pencil:{
             drawStart = true;
@@ -772,7 +677,11 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
         }
         }
 
-    } else if (event->button() == Qt::LeftButton){
+    } else */
+    if(drawDock->mouseEvent(event,press,scrollArea->x(),scrollArea->horizontalScrollBar()->value(),scrollArea->y(),scrollArea->verticalScrollBar()->value())){
+
+    } else
+    if (event->button() == Qt::LeftButton){
         moveStart=true;
 
         move = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
@@ -787,7 +696,7 @@ void ImageViewer::mouseMoveEvent(QMouseEvent *event)
         statusBar()->showMessage(message);
     }*/
 
-    if (drawStart) {
+    /*if (drawStart) {
         switch (actDrawModus) {
         case drawModus_e::pencil:{
             param->endPoint = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
@@ -821,6 +730,9 @@ void ImageViewer::mouseMoveEvent(QMouseEvent *event)
         }
         }
 
+    } else*/
+    if(drawDock->mouseEvent(event,movee,scrollArea->x(),scrollArea->horizontalScrollBar()->value(),scrollArea->y(),scrollArea->verticalScrollBar()->value())){
+
     } else if (moveStart){
         move -= event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
         param = new toolParameters_t;
@@ -836,7 +748,7 @@ void ImageViewer::mouseMoveEvent(QMouseEvent *event)
 }
 void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (isDraw && event->button() == Qt::LeftButton) {
+    /*if (isDraw && event->button() == Qt::LeftButton) {
         switch (actDrawModus) {
         case drawModus_e::pencil:{
             drawStart = false;
@@ -929,6 +841,9 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
             break;
         }
         }
+    } else*/
+    if(drawDock->mouseEvent(event,release,scrollArea->x(),scrollArea->horizontalScrollBar()->value(),scrollArea->y(),scrollArea->verticalScrollBar()->value())){
+
     } else if (event->button() == Qt::LeftButton){
         move -= event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
         param = new toolParameters_t;
@@ -956,14 +871,10 @@ void ImageViewer::updateColors(){
         str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         colorButtons[i]->setStyleSheet(str);
-        if(i==drawColorIndex){
-            QString str;
-            str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(newColorVect[i]),qGreen(newColorVect[i]),qBlue(newColorVect[i]));
-            colorButton->setStyleSheet(str);
-        }
-        colorAct[i]->setIcon(px);
+
     }
     newLayerDock->setColorVect(colorVect);
+    drawDock->setColorVect(colorVect);
 
     if(interactionTool->getPicture()->isShaped()){
         addColor(QColor(255,255,255,0),255);
@@ -977,18 +888,18 @@ void ImageViewer::updateColors(){
         p.drawLine(1,19,1,1);
         p.drawLine(1,19,19,1);
         p.drawLine(19,19,1,1);
-        colorAct[255]->setIcon(px);
+        //colorAct[255]->setIcon(px);
         //colorAct[255]->setEnabled(false);
         colorButtons[255]->setStyleSheet("background-color: #FFFFFF;\n");
         colorButtons[255]->setIcon(px);
         colorButtons[255]->setEnabled(false);
     } else {
-        colorAct[255]->setEnabled(true);
+        //colorAct[255]->setEnabled(true);
         colorButtons[255]->setEnabled(true);
         px.fill(QColor(255,255,255,0));
         colorButtons[255]->setIcon(px);
     }
-    colorButton->setMenu(colorMenu);
+    //colorButton->setMenu(colorMenu);
 }
 void ImageViewer::changeCurrentLayer(){
     if (layerButtons[0]->isChecked()){
@@ -1055,10 +966,9 @@ void ImageViewer::changeCurrentLayer(){
 void ImageViewer::addColor(QColor col, int pos){
     QPixmap px(20, 20);
     colorVect[pos]=col.rgba();
-    newLayerDock->setColorVect(colorVect);
+
     px.fill(colorVect[pos]);
     //colorButtons[i]->setIcon(px);
-    colorAct[pos]->setIcon(px);
     QString str;
     //str.append(qRed(colorVect[i]));
     //str.append(";");
@@ -1066,9 +976,7 @@ void ImageViewer::addColor(QColor col, int pos){
     str.sprintf("background-color: qlineargradient(stop:0.5 #%02x%02x%02x);",qRed(colorVect[pos]),qGreen(colorVect[pos]),qBlue(colorVect[pos]));
     //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
     colorButtons[pos]->setStyleSheet(str);
-    if(pos==drawColorIndex){
-        colorButton->setStyleSheet(str);
-    }
+
     colorButtons[pos]->setChecked(false);
     if (hasLayer){
         interactionTool->getPicture()->getCurrentLayerAsQ()->setColor(pos,colorVect[pos]);
@@ -1077,7 +985,8 @@ void ImageViewer::addColor(QColor col, int pos){
         updateVisible();
 
     }
-    colorButton->setMenu(colorMenu);
+    newLayerDock->setColorVect(colorVect);
+    drawDock->setColorVect(colorVect);
 }
 void ImageViewer::changeColor(){
     for (int i = 0; i < colorButtons.size(); i++) {
@@ -1087,9 +996,10 @@ void ImageViewer::changeColor(){
             str2.sprintf("Color %d",i);
             colorVect[i]=QColorDialog().getColor(Qt::white,nullptr,str2,QColorDialog::ShowAlphaChannel).rgba();
             newLayerDock->setColorVect(colorVect);
+            drawDock->setColorVect(colorVect);
             px.fill(colorVect[i]);
             //colorButtons[i]->setIcon(px);
-            colorAct[i]->setIcon(px);
+            //colorAct[i]->setIcon(px);
             QString str;
             //str.append(qRed(colorVect[i]));
             //str.append(";");
@@ -1097,9 +1007,9 @@ void ImageViewer::changeColor(){
             str.sprintf("background-color: qlineargradient(stop:0.5 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
             //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
             colorButtons[i]->setStyleSheet(str);
-            if(i==drawColorIndex){
-                colorButton->setStyleSheet(str);
-            }
+            //if(i==drawColorIndex){
+            //    colorButton->setStyleSheet(str);
+            //}
             colorButtons[i]->setChecked(false);
             if (hasLayer){
                 interactionTool->getPicture()->getCurrentLayerAsQ()->setColor(i,colorVect[i]);
@@ -1108,7 +1018,7 @@ void ImageViewer::changeColor(){
                 updateVisible();
 
             }
-            colorButton->setMenu(colorMenu);
+            //colorButton->setMenu(colorMenu);
         }
     }
 }
@@ -1197,7 +1107,7 @@ void ImageViewer::newLayer(){
     addDockWidget(Qt::LeftDockWidgetArea, newLayerDock->getDockWidget());
     //createNewLayerDock();
 }
-void ImageViewer::pencil(){
+/*void ImageViewer::pencil(){
     actDrawModus = drawModus_e::pencil;
 }
 void ImageViewer::lines(){
@@ -1247,76 +1157,11 @@ void ImageViewer::setWidth(int w){
     drawSlider->setValue(w);
     drawWidth=w;
 }
-
+*/
 void  ImageViewer::translate(){
     addDockWidget(Qt::LeftDockWidgetArea, transLationDock->getDockWidget());
 };
-/*void ImageViewer::setNewLayerX(int x){
-    newLayerXSpinbox->setValue(x);
-    newLayerXSlider->setValue(x);
-    newLayerX=x;
-}
-void ImageViewer::setNewLayerY(int y){
-    newLayerYSpinbox->setValue(y);
-    newLayerYSlider->setValue(y);
-    newLayerY=y;
-}
-void ImageViewer::existingColor(){
-    isNewLayerColor = false;
-}
-void ImageViewer::newColor(){
-    isNewLayerColor = true;
-}
-void ImageViewer::setNewColor(){
-    newLayerColor=QColorDialog().getColor(Qt::white,nullptr,QString(""),QColorDialog::ShowAlphaChannel).rgba();
-    QString str;
-    //str.append(qRed(colorVect[i]));
-    //str.append(";");
-    //str.sprintf("#%02x%02x%02x",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
-    str.sprintf("background-color: qlineargradient(stop:0.5 #%02x%02x%02x);",qRed(newLayerColor),qGreen(newLayerColor),qBlue(newLayerColor));
-    //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
-    newColorButton->setStyleSheet(str);
-}
-void ImageViewer::addNewLayer(){
-    QImage *newImage = nullptr;
-    //QVector<QRgb> newColorVect;//TODO: make color vectorsto pointer
-    if(newColormap[0]->isChecked()){
-        newColorVect = QVector<QRgb>();
-        newColorVect.append(colorVect);
-    }
-    if (isNewLayerColor){
-        newImage = new QImage(newLayerX,newLayerY,QImage::Format_ARGB32);
-        newImage->fill(QColor(newLayerColor));
-        param = new toolParameters_t;
-        param->tool = tools_e::newLayer;
-        param->pic = newImage;
 
-        param->colorVect = newColorVect;
-        interactionTool->useTool(param);
-        param = nullptr;
-        newImage=interactionTool->getPicture()->getCurrentLayerAsQ();
-    } else{
-        newImage = new QImage(newLayerX,newLayerY,QImage::Format_Indexed8);
-        newImage->setColorTable(newColorVect);
-        newImage->fill(drawColorIndex);
-        interactionTool->getPicture()->addCurrentLayer(newImage);
-    }
-
-    //
-
-    //if (newImage==nullptr){
-    //    return;
-    //}
-    //setImage(*newImage);
-    //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-    updateColors();
-    updateLayerCount();
-    updateVisible();
-    newColorVect = QVector<QRgb>();
-    newColorVect.append(colorVect);
-    //statusBar()->showMessage(message);
-    hasLayer=true;
-}*/
 void ImageViewer::updateVisible(){
     //for (int i = 0; i < interactionTool->getPicture()->getLayerCount(); i++) {
     //    if (layerCheckboxes[i]->isChecked()){
@@ -1358,351 +1203,7 @@ void ImageViewer::makeShaped(){
     }
 
 }
-/*void ImageViewer::actualColorVect(){
-    newColorVect = QVector<QRgb>();
-    for (int i = 0; i < 256; i++) {
-        newColorVect.append(colorVect);
-    }
-    QPixmap px(20, 20);
-    for(int i = 0; i <256; i++){
 
-        px.fill(newColorVect[i]);
-        if(i==drawColorIndex){
-            QString str;
-            str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(newColorVect[i]),qGreen(newColorVect[i]),qBlue(newColorVect[i]));
-            colorButton->setStyleSheet(str);
-        }
-        colorAct[i]->setIcon(px);
-    }
-}
-void ImageViewer::standartColorVect(){
-    newColorVect = QVector<QRgb>();
-    newColorVect.append(colorVect);
-    newColorVect[0]=QColor(0,0,0,255).rgba();
-    newColorVect[1]=QColor(0,0,63,255).rgba();
-    newColorVect[2]=QColor(0,0,127,255).rgba();
-    newColorVect[3]=QColor(0,0,191,255).rgba();
-    newColorVect[4]=QColor(0,0,255,255).rgba();
-    newColorVect[5]=QColor(0,63,0,255).rgba();
-    newColorVect[6]=QColor(0,63,63,255).rgba();
-    newColorVect[7]=QColor(0,63,127,255).rgba();
-    newColorVect[8]=QColor(0,63,191,255).rgba();
-    newColorVect[9]=QColor(0,63,255,255).rgba();
-    newColorVect[10]=QColor(0,127,0,255).rgba();
-    newColorVect[11]=QColor(0,127,63,255).rgba();
-    newColorVect[12]=QColor(0,127,127,255).rgba();
-    newColorVect[13]=QColor(0,127,191,255).rgba();
-    newColorVect[14]=QColor(0,127,255,255).rgba();
-    newColorVect[15]=QColor(0,191,0,255).rgba();
-    newColorVect[16]=QColor(0,191,63,255).rgba();
-    newColorVect[17]=QColor(0,191,127,255).rgba();
-    newColorVect[18]=QColor(0,191,191,255).rgba();
-    newColorVect[19]=QColor(0,191,255,255).rgba();
-    newColorVect[20]=QColor(0,255,0,255).rgba();
-    newColorVect[21]=QColor(0,255,63,255).rgba();
-    newColorVect[22]=QColor(0,255,127,255).rgba();
-    newColorVect[23]=QColor(0,255,191,255).rgba();
-    newColorVect[24]=QColor(0,255,255,255).rgba();
-    newColorVect[25]=QColor(63,0,0,255).rgba();
-    newColorVect[26]=QColor(63,0,63,255).rgba();
-    newColorVect[27]=QColor(63,0,127,255).rgba();
-    newColorVect[28]=QColor(63,0,191,255).rgba();
-    newColorVect[29]=QColor(63,0,255,255).rgba();
-    newColorVect[30]=QColor(63,63,0,255).rgba();
-    newColorVect[31]=QColor(63,63,63,255).rgba();
-    newColorVect[32]=QColor(63,63,127,255).rgba();
-    newColorVect[33]=QColor(63,63,191,255).rgba();
-    newColorVect[34]=QColor(63,63,255,255).rgba();
-    newColorVect[35]=QColor(63,127,0,255).rgba();
-    newColorVect[36]=QColor(63,127,63,255).rgba();
-    newColorVect[37]=QColor(63,127,127,255).rgba();
-    newColorVect[38]=QColor(63,127,191,255).rgba();
-    newColorVect[39]=QColor(63,127,255,255).rgba();
-    newColorVect[40]=QColor(63,191,0,255).rgba();
-    newColorVect[41]=QColor(63,191,63,255).rgba();
-    newColorVect[42]=QColor(63,191,127,255).rgba();
-    newColorVect[43]=QColor(63,191,191,255).rgba();
-    newColorVect[44]=QColor(63,191,255,255).rgba();
-    newColorVect[45]=QColor(63,255,0,255).rgba();
-    newColorVect[46]=QColor(63,255,63,255).rgba();
-    newColorVect[47]=QColor(63,255,127,255).rgba();
-    newColorVect[48]=QColor(63,255,191,255).rgba();
-    newColorVect[49]=QColor(63,255,255,255).rgba();
-    newColorVect[50]=QColor(127,0,0,255).rgba();
-    newColorVect[51]=QColor(127,0,63,255).rgba();
-    newColorVect[52]=QColor(127,0,127,255).rgba();
-    newColorVect[53]=QColor(127,0,191,255).rgba();
-    newColorVect[54]=QColor(127,0,255,255).rgba();
-    newColorVect[55]=QColor(127,63,0,255).rgba();
-    newColorVect[56]=QColor(127,63,63,255).rgba();
-    newColorVect[57]=QColor(127,63,127,255).rgba();
-    newColorVect[58]=QColor(127,63,191,255).rgba();
-    newColorVect[59]=QColor(127,63,255,255).rgba();
-    newColorVect[60]=QColor(127,127,0,255).rgba();
-    newColorVect[61]=QColor(127,127,63,255).rgba();
-    newColorVect[62]=QColor(127,127,127,255).rgba();
-    newColorVect[63]=QColor(127,127,191,255).rgba();
-    newColorVect[64]=QColor(127,127,255,255).rgba();
-    newColorVect[65]=QColor(127,191,0,255).rgba();
-    newColorVect[66]=QColor(127,191,63,255).rgba();
-    newColorVect[67]=QColor(127,191,127,255).rgba();
-    newColorVect[68]=QColor(127,191,191,255).rgba();
-    newColorVect[69]=QColor(127,191,255,255).rgba();
-    newColorVect[70]=QColor(127,255,0,255).rgba();
-    newColorVect[71]=QColor(127,255,63,255).rgba();
-    newColorVect[72]=QColor(127,255,127,255).rgba();
-    newColorVect[73]=QColor(127,255,191,255).rgba();
-    newColorVect[74]=QColor(127,255,255,255).rgba();
-    newColorVect[75]=QColor(191,0,0,255).rgba();
-    newColorVect[76]=QColor(191,0,63,255).rgba();
-    newColorVect[77]=QColor(191,0,127,255).rgba();
-    newColorVect[78]=QColor(191,0,191,255).rgba();
-    newColorVect[79]=QColor(191,0,255,255).rgba();
-    newColorVect[80]=QColor(191,63,0,255).rgba();
-    newColorVect[81]=QColor(191,63,63,255).rgba();
-    newColorVect[82]=QColor(191,63,127,255).rgba();
-    newColorVect[83]=QColor(191,63,191,255).rgba();
-    newColorVect[84]=QColor(191,63,255,255).rgba();
-    newColorVect[85]=QColor(191,127,0,255).rgba();
-    newColorVect[86]=QColor(191,127,63,255).rgba();
-    newColorVect[87]=QColor(191,127,127,255).rgba();
-    newColorVect[88]=QColor(191,127,191,255).rgba();
-    newColorVect[89]=QColor(191,127,255,255).rgba();
-    newColorVect[90]=QColor(191,191,0,255).rgba();
-    newColorVect[91]=QColor(191,191,63,255).rgba();
-    newColorVect[92]=QColor(191,191,127,255).rgba();
-    newColorVect[93]=QColor(191,191,191,255).rgba();
-    newColorVect[94]=QColor(191,191,255,255).rgba();
-    newColorVect[95]=QColor(191,255,0,255).rgba();
-    newColorVect[96]=QColor(191,255,63,255).rgba();
-    newColorVect[97]=QColor(191,255,127,255).rgba();
-    newColorVect[98]=QColor(191,255,191,255).rgba();
-    newColorVect[99]=QColor(191,255,255,255).rgba();
-    newColorVect[100]=QColor(255,0,0,255).rgba();
-    newColorVect[101]=QColor(255,0,63,255).rgba();
-    newColorVect[102]=QColor(255,0,127,255).rgba();
-    newColorVect[103]=QColor(255,0,191,255).rgba();
-    newColorVect[104]=QColor(255,0,255,255).rgba();
-    newColorVect[105]=QColor(255,63,0,255).rgba();
-    newColorVect[106]=QColor(255,63,63,255).rgba();
-    newColorVect[107]=QColor(255,63,127,255).rgba();
-    newColorVect[108]=QColor(255,63,191,255).rgba();
-    newColorVect[109]=QColor(255,63,255,255).rgba();
-    newColorVect[110]=QColor(255,127,0,255).rgba();
-    newColorVect[111]=QColor(255,127,63,255).rgba();
-    newColorVect[112]=QColor(255,127,127,255).rgba();
-    newColorVect[113]=QColor(255,127,191,255).rgba();
-    newColorVect[114]=QColor(255,127,255,255).rgba();
-    newColorVect[115]=QColor(255,191,0,255).rgba();
-    newColorVect[116]=QColor(255,191,63,255).rgba();
-    newColorVect[117]=QColor(255,191,127,255).rgba();
-    newColorVect[118]=QColor(255,191,191,255).rgba();
-    newColorVect[119]=QColor(255,191,255,255).rgba();
-    newColorVect[120]=QColor(255,255,0,255).rgba();
-    newColorVect[121]=QColor(255,255,63,255).rgba();
-    newColorVect[122]=QColor(255,255,127,255).rgba();
-    newColorVect[123]=QColor(255,255,191,255).rgba();
-    newColorVect[124]=QColor(255,255,255,255).rgba();
-    newColorVect[125]=QColor(0,0,0,127).rgba();
-    newColorVect[126]=QColor(0,0,63,127).rgba();
-    newColorVect[127]=QColor(0,0,127,127).rgba();
-    newColorVect[128]=QColor(0,0,191,127).rgba();
-    newColorVect[129]=QColor(0,0,255,127).rgba();
-    newColorVect[130]=QColor(0,63,0,127).rgba();
-    newColorVect[131]=QColor(0,63,63,127).rgba();
-    newColorVect[132]=QColor(0,63,127,127).rgba();
-    newColorVect[133]=QColor(0,63,191,127).rgba();
-    newColorVect[134]=QColor(0,63,255,127).rgba();
-    newColorVect[135]=QColor(0,127,0,127).rgba();
-    newColorVect[136]=QColor(0,127,63,127).rgba();
-    newColorVect[137]=QColor(0,127,127,127).rgba();
-    newColorVect[138]=QColor(0,127,191,127).rgba();
-    newColorVect[139]=QColor(0,127,255,127).rgba();
-    newColorVect[140]=QColor(0,191,0,127).rgba();
-    newColorVect[141]=QColor(0,191,63,127).rgba();
-    newColorVect[142]=QColor(0,191,127,127).rgba();
-    newColorVect[143]=QColor(0,191,191,127).rgba();
-    newColorVect[144]=QColor(0,191,255,127).rgba();
-    newColorVect[145]=QColor(0,255,0,127).rgba();
-    newColorVect[146]=QColor(0,255,63,127).rgba();
-    newColorVect[147]=QColor(0,255,127,127).rgba();
-    newColorVect[148]=QColor(0,255,191,127).rgba();
-    newColorVect[149]=QColor(0,255,255,127).rgba();
-    newColorVect[150]=QColor(63,0,0,127).rgba();
-    newColorVect[151]=QColor(63,0,63,127).rgba();
-    newColorVect[152]=QColor(63,0,127,127).rgba();
-    newColorVect[153]=QColor(63,0,191,127).rgba();
-    newColorVect[154]=QColor(63,0,255,127).rgba();
-    newColorVect[155]=QColor(63,63,0,127).rgba();
-    newColorVect[156]=QColor(63,63,63,127).rgba();
-    newColorVect[157]=QColor(63,63,127,127).rgba();
-    newColorVect[158]=QColor(63,63,191,127).rgba();
-    newColorVect[159]=QColor(63,63,255,127).rgba();
-    newColorVect[160]=QColor(63,127,0,127).rgba();
-    newColorVect[161]=QColor(63,127,63,127).rgba();
-    newColorVect[162]=QColor(63,127,127,127).rgba();
-    newColorVect[163]=QColor(63,127,191,127).rgba();
-    newColorVect[164]=QColor(63,127,255,127).rgba();
-    newColorVect[165]=QColor(63,191,0,127).rgba();
-    newColorVect[166]=QColor(63,191,63,127).rgba();
-    newColorVect[167]=QColor(63,191,127,127).rgba();
-    newColorVect[168]=QColor(63,191,191,127).rgba();
-    newColorVect[169]=QColor(63,191,255,127).rgba();
-    newColorVect[170]=QColor(63,255,0,127).rgba();
-    newColorVect[171]=QColor(63,255,63,127).rgba();
-    newColorVect[172]=QColor(63,255,127,127).rgba();
-    newColorVect[173]=QColor(63,255,191,127).rgba();
-    newColorVect[174]=QColor(63,255,255,127).rgba();
-    newColorVect[175]=QColor(127,0,0,127).rgba();
-    newColorVect[176]=QColor(127,0,63,127).rgba();
-    newColorVect[177]=QColor(127,0,127,127).rgba();
-    newColorVect[178]=QColor(127,0,191,127).rgba();
-    newColorVect[179]=QColor(127,0,255,127).rgba();
-    newColorVect[180]=QColor(127,63,0,127).rgba();
-    newColorVect[181]=QColor(127,63,63,127).rgba();
-    newColorVect[182]=QColor(127,63,127,127).rgba();
-    newColorVect[183]=QColor(127,63,191,127).rgba();
-    newColorVect[184]=QColor(127,63,255,127).rgba();
-    newColorVect[185]=QColor(127,127,0,127).rgba();
-    newColorVect[186]=QColor(127,127,63,127).rgba();
-    newColorVect[187]=QColor(127,127,127,127).rgba();
-    newColorVect[188]=QColor(127,127,191,127).rgba();
-    newColorVect[189]=QColor(127,127,255,127).rgba();
-    newColorVect[190]=QColor(127,191,0,127).rgba();
-    newColorVect[191]=QColor(127,191,63,127).rgba();
-    newColorVect[192]=QColor(127,191,127,127).rgba();
-    newColorVect[193]=QColor(127,191,191,127).rgba();
-    newColorVect[194]=QColor(127,191,255,127).rgba();
-    newColorVect[195]=QColor(127,255,0,127).rgba();
-    newColorVect[196]=QColor(127,255,63,127).rgba();
-    newColorVect[197]=QColor(127,255,127,127).rgba();
-    newColorVect[198]=QColor(127,255,191,127).rgba();
-    newColorVect[199]=QColor(127,255,255,127).rgba();
-    newColorVect[200]=QColor(191,0,0,127).rgba();
-    newColorVect[201]=QColor(191,0,63,127).rgba();
-    newColorVect[202]=QColor(191,0,127,127).rgba();
-    newColorVect[203]=QColor(191,0,191,127).rgba();
-    newColorVect[204]=QColor(191,0,255,127).rgba();
-    newColorVect[205]=QColor(191,63,0,127).rgba();
-    newColorVect[206]=QColor(191,63,63,127).rgba();
-    newColorVect[207]=QColor(191,63,127,127).rgba();
-    newColorVect[208]=QColor(191,63,191,127).rgba();
-    newColorVect[209]=QColor(191,63,255,127).rgba();
-    newColorVect[210]=QColor(191,127,0,127).rgba();
-    newColorVect[211]=QColor(191,127,63,127).rgba();
-    newColorVect[212]=QColor(191,127,127,127).rgba();
-    newColorVect[213]=QColor(191,127,191,127).rgba();
-    newColorVect[214]=QColor(191,127,255,127).rgba();
-    newColorVect[215]=QColor(191,191,0,127).rgba();
-    newColorVect[216]=QColor(191,191,63,127).rgba();
-    newColorVect[217]=QColor(191,191,127,127).rgba();
-    newColorVect[218]=QColor(191,191,191,127).rgba();
-    newColorVect[219]=QColor(191,191,255,127).rgba();
-    newColorVect[220]=QColor(191,255,0,127).rgba();
-    newColorVect[221]=QColor(191,255,63,127).rgba();
-    newColorVect[222]=QColor(191,255,127,127).rgba();
-    newColorVect[223]=QColor(191,255,191,127).rgba();
-    newColorVect[224]=QColor(191,255,255,127).rgba();
-    newColorVect[225]=QColor(255,0,0,127).rgba();
-    newColorVect[226]=QColor(255,0,63,127).rgba();
-    newColorVect[227]=QColor(255,0,127,127).rgba();
-    newColorVect[228]=QColor(255,0,191,127).rgba();
-    newColorVect[229]=QColor(255,0,255,127).rgba();
-    newColorVect[230]=QColor(255,63,0,127).rgba();
-    newColorVect[231]=QColor(255,63,63,127).rgba();
-    newColorVect[232]=QColor(255,63,127,127).rgba();
-    newColorVect[233]=QColor(255,63,191,127).rgba();
-    newColorVect[234]=QColor(255,63,255,127).rgba();
-    newColorVect[235]=QColor(255,127,0,127).rgba();
-    newColorVect[236]=QColor(255,127,63,127).rgba();
-    newColorVect[237]=QColor(255,127,127,127).rgba();
-    newColorVect[238]=QColor(255,127,191,127).rgba();
-    newColorVect[239]=QColor(255,127,255,127).rgba();
-    newColorVect[240]=QColor(255,191,0,127).rgba();
-    newColorVect[241]=QColor(255,191,63,127).rgba();
-    newColorVect[242]=QColor(255,191,127,127).rgba();
-    newColorVect[243]=QColor(255,191,191,127).rgba();
-    newColorVect[244]=QColor(255,191,255,127).rgba();
-    newColorVect[245]=QColor(255,255,0,127).rgba();
-    newColorVect[246]=QColor(255,255,63,127).rgba();
-    newColorVect[247]=QColor(255,255,127,127).rgba();
-    newColorVect[248]=QColor(255,255,191,127).rgba();
-    newColorVect[249]=QColor(255,255,255,127).rgba();
-    newColorVect[250]=QColor(25,25,25,127).rgba();
-    //Bis hier äquidistant, dann noch paar random Farben
-    newColorVect[251]=QColor(100,100,100,255).rgba();
-    newColorVect[252]=QColor(170,170,170,255).rgba();
-    newColorVect[253]=QColor(225,225,225,225).rgba();
-    newColorVect[254]=QColor(25,25,25,255).rgba();
-    newColorVect[255]=QColor(0,0,0,0).rgba();
-    QPixmap px(20, 20);
-    for(int i = 0; i <256; i++){
-
-        px.fill(newColorVect[i]);
-        if(i==drawColorIndex){
-            QString str;
-            str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(newColorVect[i]),qGreen(newColorVect[i]),qBlue(newColorVect[i]));
-            colorButton->setStyleSheet(str);
-        }
-        colorAct[i]->setIcon(px);
-    }
-}
-void ImageViewer::smallColorVect(){
-    newColorVect = QVector<QRgb>();
-    newColorVect.append(colorVect);
-    newColorVect[0]=QColor(255,255,255,255).rgba();
-    newColorVect[1]=QColor(127,127,127,255).rgba();
-    newColorVect[2]=QColor(0,0,0,255).rgba();
-    newColorVect[3]=QColor(0,255,255,255).rgba();
-    newColorVect[4]=QColor(0,127,127,255).rgba();
-    newColorVect[5]=QColor(127,255,255,255).rgba();
-    newColorVect[6]=QColor(127,0,0,255).rgba();
-    newColorVect[7]=QColor(255,127,127,255).rgba();
-    newColorVect[8]=QColor(255,0,0,255).rgba();
-    newColorVect[9]=QColor(255,0,255,255).rgba();
-    newColorVect[10]=QColor(127,0,127,255).rgba();
-    newColorVect[11]=QColor(255,127,255,255).rgba();
-    newColorVect[12]=QColor(0,127,0,255).rgba();
-    newColorVect[13]=QColor(127,255,127,255).rgba();
-    newColorVect[14]=QColor(0,255,0,255).rgba();
-    newColorVect[15]=QColor(255,255,0,255).rgba();
-    newColorVect[16]=QColor(127,127,0,255).rgba();
-    newColorVect[17]=QColor(255,255,127,255).rgba();
-    newColorVect[18]=QColor(0,0,127,255).rgba();
-    newColorVect[19]=QColor(127,127,255,255).rgba();
-    newColorVect[20]=QColor(0,0,255,255).rgba();
-    for (int i = 21; i < 255; i++) {
-        newColorVect[i]=QColor(255,255,255,255).rgba();
-    }
-    newColorVect[255]=QColor(0,0,0,0).rgba();
-    QPixmap px(20, 20);
-    for(int i = 0; i <256; i++){
-
-        px.fill(newColorVect[i]);
-        if(i==drawColorIndex){
-            QString str;
-            str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(newColorVect[i]),qGreen(newColorVect[i]),qBlue(newColorVect[i]));
-            colorButton->setStyleSheet(str);
-        }
-        colorAct[i]->setIcon(px);
-    }
-}
-void ImageViewer::customColorVect(){
-    newColorVect = QVector<QRgb>();
-    newColorVect.append(colorVect);
-
-    QPixmap px(20, 20);
-    for(int i = 0; i <256; i++){
-
-        px.fill(newColorVect[i]);
-        if(i==drawColorIndex){
-            QString str;
-            str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(newColorVect[i]),qGreen(newColorVect[i]),qBlue(newColorVect[i]));
-            colorButton->setStyleSheet(str);
-        }
-        colorAct[i]->setIcon(px);
-    }
-}*/
 bool ImageViewer::getHasLayer(){
     return hasLayer;
 }
@@ -1721,4 +1222,23 @@ void ImageViewer::updateall(){
 }
 void ImageViewer::updateHasLayer(bool b){
     hasLayer = b;
+}
+void ImageViewer::drawShowI(para1 p){
+    QPixmap *px = new QPixmap(*imageLabel->pixmap());
+    QPainter *painter= new QPainter(px);
+    QPen *pen = new QPen(QColor(colorVect[p.i]));
+    pen->setWidth(p.w);
+    painter->setPen(*pen);
+    painter->drawLine(p.q, p.p);
+    imageLabel->setPixmap(*px);
+}
+void ImageViewer::drawShowII(para2 p){
+    QPixmap *px = new QPixmap(*imageLabel->pixmap());
+    QPainter *painter= new QPainter(px);
+    QBrush *pen = new QBrush(QColor(colorVect[p.i]));
+    painter->setBrush(*pen);
+    QPainterPath path;
+    path.addPolygon(p.p);
+    painter->fillPath(path,*pen);
+    imageLabel->setPixmap(*px);
 }

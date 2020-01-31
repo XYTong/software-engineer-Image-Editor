@@ -126,6 +126,9 @@ bool Picture::isShaped(unsigned int index){
     return layers[index]->isShaped;
 }
 bool Picture::isShaped(){
+    if (currentLayer==nullptr){
+        return false;
+    }
     return currentLayer->isShaped;
 }
 void Picture::makeVisible(unsigned int index, bool visible){

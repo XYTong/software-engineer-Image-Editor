@@ -50,6 +50,7 @@
 #include "InteractionTool.h"
 #include "TranslationDock.h"
 #include "NewLayerDock.h"
+#include "DrawDock.h"
 
 #ifndef IMAGEVIEWER_H
 #define IMAGEVIEWER_H
@@ -80,7 +81,7 @@ class QScrollArea;
 class QScrollBar;
 QT_END_NAMESPACE
 
-typedef enum drawModus {pencil, lines, notFilledRect, filledRect} drawModus_e;
+//typedef enum drawModus {pencil, lines, notFilledRect, filledRect} drawModus_e;
 
 //! [0]
 class ImageViewer : public QMainWindow
@@ -122,11 +123,11 @@ private slots:
     void setTranslationParams(toolParameters_t * param);
     void updateHasLayer(bool b);
     void updateall();
-    void pencil();
-    void startDraw();
-    void lines();
-    void notFilledRect();
-    void filledRect();
+    //void pencil();
+    //void startDraw();
+    //void lines();
+    //void notFilledRect();
+    //void filledRect();
     //void existingColor();
     //void newColor();
     //void actualColorVect();
@@ -134,23 +135,26 @@ private slots:
     //void smallColorVect();
     //void customColorVect();
     //void setNewColor();
-    void setDrawColor();
+    //void setDrawColor();
     void changeColor();
     void changeCurrentLayer();
     //void updateVisible();
     void makeShaped();
     void newLayer();
     //void addNewLayer();
-    void setWidth(int w);
+    //void setWidth(int w);
     //void setNewLayerX(int w);
     //void setNewLayerY(int w);
+    //void scrollAreaChanged();
+    void drawShowI(para1 p);
+    void drawShowII(para2 p);
 
 private:
     void createActions();
     void createColorDock();
     void createLayerDock();
     //void createTranslateDock();
-    void createDrawDock();
+    //void createDrawDock();
     void createMenus();
     //void createNewLayerDock();
     void addColor(QColor col, int pos);
@@ -179,16 +183,16 @@ private:
     std::vector<QCheckBox*> layerCheckboxes;
     QVector<QRgb> colorVect;
     QVector<QRgb> newColorVect;
-    QList<QAction*> colorAct;
-    QPushButton *colorButton;
-    QSlider *drawSlider;
-    QSpinBox *drawSpinbox;
+    //QList<QAction*> colorAct;
+    //QPushButton *colorButton;
+    //QSlider *drawSlider;
+    //QSpinBox *drawSpinbox;
     //QSlider *newLayerXSlider;
     //QSpinBox *newLayerXSpinbox;
     //QSlider *newLayerYSlider;
     //QSpinBox *newLayerYSpinbox;
-    QPushButton *drawStartButton;
-    QMenu *colorMenu;
+    //QPushButton *drawStartButton;
+    //QMenu *colorMenu;
     /*QCheckBox *mirrorCheckbox;
     QLineEdit *zoomXInp;
     QLineEdit *zoomYInp;
@@ -199,30 +203,31 @@ private:
     QLabel *translationLabelD;
     QMatrix *transMat;*/
     //QPushButton *newColorButton;
-    drawModus_e actDrawModus = drawModus_e::pencil;
+    //drawModus_e actDrawModus = drawModus_e::pencil;
     //QRgb newLayerColor;
     //QGridLayout *newLayerLayout;
     QPixmap *pixmap;
-    QCheckBox *ignoreShaped;
+    //QCheckBox *ignoreShaped;
     //QRadioButton *newColormap[4];
     QPoint move;
-    QPolygon polyVis;
+    //QPolygon polyVis;
     bool moveStart = false;
     //bool isNewLayerColor = false;
     double scaleFactor = 1.0;
-    bool isDraw=false;
+    //bool isDraw=false;
     //bool isRot;
-    int drawWidth=3;
+    //int drawWidth=3;
     //int newLayerX = 100;
     //int newLayerY = 100;
-    int drawColorIndex=0;
-    bool drawStart=false;
+    //int drawColorIndex=0;
+    //bool drawStart=false;
     bool hasLayer=false;
     toolParameters_t *param = nullptr;
     InteractionTool *interactionTool;
 
     TranslationDock *transLationDock;
     NewLayerDock *newLayerDock;
+    DrawDock *drawDock;
 
 #ifndef QT_NO_PRINTER
     QPrinter printer;
