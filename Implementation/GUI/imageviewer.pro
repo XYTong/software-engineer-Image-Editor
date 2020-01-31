@@ -5,6 +5,7 @@ qtHaveModule(printsupport): QT += printsupport
 HEADERS       = imageviewer.h \
                 DrawDock.h \
                 InteractionTool.h \
+                LayerDock.h \
                 ManipulationTool.h \
                 NewLayerDock.h \
                 Picture.h \
@@ -21,6 +22,7 @@ HEADERS       = imageviewer.h \
 SOURCES       = imageviewer.cpp \
                 DrawDock.cpp \
                 InteractionTool.cpp \
+                LayerDock.cpp \
                 ManipulationTool.cpp \
                 NewLayerDock.cpp \
                 Picture.cpp \

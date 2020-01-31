@@ -134,7 +134,15 @@ ImageViewer::ImageViewer(QWidget *parent)
     newLayerDock->setColorVect(colorVect);
     drawDock->setColorVect(colorVect);
     createColorDock();
-    createLayerDock();
+    //createLayerDock();
+
+    layerDock = new LayerDock(interactionTool);
+    connect(layerDock,&LayerDock::updateLayerDock,this,&ImageViewer::updateLayerDock);
+    connect(layerDock,&LayerDock::newLayer,this,&ImageViewer::newLayer);
+    connect(layerDock,&LayerDock::update,this,&ImageViewer::updateWithoutLayer);
+    connect(layerDock,QOverload<toolParameters_t*>::of(&LayerDock::getParams),this,&ImageViewer::setMergeParams);
+    addDockWidget(Qt::RightDockWidgetArea, layerDock->getDockWidget());
+
 
     resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 }
@@ -187,7 +195,7 @@ void ImageViewer::createColorDock(){
     //
 
 }
-
+/*
 void ImageViewer::createLayerDock(){
 
     layerDock = new QDockWidget(tr("Layers"), this);
@@ -206,7 +214,7 @@ void ImageViewer::createLayerDock(){
     addDockWidget(Qt::RightDockWidgetArea, layerDock);
     layerDock->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
 }
-
+*/
 bool ImageViewer::loadFile(const QString &fileName)
 {
 
@@ -263,7 +271,7 @@ bool ImageViewer::saveFile(const QString &fileName)
     QPixmap *px = new QPixmap(interactionTool->getPicture()->getMaxSize());
     QPainter *painter= new QPainter(px);
     for (int i = 0; i < interactionTool->getPicture()->getLayerCount(); i++) {
-        if (layerCheckboxes[i]->isChecked()){
+        if (layerDock->isLayerCheckboxChecked(i)){
             painter->drawImage(interactionTool->getPicture()->xOffset(i),interactionTool->getPicture()->yOffset(i),*interactionTool->getPicture()->getLayerAsQ(i));
             //painter->drawI
         }
@@ -310,7 +318,8 @@ void ImageViewer::open()
 
     while (dialog.exec() == QDialog::Accepted && !loadFile(dialog.selectedFiles().first())) {}
     updateColors();
-    updateLayerCount();
+    //updateLayerCount();
+    layerDock->updateLayerCount();
     updateVisible();
 }
 //! [1]
@@ -619,6 +628,7 @@ void ImageViewer::updateColors(){
     }
     //colorButton->setMenu(colorMenu);
 }
+/*
 void ImageViewer::changeCurrentLayer(){
     if (layerButtons[0]->isChecked()){
         newLayer();
@@ -680,7 +690,7 @@ void ImageViewer::changeCurrentLayer(){
             layerButtons[i*5+5]->setChecked(false);
         }
     }
-}
+}*/
 void ImageViewer::addColor(QColor col, int pos){
     QPixmap px(20, 20);
     colorVect[pos]=col.rgba();
@@ -699,7 +709,8 @@ void ImageViewer::addColor(QColor col, int pos){
     if (hasLayer){
         interactionTool->getPicture()->getCurrentLayerAsQ()->setColor(pos,colorVect[pos]);
         //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-        updateLayers();
+        //updateLayers();
+        layerDock->updateLayers();
         updateVisible();
 
     }
@@ -732,7 +743,8 @@ void ImageViewer::changeColor(){
             if (hasLayer){
                 interactionTool->getPicture()->getCurrentLayerAsQ()->setColor(i,colorVect[i]);
                 //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-                updateLayers();
+                //updateLayers();
+                layerDock->updateLayers();
                 updateVisible();
 
             }
@@ -740,6 +752,7 @@ void ImageViewer::changeColor(){
         }
     }
 }
+/*
 void ImageViewer::updateLayerCount(){
     layerButtons = std::vector<QPushButton*>(); //TODO vector zu Qvector ändern
     layerCheckboxes = std::vector<QCheckBox*>();
@@ -818,7 +831,7 @@ void ImageViewer::updateLayers(){
     if(interactionTool->getPicture()->getLayerCount()>1){
         layerButtons[interactionTool->getPicture()->getCurrentLayerIndex()*5+3]->setEnabled(false);
     }
-}
+}*/
 void ImageViewer::newLayer(){
     //param = new toolParameters_t;
     //param->tool=tools_e::newLayer;
@@ -856,7 +869,7 @@ void ImageViewer::calculateVisible(){
         }
     }
     for (int i = 0; i < interactionTool->getPicture()->getLayerCount(); i++) {
-        if (layerCheckboxes[i]->isChecked()){
+        if (layerDock->isLayerCheckboxChecked(i)){
             painter->drawImage(interactionTool->getPicture()->xOffset(i),interactionTool->getPicture()->yOffset(i),*interactionTool->getPicture()->getLayerAsQ(i));
             //painter->drawI
         }
@@ -883,7 +896,8 @@ void ImageViewer::setTranslationParams(toolParameters_t *param){
     transLationDock->doTranslationII(param);
 }
 void ImageViewer::updateall(){
-    updateLayerCount();
+    //updateLayerCount();
+    layerDock->updateLayerCount();
     updateColors();
     //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
     updateVisible();
@@ -909,4 +923,16 @@ void ImageViewer::drawShowII(para2 p){
     path.addPolygon(p.p);
     painter->fillPath(path,*pen);
     imageLabel->setPixmap(*px);
+}
+void ImageViewer::updateLayerDock(){
+    addDockWidget(Qt::RightDockWidgetArea, layerDock->getDockWidget());
+}
+void ImageViewer::setMergeParams(toolParameters_t *param){
+    param->colorVect = colorVect;
+    layerDock->doMergeII(param);
+}
+void ImageViewer::updateWithoutLayer(){
+    updateColors();
+    //setImage(*interactionTool.getPicture()->getCurrentLayerAsQ());
+    updateVisible();
 }
