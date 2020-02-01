@@ -3,6 +3,7 @@ requires(qtConfig(filedialog))
 qtHaveModule(printsupport): QT += printsupport
 
 HEADERS       = imageviewer.h \
+                ColorDock.h \
                 DrawDock.h \
                 InteractionTool.h \
                 LayerDock.h \
@@ -20,6 +21,7 @@ HEADERS       = imageviewer.h \
                 tools/polygon.h \
                 tools/translationTool.h
 SOURCES       = imageviewer.cpp \
+                ColorDock.cpp \
                 DrawDock.cpp \
                 InteractionTool.cpp \
                 LayerDock.cpp \

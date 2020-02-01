@@ -193,6 +193,9 @@ void Picture::setYOffset(unsigned int index, int offset){
     }
     return;
 }
+bool Picture::hasLayer(){
+    return (layers.size()!=0);
+}
 Picture::Picture(std::string name){
     this->name = name;
     currentLayer = nullptr;

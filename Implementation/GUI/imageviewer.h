@@ -52,6 +52,7 @@
 #include "NewLayerDock.h"
 #include "DrawDock.h"
 #include "LayerDock.h"
+#include "ColorDock.h"
 
 #ifndef IMAGEVIEWER_H
 #define IMAGEVIEWER_H
@@ -93,13 +94,13 @@ public:
     ImageViewer(QWidget *parent = nullptr);
     bool loadFile(const QString &);
     bool getHasLayer();
-    void updateColors();
+    //void updateColors();
     //void updateLayers();
     //void updateLayerCount();
     QVector<QRgb> getColorVect();
 
 public slots:
-    void updateVisible();
+    //void updateVisible();
     //void newLayer();
 
 protected:
@@ -127,6 +128,7 @@ private slots:
     void updateHasLayer(bool b);
     void updateall();
     void updateWithoutLayer();
+    void updateVisible();
     //void pencil();
     //void startDraw();
     //void lines();
@@ -140,7 +142,7 @@ private slots:
     //void customColorVect();
     //void setNewColor();
     //void setDrawColor();
-    void changeColor();
+    //void changeColor();
     //void changeCurrentLayer();
     //void updateVisible();
     void makeShaped();
@@ -153,16 +155,17 @@ private slots:
     void drawShowI(para1 p);
     void drawShowII(para2 p);
     void updateLayerDock();
+    void updateColorVector(QVector<QRgb> colorVect);
 
 private:
     void createActions();
-    void createColorDock();
+    //void createColorDock();
     //void createLayerDock();
     //void createTranslateDock();
     //void createDrawDock();
     void createMenus();
     //void createNewLayerDock();
-    void addColor(QColor col, int pos);
+    //void addColor(QColor col, int pos);
 
     void updateActions();
     bool saveFile(const QString &fileName);
@@ -174,16 +177,16 @@ private:
     QImage image;
     QLabel *imageLabel;
     QScrollArea *scrollArea;
-    QScrollArea *ColorScrollArea;
+    //QScrollArea *ColorScrollArea;
     //QScrollArea *layerScrollArea;
-    QWidget *colors;
+    //QWidget *colors;
     //QWidget *layers;
     QMenu *viewMenu;
-    QDockWidget *colorDock;
+    //QDockWidget *colorDock;
     //QDockWidget *layerDock;
-    QGridLayout* colorLayout;
+    //QGridLayout* colorLayout;
     //QGridLayout* layerLayout;
-    std::vector<QToolButton*> colorButtons;
+    //std::vector<QToolButton*> colorButtons;
     //std::vector<QPushButton*> layerButtons;
     //std::vector<QCheckBox*> layerCheckboxes;
     QVector<QRgb> colorVect;
@@ -234,6 +237,7 @@ private:
     NewLayerDock *newLayerDock;
     DrawDock *drawDock;
     LayerDock *layerDock;
+    ColorDock *colorDock;
 
 
 #ifndef QT_NO_PRINTER

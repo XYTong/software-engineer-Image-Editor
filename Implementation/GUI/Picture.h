@@ -44,6 +44,7 @@ class Picture{
         void setXOffset(unsigned int index, int offset);
         void setYOffset(unsigned int index, int offset);
         void moveLayer(int i,int j);
+        bool hasLayer();
         Picture(std::string name = "Unbenannt");
         ~Picture();
 	

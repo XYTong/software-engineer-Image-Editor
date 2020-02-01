@@ -21,6 +21,7 @@ void LayerDock::updateLayers(){
 
 }
 void LayerDock::updateLayerCount(){
+
     layerButtons = std::vector<QPushButton*>(); //TODO vector zu Qvector ändern
     layerCheckboxes = std::vector<QCheckBox*>();
     layerDock->close();
