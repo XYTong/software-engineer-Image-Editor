@@ -175,11 +175,12 @@ void ImageViewer::setImage(QImage newImage)//remove Parameter
 bool ImageViewer::saveFile(const QString &fileName)
 {
     QImageWriter writer(fileName);
-    QPixmap *px = new QPixmap(interactionTool->getPicture()->getMaxSize());
+    QPixmap *px = new QPixmap(interactionTool->getPicture()->getMaxSize()-interactionTool->getPicture()->getMinOffset());
+    px->fill(QColor(0,0,0,0));
     QPainter *painter= new QPainter(px);
     for (int i = 0; i < interactionTool->getPicture()->getLayerCount(); i++) {
         if (layerDock->isLayerCheckboxChecked(i)){
-            painter->drawImage(interactionTool->getPicture()->xOffset(i),interactionTool->getPicture()->yOffset(i),*interactionTool->getPicture()->getLayerAsQ(i));
+            painter->drawImage(interactionTool->getPicture()->xOffset(i)-interactionTool->getPicture()->getMinOffset().width(),interactionTool->getPicture()->yOffset(i)-interactionTool->getPicture()->getMinOffset().height(),*interactionTool->getPicture()->getLayerAsQ(i));
             //painter->drawI
         }
     }
