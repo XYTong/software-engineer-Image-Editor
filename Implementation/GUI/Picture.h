@@ -33,6 +33,7 @@ class Picture{
         void makeVisible(unsigned int index, bool visible);
         bool isVisible(unsigned int index);
         QSize getMaxSize();
+        QSize getMinOffset();
         unsigned int getLayerCount();
         unsigned int getCurrentLayerIndex();
         int currentXOffset();
@@ -54,6 +55,8 @@ class Picture{
         layer_t *currentLayer;
         int maxX;
         int maxY;
+        int minX;
+        int minY;
 };
 
 #endif /* !PICTURE_H */

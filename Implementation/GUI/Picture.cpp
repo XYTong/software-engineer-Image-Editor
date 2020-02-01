@@ -12,6 +12,12 @@ void Picture::addLayer(layer_t *layer){
     if(maxY<layer->qImage->size().height()+layer->yOffset){
         maxY=layer->qImage->size().height()+layer->yOffset;
     }
+    if(minX>layer->xOffset||minX==-1){
+        minX=layer->xOffset;
+    }
+    if(minY>layer->yOffset||minY==-1){
+        minY=layer->yOffset;
+    }
     return;
 }
 void Picture::addLayer(QImage *qImage){
@@ -27,6 +33,8 @@ void Picture::addLayer(QImage *qImage){
     if(maxY<qImage->size().height()){
         maxY=qImage->size().height();
     }
+    minX=0;
+    minY=0;
     addLayer(layer);
     return;
 }
@@ -43,6 +51,8 @@ void Picture::addLayer(int width, int height){
     if(maxY<height){
         maxY=height;
     }
+    minX=0;
+    minY=0;
     addLayer(layer);
     return;
 }
@@ -51,12 +61,22 @@ void Picture::removeLayer(unsigned int index){
         currentLayer=nullptr;
     }
     layers.erase(layers.begin()+index);
+    maxX=0;
+    maxY=0;
+    minX=-1;
+    minY=-1;
     for (int i = 0; i < layers.size(); i++){
         if(maxX<layers[i]->qImage->size().width()+layers[i]->xOffset){
             maxX=layers[i]->qImage->size().width()+layers[i]->xOffset;
         }
         if(maxY<layers[i]->qImage->size().height()+layers[i]->yOffset){
             maxY=layers[i]->qImage->size().height()+layers[i]->yOffset;
+        }
+        if(minX>layers[i]->xOffset||minX==-1){
+            minX=layers[i]->xOffset;
+        }
+        if(minY>layers[i]->yOffset||minY==-1){
+            minY=layers[i]->yOffset;
         }
     }
     return;
@@ -141,6 +161,9 @@ bool Picture::isVisible(unsigned int index){
 QSize Picture::getMaxSize(){
     return QSize(maxX,maxY);
 }
+QSize Picture::getMinOffset(){
+    return QSize(minX,minY);
+}
 int Picture::currentXOffset(){
     return currentLayer->xOffset;
 }
@@ -156,9 +179,13 @@ int Picture::yOffset(unsigned int index){
 void Picture::setCurrentXOffset(int offset){
     currentLayer->xOffset+=offset;
     maxX=0;
+    minX=-1;
     for (int i = 0; i < layers.size(); i++){
         if(maxX<layers[i]->qImage->size().width()+layers[i]->xOffset){
             maxX=layers[i]->qImage->size().width()+layers[i]->xOffset;
+        }
+        if(minX>layers[i]->xOffset||minX==-1){
+            minX=layers[i]->xOffset;
         }
     }
     return;
@@ -166,9 +193,13 @@ void Picture::setCurrentXOffset(int offset){
 void Picture::setCurrentYOffset(int offset){
     currentLayer->yOffset+=offset;
     maxY=0;
+    minY=-1;
     for (int i = 0; i < layers.size(); i++){
         if(maxY<layers[i]->qImage->size().height()+layers[i]->yOffset){
             maxY=layers[i]->qImage->size().height()+layers[i]->yOffset;
+        }
+        if(minY>layers[i]->yOffset||minY==-1){
+            minY=layers[i]->yOffset;
         }
     }
     return;
@@ -176,9 +207,13 @@ void Picture::setCurrentYOffset(int offset){
 void Picture::setXOffset(unsigned int index, int offset){
     layers[index]->xOffset+=offset;
     maxX=0;
+    minX=-1;
     for (int i = 0; i < layers.size(); i++){
         if(maxX<layers[i]->qImage->size().width()+layers[i]->xOffset){
             maxX=layers[i]->qImage->size().width()+layers[i]->xOffset;
+        }
+        if(minX>layers[i]->xOffset||minX==-1){
+            minX=layers[i]->xOffset;
         }
     }
     return;
@@ -186,9 +221,13 @@ void Picture::setXOffset(unsigned int index, int offset){
 void Picture::setYOffset(unsigned int index, int offset){
     layers[index]->yOffset+=offset;
     maxY=0;
+    minY=-1;
     for (int i = 0; i < layers.size(); i++){
         if(maxY<layers[i]->qImage->size().height()+layers[i]->yOffset){
             maxY=layers[i]->qImage->size().height()+layers[i]->yOffset;
+        }
+        if(minY>layers[i]->yOffset||minY==-1){
+            minY=layers[i]->yOffset;
         }
     }
     return;
@@ -202,9 +241,12 @@ Picture::Picture(std::string name){
     layers = std::vector<layer_t*>();
     maxX=0;
     maxY=0;
+    minX=-1;
+    minY=-1;
 }
 Picture::~Picture(){
    for (unsigned int i = 0; i < layers.size(); i++){
        delete layers[i];
    }
 }
+
