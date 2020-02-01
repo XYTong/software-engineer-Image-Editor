@@ -118,7 +118,8 @@ ImageViewer::ImageViewer(QWidget *parent)
 
     layerDockW = layerDock->getDockWidget();
 
-    resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
+    //resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
+    resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
 }
 
 bool ImageViewer::loadFile(const QString &fileName)
@@ -451,7 +452,7 @@ void ImageViewer::mousePressEvent(QMouseEvent *event)
     if(drawDock->mouseEvent(event,press,scrollArea->x(),scrollArea->horizontalScrollBar()->value(),scrollArea->y(),scrollArea->verticalScrollBar()->value())){
 
     } else
-    if (event->button() == Qt::LeftButton){
+    if (event->button() == Qt::LeftButton && interactionTool->getPicture()->hasLayer()){
         moveStart=true;
 
         move = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
@@ -478,7 +479,7 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
 {
     if(drawDock->mouseEvent(event,release,scrollArea->x(),scrollArea->horizontalScrollBar()->value(),scrollArea->y(),scrollArea->verticalScrollBar()->value())){
 
-    } else if (event->button() == Qt::LeftButton){
+    } else if (event->button() == Qt::LeftButton && moveStart){
         move -= event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
         param = new toolParameters_t;
         param->tool = tools_e::move;
