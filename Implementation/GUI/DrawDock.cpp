@@ -117,7 +117,8 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
                 interactionTool->useTool(param);
                 param = nullptr;
                 //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-                emit update();
+                emit updateLayer();
+                emit updateVisible();
                 param = new toolParameters_t;
                 param->tool = paint;
                 param->ignoreShape = ignoreShaped->isChecked();
@@ -128,7 +129,8 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
             }
             case drawModus_e::lines:{
                 //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-                emit update();
+                emit updateLayer();
+                emit updateVisible();
                 para1 p;
                 p.i=drawColorIndex;
                 p.p=event->pos()-QPoint(w1-w2,h1-h2);
@@ -155,7 +157,8 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
                 interactionTool->useTool(param);
                 param = nullptr;
                 //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-                emit update();
+                emit updateLayer();
+                emit updateVisible();
 
                 break;
             }
@@ -165,7 +168,8 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
                 interactionTool->useTool(param);
                 param = nullptr;
                 //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-                emit update();
+                emit updateLayer();
+                emit updateVisible();
 
                 break;
             }
@@ -175,7 +179,8 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
                 polyVis.push_back(event->pos()-QPoint(w1-w2,h1-h2));
                 //param->poly.setPoint();
                 //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-                emit update();
+                emit updateLayer();
+                emit updateVisible();
                 para2 p;
                 p.i=drawColorIndex;
                 p.p=polyVis;
@@ -189,7 +194,8 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
                 polyVis.push_back(event->pos()-QPoint(w1-w2,h1-h2));
                 //param->poly.setPoint();
                 //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-                emit update();
+                emit updateLayer();
+                emit updateVisible();
                 para2 p;
                 p.i=drawColorIndex;
                 p.p=polyVis;
@@ -209,7 +215,8 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
                 interactionTool->useTool(param);
                 param = nullptr;
                 //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-                emit update();
+                emit updateLayer();
+                emit updateVisible();
 
                 //statusBar()->showMessage("message");
                 break;
@@ -220,7 +227,8 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
                 interactionTool->useTool(param);
                 param = nullptr;
                 //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-                emit update();
+                emit updateLayer();
+                emit updateVisible();
 
                 //statusBar()->showMessage("message");
                 break;

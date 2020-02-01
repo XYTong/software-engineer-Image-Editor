@@ -40,7 +40,9 @@ public:
     QDockWidget *createDrawDock();
 
 signals:
-    void update();
+    void updateLayer();
+    void updateVisible();
+
     void drawShowI(para1);
     void drawShowII(para2);
 

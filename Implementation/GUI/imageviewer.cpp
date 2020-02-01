@@ -83,7 +83,8 @@ ImageViewer::ImageViewer(QWidget *parent)
     connect(newLayerDock,QOverload<bool>::of(&NewLayerDock::updateHasLayer),this,&ImageViewer::updateHasLayer);
 
     drawDock = new DrawDock(interactionTool);
-    connect(drawDock,&DrawDock::update,this,&ImageViewer::updateall);
+    connect(drawDock,&DrawDock::updateVisible,this,&ImageViewer::updateVisible);
+
     connect(drawDock,QOverload<para1>::of(&DrawDock::drawShowI),this,&ImageViewer::drawShowI);
     connect(drawDock,QOverload<para2>::of(&DrawDock::drawShowII),this,&ImageViewer::drawShowII);
     /*
@@ -145,6 +146,7 @@ ImageViewer::ImageViewer(QWidget *parent)
     addDockWidget(Qt::RightDockWidgetArea, layerDock->getDockWidget());
 
     connect(colorDock,&ColorDock::updateLayers,layerDock,&LayerDock::updateLayers);
+    connect(drawDock,&DrawDock::updateLayer,layerDock,&LayerDock::updateLayers);
 
     newColorVect = QVector<QRgb>();
     colorVect = colorDock->getColorVect();
@@ -153,6 +155,8 @@ ImageViewer::ImageViewer(QWidget *parent)
     drawDock->setColorVect(colorVect);
     colorDock->setColorVect(colorVect);
     //createColorDock();
+
+    layerDockW = layerDock->getDockWidget();
 
     resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 }
@@ -779,7 +783,9 @@ void ImageViewer::drawShowII(para2 p){
     imageLabel->setPixmap(*px);
 }
 void ImageViewer::updateLayerDock(){
-    addDockWidget(Qt::RightDockWidgetArea, layerDock->getDockWidget());
+    layerDockW->close();
+    layerDockW=layerDock->getDockWidget();
+    addDockWidget(Qt::RightDockWidgetArea, layerDockW);
 }
 void ImageViewer::setMergeParams(toolParameters_t *param){
     param->colorVect = colorVect;

@@ -183,7 +183,7 @@ private:
     //QWidget *layers;
     QMenu *viewMenu;
     //QDockWidget *colorDock;
-    //QDockWidget *layerDock;
+    QDockWidget *layerDockW;
     //QGridLayout* colorLayout;
     //QGridLayout* layerLayout;
     //std::vector<QToolButton*> colorButtons;
