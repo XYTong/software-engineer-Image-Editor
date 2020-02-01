@@ -551,6 +551,8 @@ void ImageViewer::calculateVisible(){
     }
     pixmap=px;
     setImage(px->toImage());
+    painter->end();
+    delete px;
 }
 void ImageViewer::makeShaped(){
     if(hasLayer){
