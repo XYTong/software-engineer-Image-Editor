@@ -12,6 +12,7 @@
 #include <QButtonGroup>
 #include <QColorDialog>
 #include <QMenu>
+#include <QPainter>
 
 
 class NewLayerDock : public QObject
@@ -28,6 +29,7 @@ public:
 signals:
     void updateHasLayer(bool b);
     void update();
+    void setNewColorVect(QVector<QRgb> colorVect);
 
 private slots:
     void existingColor();

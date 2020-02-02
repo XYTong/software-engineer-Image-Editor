@@ -11,10 +11,27 @@ DrawDock::DrawDock(InteractionTool *interaction){
         QPixmap px(20,20);
         //str.append(qRed(colorVect[i]));
         //str.append(";");
-        str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
+        str.sprintf("padding:0px;background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         if(i==drawColorIndex){
+            QPixmap px(40, 20);
+            px.fill(QColor(0,0,0,0));
+            QPainter p(&px);
+            QBrush *br1 = new QBrush(QColor(100,100,100));
+            QBrush *br2 = new QBrush(QColor(200,200,200));
+            br1->setColor(QColor(100,100,100,255-qAlpha(colorVect[i])));
+            br2->setColor(QColor(200,200,200,255-qAlpha(colorVect[i])));
+            p.fillRect(0,0,10,10,*br1);
+            p.fillRect(10,10,10,10,*br1);
+            p.fillRect(0,10,10,10,*br2);
+            p.fillRect(10,0,10,10,*br2);
+            p.fillRect(20,0,10,10,*br1);
+            p.fillRect(30,10,10,10,*br1);
+            p.fillRect(20,10,10,10,*br2);
+            p.fillRect(30,0,10,10,*br2);
+            p.end();
             colorButton->setStyleSheet(str);
+            //colorButton->setIcon(px);
         }
 
         //connect(colorButtons[i], SIGNAL(clicked()),colorButtons[i], SLOT(toggle()));
@@ -281,9 +298,26 @@ void DrawDock::setDrawColor(){
             QString str;
             //str.append(qRed(colorVect[i]));
             //str.append(";");
-            str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
+            str.sprintf("padding:0px;background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
             //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
             colorButton->setStyleSheet(str);
+            QPixmap px(40, 20);
+            px.fill(QColor(0,0,0,0));
+            QPainter p(&px);
+            QBrush *br1 = new QBrush(QColor(100,100,100));
+            QBrush *br2 = new QBrush(QColor(200,200,200));
+            br1->setColor(QColor(100,100,100,255-qAlpha(colorVect[i])));
+            br2->setColor(QColor(200,200,200,255-qAlpha(colorVect[i])));
+            p.fillRect(0,0,10,10,*br1);
+            p.fillRect(10,10,10,10,*br1);
+            p.fillRect(0,10,10,10,*br2);
+            p.fillRect(10,0,10,10,*br2);
+            p.fillRect(20,0,10,10,*br1);
+            p.fillRect(30,10,10,10,*br1);
+            p.fillRect(20,10,10,10,*br2);
+            p.fillRect(30,0,10,10,*br2);
+            p.end();
+            //colorButton->setIcon(px);
             //QString str;
             //str.sprintf("%d",i);
             //statusBar()->showMessage(str);
@@ -346,18 +380,44 @@ void DrawDock::setColorVect(QVector<QRgb> colorVect){
     //colorVect = interactionTool->getPicture()->getCurrentLayerAsQ()->colorTable();
     for(int i = 0; i <256; i++){
 
-        px.fill(colorVect[i]);
+        QPainter p(&px);
+        QBrush br1(QColor(100,100,100));
+        QBrush br2(QColor(200,200,200));
+        QBrush br3(QColor(qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]),qAlpha(colorVect[i])));
+        p.fillRect(0,0,10,10,br1);
+        p.fillRect(10,10,10,10,br1);
+        p.fillRect(0,10,10,10,br2);
+        p.fillRect(10,0,10,10,br2);
+        p.fillRect(0,0,20,20,br3);
+        p.end();
 
         //colorButtons[i]->setIcon(px);
         QString str;
         //str.append(qRed(colorVect[i]));
         //str.append(";");
-        str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
+        str.sprintf("padding:0px;background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         if(i==drawColorIndex){
             QString str;
-            str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
+            str.sprintf("padding:0px;background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
+            QPixmap px(40, 20);
+            px.fill(QColor(0,0,0,0));
+            QPainter p(&px);
+            QBrush *br1 = new QBrush(QColor(100,100,100));
+            QBrush *br2 = new QBrush(QColor(200,200,200));
+            br1->setColor(QColor(100,100,100,255-qAlpha(colorVect[i])));
+            br2->setColor(QColor(200,200,200,255-qAlpha(colorVect[i])));
+            p.fillRect(0,0,10,10,*br1);
+            p.fillRect(10,10,10,10,*br1);
+            p.fillRect(0,10,10,10,*br2);
+            p.fillRect(10,0,10,10,*br2);
+            p.fillRect(20,0,10,10,*br1);
+            p.fillRect(30,10,10,10,*br1);
+            p.fillRect(20,10,10,10,*br2);
+            p.fillRect(30,0,10,10,*br2);
+            p.end();
             colorButton->setStyleSheet(str);
+            //colorButton->setIcon(px);
         }
         colorAct[i]->setIcon(px);
     }

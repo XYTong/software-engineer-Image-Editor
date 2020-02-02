@@ -71,9 +71,6 @@
 #include <QLabel>
 #include <QCheckBox>
 
-#ifndef QT_NO_PRINTER
-#include <QPrinter>
-#endif
 
 QT_BEGIN_NAMESPACE
 class QAction;
@@ -111,9 +108,9 @@ protected:
 private slots:
     void open();
     void saveAs();
-    void print();
-    void copy();
-    void paste();
+    //void print();
+    //void copy();
+    //void paste();
     void zoomIn();
     void zoomOut();
     void normalSize();
@@ -133,6 +130,7 @@ private slots:
     void drawShowII(para2 p);
     void updateLayerDock();
     void updateColorVector(QVector<QRgb> colorVect);
+    void updateNewColorVector(QVector<QRgb> colorVect);
 
 private:
     void createActions();
@@ -171,13 +169,13 @@ private:
     ColorDock *colorDock;
 
 
-#ifndef QT_NO_PRINTER
+/*#ifndef QT_NO_PRINTER
     QPrinter printer;
 #endif
-
+*/
     QAction *saveAsAct;
-    QAction *printAct;
-    QAction *copyAct;
+    //QAction *printAct;
+    //QAction *copyAct;
     QAction *zoomInAct;
     QAction *zoomOutAct;
     QAction *normalSizeAct;
