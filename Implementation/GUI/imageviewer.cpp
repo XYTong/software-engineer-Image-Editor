@@ -238,10 +238,14 @@ void ImageViewer::createActions(){
     fitToWindowAct->setCheckable(true);
     fitToWindowAct->setShortcut(tr("Ctrl+F"));
     QMenu *toolMenu = menuBar()->addMenu(tr("&Tools"));
-    QAction *drawTool = toolMenu->addAction(tr("&Draw"), this, &ImageViewer::draw);
-    QAction *newLayer = toolMenu->addAction(tr("&New Layer"), this, &ImageViewer::newLayer);
-    QAction *translate = toolMenu->addAction(tr("&Translate"), this, &ImageViewer::translate);
-    QAction *makeToShaped = toolMenu->addAction(tr("&Make Shaped"), this, &ImageViewer::makeShaped);
+    drawToolAct = toolMenu->addAction(tr("&Draw"), this, &ImageViewer::draw);
+    drawToolAct->setEnabled(false);
+    newLayerAct = toolMenu->addAction(tr("&New Layer"), this, &ImageViewer::newLayer);
+    translateAct = toolMenu->addAction(tr("&Translate"), this, &ImageViewer::translate);
+    translateAct->setEnabled(false);
+    makeToShaped = toolMenu->addAction(tr("&Make Shaped"), this, &ImageViewer::makeShaped);
+    makeToShaped->setEnabled(false);
+    makeToShaped->setCheckable(true);
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
     helpMenu->addAction(tr("&About"), this, &ImageViewer::about);
     helpMenu->addAction(tr("About &Qt"), &QApplication::aboutQt);
@@ -251,6 +255,9 @@ void ImageViewer::updateActions(){
     zoomInAct->setEnabled(!fitToWindowAct->isChecked());
     zoomOutAct->setEnabled(!fitToWindowAct->isChecked());
     normalSizeAct->setEnabled(!fitToWindowAct->isChecked());
+    drawToolAct->setEnabled(hasLayer);
+    translateAct->setEnabled(hasLayer);
+    makeToShaped->setEnabled(hasLayer);
 }
 
 void ImageViewer::scaleImage(double factor){
@@ -326,6 +333,9 @@ void ImageViewer::updateVisible(){
             //TODO: Syncronisieren vom Bild
     //    }
     //}
+    updateActions();
+    makeToShaped->setChecked(interactionTool->getPicture()->isShaped());
+    makeToShaped->setEnabled(!interactionTool->getPicture()->isShaped());
     QString message;
     message.sprintf("Dimensions: %dx%d",interactionTool->getPicture()->getCurrentLayerAsQ()->width(),interactionTool->getPicture()->getCurrentLayerAsQ()->height());
     statusBar()->showMessage(message);
@@ -370,6 +380,7 @@ void ImageViewer::calculateVisible(){
 
 void ImageViewer::makeShaped(){
     if(hasLayer){
+        makeToShaped->setEnabled(false);
         interactionTool->getPicture()->makeCurrentLayerShaped();
         colorDock->updateColors();
     }
@@ -433,6 +444,8 @@ void ImageViewer::setMergeParams(toolParameters_t *param){
 void ImageViewer::updateWithoutLayer(){
     colorDock->updateColors();
     updateVisible();
+
+
 }
 void ImageViewer::updateColorVector(QVector<QRgb> colorVect){
     this->colorVect = colorVect;

@@ -161,7 +161,10 @@ private:
     bool hasLayer=false;
     toolParameters_t *param = nullptr;
     InteractionTool *interactionTool;
-
+    QAction *makeToShaped;
+    QAction *drawToolAct;
+    QAction *newLayerAct;
+    QAction *translateAct;
     TranslationDock *transLationDock;
     NewLayerDock *newLayerDock;
     DrawDock *drawDock;

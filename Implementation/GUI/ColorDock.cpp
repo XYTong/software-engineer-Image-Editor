@@ -37,7 +37,7 @@ ColorDock::ColorDock(InteractionTool *interaction){
     addColor(QColor(127,127,255,255),19);
     addColor(QColor(0,0,255,255),20);
 
-    addColor(QColor(0,0,0,0),255);
+    addColor(QColor(255,255,255,0),255);
     
     createColorDock();
     emit updateColorVect(colorVect);

@@ -77,9 +77,9 @@ void LayerDock::updateLayerCount(){
         connect(layerButtons[i*5+5], SIGNAL(clicked()),this, SLOT(changeCurrentLayer()));
     }
     layerButtons[interactionTool->getPicture()->getCurrentLayerIndex()*5+1]->setChecked(true);
-    if(interactionTool->getPicture()->getLayerCount()>1){
+    //if(interactionTool->getPicture()->getLayerCount()>1){
         layerButtons[interactionTool->getPicture()->getCurrentLayerIndex()*5+3]->setEnabled(false);
-    }
+    //}
     layers = new QWidget(layerDock);
     layers->setLayout(layerLayout);
     layerScrollArea = new QScrollArea();

@@ -13,6 +13,7 @@
 #include <math.h>
 
 QRgb FloydSteiberg::errorAdd(QColor orig, int err_r, int err_g, int err_b, int err_a, int weight){
+
     int new_rgb[4];
     new_rgb[0] = orig.red()+((err_r*weight)>>4);
     new_rgb[1] = orig.green()+((err_g*weight)>>4);
@@ -73,11 +74,17 @@ QImage *FloydSteiberg::getIndexed(QImage* source, QVector<QRgb> colors){
         errorR = currentPixel.red() - qRed(colors[k]);
         errorG = currentPixel.green() - qGreen(colors[k]);
         errorB = currentPixel.blue() - qBlue(colors[k]);
-        errorA = currentPixel.blue() - qAlpha(colors[k]);
+        errorA = currentPixel.alpha() - qAlpha(colors[k]);
         nextPixel=thisRow[1];
-        nextPixel=errorAdd(nextPixel,errorR,errorG,errorB,errorA,7);
-        nextRow[0]=errorAdd(nextRow[0],errorR,errorG,errorB,errorA,5);
-        nextRow[1]=errorAdd(nextRow[1],errorR,errorG,errorB,errorA,1);
+        if(nextPixel.alpha()!=0){
+            nextPixel=errorAdd(nextPixel,errorR,errorG,errorB,errorA,7);
+        }
+        if(nextRow[0].alpha()!=0){
+            nextRow[0]=errorAdd(nextPixel,errorR,errorG,errorB,errorA,5);
+        }
+        if(nextRow[1].alpha()!=0){
+            nextRow[1]=errorAdd(nextPixel,errorR,errorG,errorB,errorA,1);
+        }
         for(int i = 1; i < width-1; i++){
             currentPixel = nextPixel;
             //gettimeofday(&t3,nullptr);
@@ -88,12 +95,20 @@ QImage *FloydSteiberg::getIndexed(QImage* source, QVector<QRgb> colors){
             errorR = currentPixel.red() - qRed(colors[k]);
             errorG = currentPixel.green() - qGreen(colors[k]);
             errorB = currentPixel.blue() - qBlue(colors[k]);
-            errorA = currentPixel.blue() - qAlpha(colors[k]);
+            errorA = currentPixel.alpha() - qAlpha(colors[k]);
             nextPixel=thisRow[i+1];
-            nextPixel=errorAdd(nextPixel,errorR,errorG,errorB,errorA,7);
-            nextRow[i-1]=errorAdd(nextRow[i-1],errorR,errorG,errorB,errorA,3);
-            nextRow[i]=errorAdd(nextRow[i],errorR,errorG,errorB,errorA,5);
-            nextRow[i+1]=errorAdd(nextRow[i+1],errorR,errorG,errorB,errorA,1);
+            if(nextPixel.alpha()!=0){
+                nextPixel=errorAdd(nextPixel,errorR,errorG,errorB,errorA,7);
+            }
+            if(nextRow[i-1].alpha()!=0){
+                nextRow[i-1]=errorAdd(nextRow[i-1],errorR,errorG,errorB,errorA,3);
+            }
+            if(nextRow[i].alpha()!=0){
+                nextRow[i]=errorAdd(nextRow[i],errorR,errorG,errorB,errorA,5);
+            }
+            if(nextRow[i+1].alpha()!=0){
+                nextRow[i+1]=errorAdd(nextRow[i+1],errorR,errorG,errorB,errorA,1);
+            }
         }
         gettimeofday(&t3,nullptr);
         k = nearestColor(currentPixel, colors);
@@ -103,9 +118,15 @@ QImage *FloydSteiberg::getIndexed(QImage* source, QVector<QRgb> colors){
         errorR = currentPixel.red() - qRed(colors[k]);
         errorG = currentPixel.green() - qGreen(colors[k]);
         errorB = currentPixel.blue() - qBlue(colors[k]);
-        errorA = currentPixel.blue() - qAlpha(colors[k]);
+        errorA = currentPixel.alpha() - qAlpha(colors[k]);
         nextRow[width-2]=errorAdd(nextRow[width-2],errorR,errorG,errorB,errorA,5);
         nextRow[width-1]=errorAdd(nextRow[width-1],errorR,errorG,errorB,errorA,1);
+        if(nextRow[width-2].alpha()!=0){
+            nextRow[width-2]=errorAdd(nextRow[width-2],errorR,errorG,errorB,errorA,5);
+        }
+        if(nextRow[width-1].alpha()!=0){
+            nextRow[width-1]=errorAdd(nextRow[width-1],errorR,errorG,errorB,errorA,1);
+        }
         x = thisRow;
         thisRow=nextRow;
         nextRow=x;
@@ -120,9 +141,11 @@ QImage *FloydSteiberg::getIndexed(QImage* source, QVector<QRgb> colors){
         errorR = currentPixel.red() - qRed(colors[k]);
         errorG = currentPixel.green() - qGreen(colors[k]);
         errorB = currentPixel.blue() - qBlue(colors[k]);
-        errorA = currentPixel.blue() - qAlpha(colors[k]);
+        errorA = currentPixel.alpha() - qAlpha(colors[k]);
         nextPixel=thisRow[i+1];
-        nextPixel=errorAdd(nextPixel,errorR,errorG,errorB,errorA,7);
+        if(nextPixel.alpha()!=0){
+            nextPixel=errorAdd(nextPixel,errorR,errorG,errorB,errorA,7);
+        }
     }
     k = nearestColor(thisRow[width-1], colors);
     newImage->setPixel(width-1,height-1,k);
@@ -151,11 +174,16 @@ int FloydSteiberg::nearestColor(QColor color, QVector<QRgb> colorVect){
         Gdiff = qGreen(col) - qGreen(colorVect[i]);
         Bdiff = qBlue(col) - qBlue(colorVect[i]);
         Adiff = qAlpha(col) - qAlpha(colorVect[i]);
+
         if ((distanceSquared = Rdiff * Rdiff + Gdiff * Gdiff + Bdiff * Bdiff + Adiff * Adiff) < minDistanceSquared)
         {
             minDistanceSquared = distanceSquared;
             bestIndex = i;
-            if (minDistanceSquared < 10) break;//TODO Find best value
+            if (minDistanceSquared < 1) break;//TODO Find best value
+        }
+        if (qAlpha(colorVect[i])==0 && qAlpha(col)==0){
+            bestIndex = i;
+            break;
         }
      }
      return bestIndex;

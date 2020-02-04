@@ -355,7 +355,7 @@ void NewLayerDock::standartColorVect(){
     newColorVect[252]=QColor(170,170,170,255).rgba();
     newColorVect[253]=QColor(225,225,225,225).rgba();
     newColorVect[254]=QColor(25,25,25,255).rgba();
-    newColorVect[255]=QColor(0,0,0,0).rgba();
+    newColorVect[255]=QColor(255,255,255,0).rgba();
     QPixmap px(20, 20);
     for(int i = 0; i <256; i++){
         QPainter p(&px);
@@ -408,7 +408,7 @@ void NewLayerDock::smallColorVect(){
     for (int i = 21; i < 255; i++) {
         newColorVect[i]=QColor(255,255,255,255).rgba();
     }
-    newColorVect[255]=QColor(0,0,0,0).rgba();
+    newColorVect[255]=QColor(255,255,255,0).rgba();
     QPixmap px(20, 20);
     for(int i = 0; i <256; i++){
 
@@ -498,12 +498,13 @@ void NewLayerDock::addNewLayer(){
     //updateColors();
     //updateLayerCount();
     //updateVisible();
+    emit updateHasLayer(true);
     emit update();
     newColorVect = QVector<QRgb>();
     newColorVect.append(colorVect);
     //statusBar()->showMessage(message);
     //hasLayer=true;
-    emit updateHasLayer(true);
+
 }
 void NewLayerDock::setNewColor(){
     newLayerColor=QColorDialog().getColor(Qt::white,nullptr,QString(""),QColorDialog::ShowAlphaChannel).rgba();
