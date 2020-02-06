@@ -119,7 +119,7 @@ bool ImageViewer::loadFile(const QString &fileName){
     if (newImage==nullptr){
         return false;
     }
-    hasLayer=true;
+
     return true;
 }
 
@@ -177,6 +177,7 @@ void ImageViewer::open(){
     QFileDialog dialog(this, tr("Open File"));
     initializeImageFileDialog(dialog, QFileDialog::AcceptOpen);
     while (dialog.exec() == QDialog::Accepted && !loadFile(dialog.selectedFiles().first())) {}
+    hasLayer=true;
     colorDock->updateColors();
     layerDock->updateLayerCount();
     updateVisible();
@@ -449,6 +450,7 @@ void ImageViewer::updateWithoutLayer(){
 }
 void ImageViewer::updateColorVector(QVector<QRgb> colorVect){
     this->colorVect = colorVect;
+    newColorVect = colorVect;
     newLayerDock->setColorVect(colorVect);
     drawDock->setColorVect(colorVect);
 }

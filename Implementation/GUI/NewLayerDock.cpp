@@ -99,7 +99,7 @@ void NewLayerDock::actualColorVect(){
 void NewLayerDock::standartColorVect(){
     newColorVect = QVector<QRgb>();
     newColorVect.append(colorVect);
-    newColorVect[0]=QColor(0,0,0,255).rgba();
+    newColorVect[124]=QColor(0,0,0,255).rgba();
     newColorVect[1]=QColor(0,0,63,255).rgba();
     newColorVect[2]=QColor(0,0,127,255).rgba();
     newColorVect[3]=QColor(0,0,191,255).rgba();
@@ -223,7 +223,7 @@ void NewLayerDock::standartColorVect(){
     newColorVect[121]=QColor(255,255,63,255).rgba();
     newColorVect[122]=QColor(255,255,127,255).rgba();
     newColorVect[123]=QColor(255,255,191,255).rgba();
-    newColorVect[124]=QColor(255,255,255,255).rgba();
+    newColorVect[0]=QColor(255,255,255,255).rgba();
     newColorVect[125]=QColor(0,0,0,127).rgba();
     newColorVect[126]=QColor(0,0,63,127).rgba();
     newColorVect[127]=QColor(0,0,127,127).rgba();
@@ -554,7 +554,7 @@ QDockWidget *NewLayerDock::createNewLayerDock(){
     newLayerLayout->addWidget(label4,4,0,1,2);
     QButtonGroup *buttonGroup = new QButtonGroup();
 
-    newColormap[0] = new QRadioButton("actual");
+    newColormap[0] = new QRadioButton("current");
     newColormap[0]->setChecked(true);
     buttonGroup->addButton(newColormap[0]);
     connect(newColormap[0], SIGNAL(clicked()),this, SLOT(actualColorVect()));
@@ -568,9 +568,9 @@ QDockWidget *NewLayerDock::createNewLayerDock(){
     connect(newColormap[2], SIGNAL(clicked()),this, SLOT(smallColorVect()));
     newLayerLayout->addWidget(newColormap[2],7,0,1,2);
     newColormap[3] = new QRadioButton("modificated");
-    buttonGroup->addButton(newColormap[3]);
+    //buttonGroup->addButton(newColormap[3]);
     connect(newColormap[3], SIGNAL(clicked()),this, SLOT(customColorVect()));
-    newLayerLayout->addWidget(newColormap[3],8,0,1,2);
+    //newLayerLayout->addWidget(newColormap[3],8,0,1,2);
 
     QPushButton *button3 = new QPushButton("Add new layer");
     connect(button3, SIGNAL(clicked()),this, SLOT(addNewLayer()));
