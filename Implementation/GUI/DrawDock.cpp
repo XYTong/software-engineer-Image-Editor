@@ -5,14 +5,9 @@ DrawDock::DrawDock(InteractionTool *interaction){
     colorButton = new QPushButton();
     for(int i = 0; i <256; i++){
         colorVect.append(QColor(255,255,255,255).rgba());
-        //px.fill(colorVect[i]);
-        //colorButtons[i]->setIcon(px);
         QString str,str2;
         QPixmap px(20,20);
-        //str.append(qRed(colorVect[i]));
-        //str.append(";");
         str.sprintf("padding:0px;background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
-        //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         if(i==drawColorIndex){
             QPixmap px(40, 20);
             px.fill(QColor(0,0,0,0));
@@ -31,25 +26,16 @@ DrawDock::DrawDock(InteractionTool *interaction){
             p.fillRect(30,0,10,10,*br2);
             p.end();
             colorButton->setStyleSheet(str);
-            //colorButton->setIcon(px);
         }
-
-        //connect(colorButtons[i], SIGNAL(clicked()),colorButtons[i], SLOT(toggle()));
         str2.sprintf("Color %d",i);
         px.fill(colorVect[i]);
-        //QAction *act = new QAction(px,str);
-        //act->setCheckable(true);
-        //connect(act, SIGNAL(clicked()),this, SLOT(setDrawColor()));
         colorMenu->addAction(px,str2,this,&DrawDock::setDrawColor);
     }
     colorAct = colorMenu->actions();
     for (int i = 0; i < 256; i++) {
         colorAct[i]->setCheckable(true);
-        //connect(act[i], SIGNAL(toggled()),this, SLOT(setDrawColor()));
     }
-
     colorButton->setMenu(colorMenu);
-
     drawSpinbox = new QSpinBox();
     drawSpinbox->setValue(3);
     connect(drawSpinbox, QOverload<int>::of(&QSpinBox::valueChanged),this, &DrawDock::setWidth);
@@ -57,13 +43,11 @@ DrawDock::DrawDock(InteractionTool *interaction){
     drawSlider->setRange(1,99);
     drawSlider->setValue(3);
     connect(drawSlider, QOverload<int>::of(&QSlider::valueChanged),this, &DrawDock::setWidth);
-
     drawStartButton = new QPushButton("Start");
     drawStartButton->setCheckable(true);
     connect(drawStartButton, SIGNAL(clicked()),this, SLOT(startDraw()));
     ignoreShaped = new QCheckBox("Ignore Shape");
     interactionTool=interaction;
-    //createDrawDock();
     param=nullptr;
 }
 DrawDock::~DrawDock(){
@@ -134,7 +118,6 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
                 param->endPoint = event->pos()-QPoint(w1-w2,h1-h2);
                 interactionTool->useTool(param);
                 param = nullptr;
-                //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
                 emit updateLayer();
                 emit updateVisible();
                 param = new toolParameters_t;
@@ -146,7 +129,6 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
                 break;
             }
             case drawModus_e::lines:{
-                //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
                 emit updateLayer();
                 emit updateVisible();
                 para1 p;
@@ -174,10 +156,8 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
                 param->endPoint = event->pos()-QPoint(w1-w2,h1-h2);
                 interactionTool->useTool(param);
                 param = nullptr;
-                //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
                 emit updateLayer();
                 emit updateVisible();
-
                 break;
             }
             case drawModus_e::lines:{
@@ -185,18 +165,14 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
                 param->endPoint = event->pos()-QPoint(w1-w2,h1-h2);
                 interactionTool->useTool(param);
                 param = nullptr;
-                //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
                 emit updateLayer();
                 emit updateVisible();
-
                 break;
             }
             case drawModus_e::filledRect:{
                 //if () TODO: Start & Endpkt vergleichen
                 param->poly.push_back(event->pos()-QPoint(w1-w2+interactionTool->getPicture()->currentXOffset(),h1-h2+interactionTool->getPicture()->currentYOffset()));
                 polyVis.push_back(event->pos()-QPoint(w1-w2,h1-h2));
-                //param->poly.setPoint();
-                //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
                 emit updateLayer();
                 emit updateVisible();
                 para2 p;
@@ -210,8 +186,6 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
                 //if () TODO: Start & Endpkt vergleichen
                 param->poly.push_back(event->pos()-QPoint(w1-w2+interactionTool->getPicture()->currentXOffset(),h1-h2+interactionTool->getPicture()->currentYOffset()));
                 polyVis.push_back(event->pos()-QPoint(w1-w2,h1-h2));
-                //param->poly.setPoint();
-                //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
                 emit updateLayer();
                 emit updateVisible();
                 para2 p;
@@ -232,11 +206,8 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
                 param->colorIndex=drawColorIndex;
                 interactionTool->useTool(param);
                 param = nullptr;
-                //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
                 emit updateLayer();
                 emit updateVisible();
-
-                //statusBar()->showMessage("message");
                 break;
             }
             case drawModus_e::notFilledRect:{
@@ -244,11 +215,8 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
                 param->colorIndex=drawColorIndex;
                 interactionTool->useTool(param);
                 param = nullptr;
-                //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
                 emit updateLayer();
                 emit updateVisible();
-
-                //statusBar()->showMessage("message");
                 break;
             }
             default:{
@@ -261,9 +229,6 @@ bool DrawDock::mouseEvent(QMouseEvent *event, eventType_e type, int w1, int w2, 
     }
     }
 }
-//QDockWidget *DrawDock::getDockWidget(){
-//    return drawDock;
-//}
 void DrawDock::pencil(){
     actDrawModus = drawModus_e::pencil;
 }
@@ -271,14 +236,12 @@ void DrawDock::startDraw(){
     if(isDraw){
         isDraw = false;
         drawStartButton->setText("Start");
-        //drawSlider->setEnabled(true);
-        //drawSpinbox->setEnabled(true);
-
+        param = nullptr;
+        emit updateLayer();
+        emit updateVisible();
     } else {
         isDraw = true;
         drawStartButton->setText("Stop");
-        //drawSlider->setEnabled(false);
-        //drawSpinbox->setEnabled(false);
     }
 }
 void DrawDock::lines(){
@@ -295,12 +258,8 @@ void DrawDock::setDrawColor(){
         if (colorAct[i]->isChecked()){
             colorAct[i]->setChecked(false);
             drawColorIndex = i;
-            //newLayerDock->setDrawColorIndex(drawColorIndex);
             QString str;
-            //str.append(qRed(colorVect[i]));
-            //str.append(";");
             str.sprintf("padding:0px;background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
-            //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
             colorButton->setStyleSheet(str);
             QPixmap px(40, 20);
             px.fill(QColor(0,0,0,0));
@@ -318,10 +277,6 @@ void DrawDock::setDrawColor(){
             p.fillRect(20,10,10,10,*br2);
             p.fillRect(30,0,10,10,*br2);
             p.end();
-            //colorButton->setIcon(px);
-            //QString str;
-            //str.sprintf("%d",i);
-            //statusBar()->showMessage(str);
         }
     }
 }
@@ -351,36 +306,24 @@ QDockWidget *DrawDock::createDrawDock(){
     color->setText("Color:");
     drawLayout->addWidget(color,4,0);
     drawLayout->addWidget(colorButton,4,1);
-
     drawLayout->addWidget(ignoreShaped,5,0,1,2);
     QLabel *width = new QLabel();
     width->setText("Width:");
     drawLayout->addWidget(width,6,0);
-
-
     drawLayout->addWidget(drawSpinbox,6,1);
     QDialog *text = new QDialog();
     drawLayout->addWidget(text,8,1,1,2);
-
     drawLayout->addWidget(drawSlider,7,0,1,2);
-
     drawLayout->addWidget(drawStartButton,8,0,1,2);
-    //QSpacerItem *spacer = new QSpacerItem(1,300,QSizePolicy::Maximum,QSizePolicy::Maximum);
-    //newLayerLayout->addItem(spacer,9,0,1,2);
     QWidget *drawControl = new QWidget(drawDock);
     drawControl->setLayout(drawLayout);
-    //layerScrollArea = new QScrollArea();
-    //layerScrollArea->setWidget(layers);
     drawDock->setWidget(drawControl);
-    //addDockWidget(Qt::LeftDockWidgetArea, drawDock);
     return drawDock;
 }
 void DrawDock::setColorVect(QVector<QRgb> colorVect){
     this->colorVect=colorVect;
     QPixmap px(20, 20);
-    //colorVect = interactionTool->getPicture()->getCurrentLayerAsQ()->colorTable();
     for(int i = 0; i <256; i++){
-
         QPainter p(&px);
         QBrush br1(QColor(100,100,100));
         QBrush br2(QColor(200,200,200));
@@ -391,13 +334,8 @@ void DrawDock::setColorVect(QVector<QRgb> colorVect){
         p.fillRect(10,0,10,10,br2);
         p.fillRect(0,0,20,20,br3);
         p.end();
-
-        //colorButtons[i]->setIcon(px);
         QString str;
-        //str.append(qRed(colorVect[i]));
-        //str.append(";");
         str.sprintf("padding:0px;background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
-        //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         if(i==drawColorIndex){
             QString str;
             str.sprintf("padding:0px;background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
@@ -418,7 +356,6 @@ void DrawDock::setColorVect(QVector<QRgb> colorVect){
             p.fillRect(30,0,10,10,*br2);
             p.end();
             colorButton->setStyleSheet(str);
-            //colorButton->setIcon(px);
         }
         colorAct[i]->setIcon(px);
     }
@@ -435,12 +372,10 @@ void DrawDock::setColorVect(QVector<QRgb> colorVect){
         p.drawLine(1,19,19,1);
         p.drawLine(19,19,1,1);
         colorAct[255]->setIcon(px);
-        //colorAct[255]->setEnabled(false);
     } else {
         colorAct[255]->setEnabled(true);
         px.fill(QColor(255,255,255,0));
         colorAct[255]->setIcon(px);
     }
     colorButton->setMenu(colorMenu);
-    //}
 }

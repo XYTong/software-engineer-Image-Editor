@@ -2,10 +2,7 @@
 #include <QtWidgets>
 #include <cstdlib>
 
-ImageViewer::ImageViewer(QWidget *parent)
-   : QMainWindow(parent), imageLabel(new QLabel),
-     scrollArea(new QScrollArea), scaleFactor(1)
-{
+ImageViewer::ImageViewer(QWidget *parent): QMainWindow(parent), imageLabel(new QLabel) ,scrollArea(new QScrollArea), scaleFactor(1){
     interactionTool = new InteractionTool();
     imageLabel->setBackgroundRole(QPalette::Dark);
     imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
