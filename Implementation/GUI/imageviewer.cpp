@@ -69,17 +69,17 @@ bool ImageViewer::loadFile(const QString &fileName){
     if (newImage==nullptr){
         return false;
     }
-
+    hasLayer=true;
     return true;
 }
 
 void ImageViewer::setImage(QImage newImage){//remove Parameter
     image = newImage;
     imageLabel->setPixmap(QPixmap::fromImage(image));
-    fitToWindowAct->setEnabled(true);
+    //fitToWindowAct->setEnabled(true);
     updateActions();
-    if (!fitToWindowAct->isChecked())
-        imageLabel->adjustSize();
+    //if (!fitToWindowAct->isChecked())
+       imageLabel->adjustSize();
 }
 
 bool ImageViewer::saveFile(const QString &fileName){
@@ -127,7 +127,7 @@ void ImageViewer::open(){
     QFileDialog dialog(this, tr("Open File"));
     initializeImageFileDialog(dialog, QFileDialog::AcceptOpen);
     while (dialog.exec() == QDialog::Accepted && !loadFile(dialog.selectedFiles().first())) {}
-    hasLayer=true;
+
     colorDock->updateColors();
     layerDock->updateLayerCount();
     updateVisible();
@@ -169,6 +169,7 @@ void ImageViewer::createActions(){
     QAction *openAct = fileMenu->addAction(tr("&Open..."), this, &ImageViewer::open);
     openAct->setShortcut(QKeySequence::Open);
     saveAsAct = fileMenu->addAction(tr("&Save As..."), this, &ImageViewer::saveAs);
+    saveAsAct->setShortcut(QKeySequence::Save);
     saveAsAct->setEnabled(false);
     fileMenu->addSeparator();
     QAction *exitAct = fileMenu->addAction(tr("E&xit"), this, &QWidget::close);
@@ -181,18 +182,16 @@ void ImageViewer::createActions(){
     zoomOutAct->setShortcut(QKeySequence::ZoomOut);
     zoomOutAct->setEnabled(false);
     normalSizeAct = viewMenu->addAction(tr("&Normal Size"), this, &ImageViewer::normalSize);
-    normalSizeAct->setShortcut(tr("Ctrl+S"));
+    normalSizeAct->setShortcut(tr("Ctrl+0"));
     normalSizeAct->setEnabled(false);
-    viewMenu->addSeparator();
-    //fitToWindowAct = viewMenu->addAction(tr("&Fit to Window"), this, &ImageViewer::fitToWindow);
-    //fitToWindowAct->setEnabled(false);
-    //fitToWindowAct->setCheckable(true);
-    //fitToWindowAct->setShortcut(tr("Ctrl+F"));
     QMenu *toolMenu = menuBar()->addMenu(tr("&Tools"));
     drawToolAct = toolMenu->addAction(tr("&Draw"), this, &ImageViewer::draw);
+    drawToolAct->setShortcut(tr("Ctrl+D"));
     drawToolAct->setEnabled(false);
     newLayerAct = toolMenu->addAction(tr("&New Layer"), this, &ImageViewer::newLayer);
+    newLayerAct->setShortcut(tr("Ctrl+N"));
     translateAct = toolMenu->addAction(tr("&Translate"), this, &ImageViewer::translate);
+    translateAct->setShortcut(tr("Ctrl+T"));
     translateAct->setEnabled(false);
     makeToShaped = toolMenu->addAction(tr("&Make Shaped"), this, &ImageViewer::makeShaped);
     makeToShaped->setEnabled(false);
@@ -203,9 +202,10 @@ void ImageViewer::createActions(){
 }
 
 void ImageViewer::updateActions(){
-    zoomInAct->setEnabled(!fitToWindowAct->isChecked());
-    zoomOutAct->setEnabled(!fitToWindowAct->isChecked());
-    normalSizeAct->setEnabled(!fitToWindowAct->isChecked());
+    saveAsAct->setEnabled(hasLayer);
+    zoomInAct->setEnabled(hasLayer);
+    zoomOutAct->setEnabled(hasLayer);
+    normalSizeAct->setEnabled(hasLayer);
     drawToolAct->setEnabled(hasLayer);
     translateAct->setEnabled(hasLayer);
     makeToShaped->setEnabled(hasLayer);

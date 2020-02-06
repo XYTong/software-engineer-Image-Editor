@@ -13,16 +13,10 @@ bool DrawTool::initTool(toolParameters_t *param){
 }
 
 bool DrawTool::useTool(){
-    //QPainter painter(pic->getCurrentLayerAsQ());
     QImage *tempImage = new QImage(pic->getCurrentLayerAsQ()->width(), pic->getCurrentLayerAsQ()->height(), QImage::Format_ARGB32);
     tempImage->fill(QColor(0,0,0,0));
     QPainter painter(tempImage);
     QImage *qPic = pic->getCurrentLayer()->qImage;
-    /*for(int i = -5; i <= 5; i++){
-        for(int j = -5; j <= 5; j++){
-            qPic->setPixel(point+QPoint(i,j),2);
-        }
-    }*/
     QColor white(255,255,255,255);
     QPen pen(white);
     pen.setWidth(w);

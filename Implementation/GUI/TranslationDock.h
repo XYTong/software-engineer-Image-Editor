@@ -1,8 +1,6 @@
-
-
 #ifndef TRANSLATIONDOCK_H
 #define TRANSLATIONDOCK_H
-//#include "imageviewer.h"
+
 #include "InteractionTool.h"
 #include <QDockWidget>
 #include <QCheckBox>
@@ -18,9 +16,7 @@ class TranslationDock : public QObject
     Q_OBJECT
 public:
     TranslationDock(InteractionTool *interaction);
-    //void init(ImageViewer *mainWindow);
     ~TranslationDock();
-    //QDockWidget *getDockWidget();
     void doTranslationII(toolParameters_t *param);
     QDockWidget *createTranslateDock();
 
@@ -38,7 +34,6 @@ private:
 
     toolParameters_t *param;
     QDockWidget *dockWidget;
-    //ImageViewer *mainWindow;
     InteractionTool *interactionTool;
     QCheckBox *mirrorCheckbox;
     QLineEdit *zoomXInp;

@@ -12,16 +12,10 @@ bool PolygonTool::initTool(toolParameters_t *param){
 }
 
 bool PolygonTool::useTool(){
-    //QPainter painter(pic->getCurrentLayerAsQ());
     QImage tempImage = QImage(pic->getCurrentLayerAsQ()->width(), pic->getCurrentLayerAsQ()->height(), QImage::Format_ARGB32);
     tempImage.fill(QColor(0,0,0,0));
     QPainter painter(&tempImage);
     QImage *qPic = pic->getCurrentLayer()->qImage;
-    /*for(int i = -5; i <= 5; i++){
-        for(int j = -5; j <= 5; j++){
-            qPic->setPixel(point+QPoint(i,j),2);
-        }
-    }*/
     QBrush pen(QColor(255,255,255,255));
     painter.setBrush(pen);
     painter.drawPolygon(poly);

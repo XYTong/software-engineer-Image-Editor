@@ -12,7 +12,6 @@ bool TranslationTool::initTool(toolParameters_t *param){
 
 bool TranslationTool::useTool(){
     QImage *qPic = new QImage(pic->getCurrentLayerAsQ()->transformed(mat));
-    //qPic->setColorTable(colorVect);
     bool shaped = pic->isShaped();
     int xOffset=pic->currentXOffset();
     int yOffset=pic->currentYOffset();
@@ -21,7 +20,6 @@ bool TranslationTool::useTool(){
     }
 
     QImage *qPic2 = new QImage(qPic->convertToFormat(QImage::Format_Indexed8,colorVect));
-    //qPic2->setColorTable(colorVect);
     if(isRot){
         QPolygon poly = mat.mapToPolygon(QRect(0,0,pic->getCurrentLayerAsQ()->width(),pic->getCurrentLayerAsQ()->height()));
         int x[4]={poly.point(0).x(),poly.point(1).x(),poly.point(2).x(),poly.point(3).x()};

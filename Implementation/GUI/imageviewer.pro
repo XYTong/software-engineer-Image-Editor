@@ -12,7 +12,6 @@ HEADERS       = imageviewer.h \
                 Picture.h \
                 Tool.h \
                 TranslationDock.h \
-                main.h \
                 tools/drawTool.h \
                 tools/floydSteinberg.h \
                 tools/merge.h \

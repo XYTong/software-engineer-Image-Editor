@@ -233,7 +233,6 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		../GUI/Picture.h \
 		../GUI/Tool.h \
 		../GUI/TranslationDock.h \
-		../GUI/main.h \
 		../GUI/tools/drawTool.h \
 		../GUI/tools/floydSteinberg.h \
 		../GUI/tools/merge.h \
@@ -538,7 +537,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../GUI/imageviewer.h ../GUI/ColorDock.h ../GUI/DrawDock.h ../GUI/InteractionTool.h ../GUI/LayerDock.h ../GUI/ManipulationTool.h ../GUI/NewLayerDock.h ../GUI/Picture.h ../GUI/Tool.h ../GUI/TranslationDock.h ../GUI/main.h ../GUI/tools/drawTool.h ../GUI/tools/floydSteinberg.h ../GUI/tools/merge.h ../GUI/tools/movetool.h ../GUI/tools/newLayer.h ../GUI/tools/polygon.h ../GUI/tools/translationTool.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../GUI/imageviewer.h ../GUI/ColorDock.h ../GUI/DrawDock.h ../GUI/InteractionTool.h ../GUI/LayerDock.h ../GUI/ManipulationTool.h ../GUI/NewLayerDock.h ../GUI/Picture.h ../GUI/Tool.h ../GUI/TranslationDock.h ../GUI/tools/drawTool.h ../GUI/tools/floydSteinberg.h ../GUI/tools/merge.h ../GUI/tools/movetool.h ../GUI/tools/newLayer.h ../GUI/tools/polygon.h ../GUI/tools/translationTool.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../GUI/imageviewer.cpp ../GUI/ColorDock.cpp ../GUI/DrawDock.cpp ../GUI/InteractionTool.cpp ../GUI/LayerDock.cpp ../GUI/ManipulationTool.cpp ../GUI/NewLayerDock.cpp ../GUI/Picture.cpp ../GUI/TranslationDock.cpp ../GUI/main.cpp ../GUI/tools/drawTool.cpp ../GUI/tools/floydSteinberg.cpp ../GUI/tools/merge.cpp ../GUI/tools/movetool.cpp ../GUI/tools/newLayer.cpp ../GUI/tools/polygon.cpp ../GUI/tools/translationTool.cpp $(DISTDIR)/
 
 

@@ -12,10 +12,6 @@ bool NewLayer::initTool(toolParameters_t *param){
 }
 
 bool NewLayer::useTool(){
-    //qPic->convertTo(QImage::Format_Indexed8,Qt::OrderedAlphaDither);
-    //qPic->convertTo(QImage::Format_ARGB32,Qt::OrderedAlphaDither);
-
-    //*qPic = qPic->convertToFormat(QImage::Format_Indexed8, colorVect, Qt::PreferDither);
     FloydSteiberg fs = FloydSteiberg();
     QImage *qPic2 = fs.getIndexed(qPic,colorVect);
     delete qPic;

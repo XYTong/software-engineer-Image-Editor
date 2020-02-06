@@ -1,3 +1,4 @@
+
 #include "InteractionTool.h"
 #include "TranslationDock.h"
 #include "NewLayerDock.h"
@@ -7,6 +8,8 @@
 
 #ifndef IMAGEVIEWER_H
 #define IMAGEVIEWER_H
+
+
 
 #include <QMainWindow>
 #include <QImage>
@@ -20,6 +23,18 @@
 #include <QLabel>
 #include <QCheckBox>
 
+
+QT_BEGIN_NAMESPACE
+class QAction;
+class QLabel;
+class QMenu;
+class QScrollArea;
+class QScrollBar;
+QT_END_NAMESPACE
+
+//typedef enum drawModus {pencil, lines, notFilledRect, filledRect} drawModus_e;
+
+//! [0]
 class ImageViewer : public QMainWindow
 {
     Q_OBJECT
@@ -28,7 +43,14 @@ public:
     ImageViewer(QWidget *parent = nullptr);
     bool loadFile(const QString &);
     bool getHasLayer();
+    //void updateColors();
+    //void updateLayers();
+    //void updateLayerCount();
     QVector<QRgb> getColorVect();
+
+public slots:
+    //void updateVisible();
+    //void newLayer();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -38,6 +60,9 @@ protected:
 private slots:
     void open();
     void saveAs();
+    //void print();
+    //void copy();
+    //void paste();
     void zoomIn();
     void zoomOut();
     void normalSize();
@@ -73,31 +98,46 @@ private:
     QLabel *imageLabel;
     QScrollArea *scrollArea;
     QMenu *viewMenu;
+    //QDockWidget *colorDock;
     QDockWidget *layerDockW;
     QVector<QRgb> colorVect;
     QVector<QRgb> newColorVect;
     QPixmap *pixmap;
+    //QCheckBox *ignoreShaped;
+    //QRadioButton *newColormap[4];
     QPoint move;
+    //QPolygon polyVis;
     bool moveStart = false;
+    //bool isNewLayerColor = false;
     double scaleFactor = 1.0;
     bool hasLayer=false;
     toolParameters_t *param = nullptr;
     InteractionTool *interactionTool;
     QAction *makeToShaped;
-    QAction *drawToolAct;
+    QAction *drawTool;
     QAction *newLayerAct;
     QAction *translateAct;
+    QAction *drawToolAct;
     TranslationDock *transLationDock;
     NewLayerDock *newLayerDock;
     DrawDock *drawDock;
     LayerDock *layerDock;
     ColorDock *colorDock;
+
+
+/*#ifndef QT_NO_PRINTER
+    QPrinter printer;
+#endif
+*/
     QAction *saveAsAct;
+    //QAction *printAct;
+    //QAction *copyAct;
     QAction *zoomInAct;
     QAction *zoomOutAct;
     QAction *normalSizeAct;
     QAction *fitToWindowAct;
     QAction *showColorsAct;
 };
+//! [0]
 
 #endif
