@@ -64,6 +64,7 @@ DrawDock::DrawDock(InteractionTool *interaction){
     ignoreShaped = new QCheckBox("Ignore Shape");
     interactionTool=interaction;
     //createDrawDock();
+    param=nullptr;
 }
 DrawDock::~DrawDock(){
 

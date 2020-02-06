@@ -26,12 +26,9 @@ signals:
 
 
 private slots:
-    void calcTranslation();
     void doTranslationI();
 
 private:
-
-
     toolParameters_t *param;
     QDockWidget *dockWidget;
     InteractionTool *interactionTool;
@@ -39,10 +36,6 @@ private:
     QLineEdit *zoomXInp;
     QLineEdit *zoomYInp;
     QLineEdit *rotInp;
-    QLabel *translationLabelA;
-    QLabel *translationLabelB;
-    QLabel *translationLabelC;
-    QLabel *translationLabelD;
     QMatrix *transMat;
     bool isRot;
 };

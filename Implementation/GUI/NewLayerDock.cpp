@@ -24,40 +24,30 @@ NewLayerDock::NewLayerDock(InteractionTool *interaction){
     interactionTool = interaction;
     colorButton = new QPushButton();
     colorMenu = new QMenu();
+
     for(int i = 0; i <256; i++){
         colorVect.append(QColor(255,255,255,255).rgba());
-        //px.fill(colorVect[i]);
-        //colorButtons[i]->setIcon(px);
         QString str,str2;
         QPixmap px(20,20);
-        //str.append(qRed(colorVect[i]));
-        //str.append(";");
         str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
-        //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         if(i==drawColorIndex){
             colorButton->setStyleSheet(str);
         }
-        //connect(colorButtons[i], SIGNAL(clicked()),colorButtons[i], SLOT(toggle()));
         str2.sprintf("Color %d",i);
         px.fill(colorVect[i]);
-        //QAction *act = new QAction(px,str);
-        //act->setCheckable(true);
-        //connect(act, SIGNAL(clicked()),this, SLOT(setDrawColor()));
         colorMenu->addAction(px,str2,this,&NewLayerDock::setNewLayerColor);
     }
     colorButton->setMenu(colorMenu);
     colorAct=colorMenu->actions();
     for (int i = 0; i < 256; i++) {
         colorAct[i]->setCheckable(true);
-        //connect(act[i], SIGNAL(toggled()),this, SLOT(setDrawColor()));
     }
     newColorVect = QVector<QRgb>();
-    //for (int i = 0; i < 256; i++) {
-        newColorVect.append(colorVect);
-    //}
+    newColorVect.append(colorVect);
     actualColorVect();
     createNewLayerDock();
 }
+
 NewLayerDock::~NewLayerDock(){
 
 }
@@ -68,7 +58,6 @@ void NewLayerDock::newColor(){
     isNewLayerColor = true;
 }
 void NewLayerDock::actualColorVect(){
-    //newColorVect = QVector<QRgb>();
     for (int i = 0; i < 256; i++) {
         newColorVect[i]=colorVect[i];
     }
@@ -90,7 +79,6 @@ void NewLayerDock::actualColorVect(){
             str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(newColorVect[i]),qGreen(newColorVect[i]),qBlue(newColorVect[i]));
             colorButton->setStyleSheet(str);
         }
-
         colorAct[i]->setIcon(px);
     }
     actualColor = true;
@@ -350,7 +338,6 @@ void NewLayerDock::standartColorVect(){
     newColorVect[248]=QColor(255,255,191,127).rgba();
     newColorVect[249]=QColor(255,255,255,127).rgba();
     newColorVect[250]=QColor(25,25,25,127).rgba();
-    //Bis hier äquidistant, dann noch paar random Farben
     newColorVect[251]=QColor(100,100,100,255).rgba();
     newColorVect[252]=QColor(170,170,170,255).rgba();
     newColorVect[253]=QColor(225,225,225,225).rgba();
@@ -368,15 +355,12 @@ void NewLayerDock::standartColorVect(){
         p.fillRect(10,0,10,10,br2);
         p.fillRect(0,0,20,20,br3);
         p.end();
-        //px.fill(newColorVect[i]);
         if(i==drawColorIndex){
             QString str;
             str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(newColorVect[i]),qGreen(newColorVect[i]),qBlue(newColorVect[i]));
             colorButton->setStyleSheet(str);
         }
-
         colorAct[i]->setIcon(px);
-        //colorAct[i]->setIcon(px);
     }
     actualColor = false;
     emit setNewColorVect(newColorVect);
@@ -411,7 +395,6 @@ void NewLayerDock::smallColorVect(){
     newColorVect[255]=QColor(255,255,255,0).rgba();
     QPixmap px(20, 20);
     for(int i = 0; i <256; i++){
-
         QPainter p(&px);
         QBrush br1(QColor(100,100,100));
         QBrush br2(QColor(200,200,200));
@@ -427,8 +410,6 @@ void NewLayerDock::smallColorVect(){
             str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(newColorVect[i]),qGreen(newColorVect[i]),qBlue(newColorVect[i]));
             colorButton->setStyleSheet(str);
         }
-
-        //colorAct[i]->setIcon(px);
         colorAct[i]->setIcon(px);
     }
     actualColor = false;
@@ -437,10 +418,8 @@ void NewLayerDock::smallColorVect(){
 void NewLayerDock::customColorVect(){
     newColorVect = QVector<QRgb>();
     newColorVect.append(colorVect);
-
     QPixmap px(20, 20);
     for(int i = 0; i <256; i++){
-
         QPainter p(&px);
         QBrush br1(QColor(100,100,100));
         QBrush br2(QColor(200,200,200));
@@ -456,16 +435,13 @@ void NewLayerDock::customColorVect(){
             str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(newColorVect[i]),qGreen(newColorVect[i]),qBlue(newColorVect[i]));
             colorButton->setStyleSheet(str);
         }
-
         colorAct[i]->setIcon(px);
-        //colorAct[i]->setIcon(px);
     }
     actualColor = false;
     emit setNewColorVect(newColorVect);
 }
 void NewLayerDock::addNewLayer(){
     QImage *newImage = nullptr;
-    //QVector<QRgb> newColorVect;//TODO: make color vectorsto pointer
     if(newColormap[0]->isChecked()){
         newColorVect = QVector<QRgb>();
         newColorVect.append(colorVect);
@@ -476,7 +452,6 @@ void NewLayerDock::addNewLayer(){
         param = new toolParameters_t;
         param->tool = tools_e::newLayer;
         param->pic = newImage;
-
         param->colorVect = newColorVect;
         interactionTool->useTool(param);
         param = nullptr;
@@ -487,45 +462,31 @@ void NewLayerDock::addNewLayer(){
         newImage->fill(drawColorIndex);
         interactionTool->getPicture()->addCurrentLayer(newImage);
     }
-
-    //
-
-    //if (newImage==nullptr){
-    //    return;
-    //}
-    //setImage(*newImage);
-    //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-    //updateColors();
-    //updateLayerCount();
-    //updateVisible();
     emit updateHasLayer(true);
     emit update();
     newColorVect = QVector<QRgb>();
     newColorVect.append(colorVect);
-    //statusBar()->showMessage(message);
-    //hasLayer=true;
-
 }
+
 void NewLayerDock::setNewColor(){
     newLayerColor=QColorDialog().getColor(Qt::white,nullptr,QString(""),QColorDialog::ShowAlphaChannel).rgba();
     QString str;
-    //str.append(qRed(colorVect[i]));
-    //str.append(";");
-    //str.sprintf("#%02x%02x%02x",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
     str.sprintf("background-color: qlineargradient(stop:0.5 #%02x%02x%02x);",qRed(newLayerColor),qGreen(newLayerColor),qBlue(newLayerColor));
-    //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
     newColorButton->setStyleSheet(str);
 }
+
 void NewLayerDock::setNewLayerX(int w){
     newLayerXSpinbox->setValue(w);
     newLayerXSlider->setValue(w);
     newLayerX=w;
 }
+
 void NewLayerDock::setNewLayerY(int w){
     newLayerYSpinbox->setValue(w);
     newLayerYSlider->setValue(w);
     newLayerY=w;
 }
+
 QDockWidget *NewLayerDock::createNewLayerDock(){
     dockWidget = new QDockWidget(tr("New layer"));
     dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -540,7 +501,6 @@ QDockWidget *NewLayerDock::createNewLayerDock(){
     newLayerLayout->addWidget(newLayerYSlider,3,0,1,2);
     QLabel *label3 = new QLabel("Color:");
     newLayerLayout->addWidget(label3,9,0,1,1);
-
     QRadioButton *button1 = new QRadioButton("Existing Color");
     button1->setChecked(true);
     connect(button1, SIGNAL(clicked()),this, SLOT(existingColor()));
@@ -553,7 +513,6 @@ QDockWidget *NewLayerDock::createNewLayerDock(){
     QLabel *label4 = new QLabel("Colormap:");
     newLayerLayout->addWidget(label4,4,0,1,2);
     QButtonGroup *buttonGroup = new QButtonGroup();
-
     newColormap[0] = new QRadioButton("current");
     newColormap[0]->setChecked(true);
     buttonGroup->addButton(newColormap[0]);
@@ -568,33 +527,24 @@ QDockWidget *NewLayerDock::createNewLayerDock(){
     connect(newColormap[2], SIGNAL(clicked()),this, SLOT(smallColorVect()));
     newLayerLayout->addWidget(newColormap[2],7,0,1,2);
     newColormap[3] = new QRadioButton("modificated");
-    //buttonGroup->addButton(newColormap[3]);
     connect(newColormap[3], SIGNAL(clicked()),this, SLOT(customColorVect()));
-    //newLayerLayout->addWidget(newColormap[3],8,0,1,2);
-
     QPushButton *button3 = new QPushButton("Add new layer");
     connect(button3, SIGNAL(clicked()),this, SLOT(addNewLayer()));
     newLayerLayout->addWidget(button3,12,0,1,2);
-
     QSpacerItem *spacer = new QSpacerItem(1,300,QSizePolicy::Maximum,QSizePolicy::Maximum);
     newLayerLayout->addItem(spacer,13,1,1,3);
-
     QWidget *drawControl = new QWidget(dockWidget);
     drawControl->setLayout(newLayerLayout);
     dockWidget->setWidget(drawControl);
-    //addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
     return dockWidget;
 }
 void NewLayerDock::setColorVect(QVector<QRgb> colorVect){
-
     for (int i = 0; i < 256; i++) {
         newColorVect[i]=colorVect[i];
         this->colorVect[i]=colorVect[i];
     }
     QPixmap px(20, 20);
-    //colorVect = interactionTool->getPicture()->getCurrentLayerAsQ()->colorTable();
     for(int i = 0; i <256; i++){
-
         QPainter p(&px);
         QBrush br1(QColor(100,100,100));
         QBrush br2(QColor(200,200,200));
@@ -605,19 +555,13 @@ void NewLayerDock::setColorVect(QVector<QRgb> colorVect){
         p.fillRect(10,0,10,10,br2);
         p.fillRect(0,0,20,20,br3);
         p.end();
-
-        //colorButtons[i]->setIcon(px);
         QString str;
-        //str.append(qRed(colorVect[i]));
-        //str.append(";");
         str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
-        //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
         if(i==drawColorIndex){
             QString str;
             str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(newColorVect[i]),qGreen(newColorVect[i]),qBlue(newColorVect[i]));
             colorButton->setStyleSheet(str);
         }
-
         colorAct[i]->setIcon(px);
     }
     if(actualColor){
@@ -625,29 +569,15 @@ void NewLayerDock::setColorVect(QVector<QRgb> colorVect){
         //for (int i = 0; i < 256; i++) {
         newColorVect.append(colorVect);
     }
-
-    //}
 }
-//void NewLayerDock::setDrawColorIndex(int i){
-//    drawColorIndex = i;
-//}
-//QDockWidget *NewLayerDock::getDockWidget(){
-//    return dockWidget;
-//}
 void NewLayerDock::setNewLayerColor(){
     for (int i = 0; i < 256; i++) {
         if (colorAct[i]->isChecked()){
             colorAct[i]->setChecked(false);
             drawColorIndex = i;
             QString str;
-            //str.append(qRed(colorVect[i]));
-            //str.append(";");
             str.sprintf("background-color: qlineargradient(stop:0 #%02x%02x%02x);",qRed(newColorVect[i]),qGreen(newColorVect[i]),qBlue(newColorVect[i]));
-            //printf("background-color: #%02x%02x%02x;\n",qRed(colorVect[i]),qGreen(colorVect[i]),qBlue(colorVect[i]));
             colorButton->setStyleSheet(str);
-            //QString str;
-            //str.sprintf("%d",i);
-            //statusBar()->showMessage(str);
         }
     }
 }

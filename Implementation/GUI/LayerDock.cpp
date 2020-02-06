@@ -24,8 +24,6 @@ void LayerDock::updateLayerCount(){
 
     layerButtons = std::vector<QPushButton*>(); //TODO vector zu Qvector ändern
     layerCheckboxes = std::vector<QCheckBox*>();
-    //layerDock->close();
-
     layerDock = new QDockWidget(tr("Layers"));
     layerDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     layerLayout = new QGridLayout();
@@ -36,12 +34,10 @@ void LayerDock::updateLayerCount(){
     connect(layerButtons[0], SIGNAL(clicked()),this, SLOT(changeCurrentLayer()));
     for (unsigned int i = 0; i < interactionTool->getPicture()->getLayerCount(); i++) {
         layerButtons.push_back(new QPushButton);
-        //layerButtons[i]->setStyleSheet("width: 100px;height: 100px;");
         QPixmap pic(100,100);
         pic.convertFromImage(*interactionTool->getPicture()->getLayerAsQ(i));
         layerButtons[i*5+1]->setIconSize(QSize(100,100));
         layerButtons[i*5+1]->setIcon(pic);
-        //layerButtons[i]->setMask(pic);
         layerLayout->addWidget(layerButtons[i*5+1],i*5+1,2,5,1);
         layerButtons[i*5+1]->setCheckable(true);
         connect(layerButtons[i*5+1], SIGNAL(clicked()),this, SLOT(changeCurrentLayer()));
@@ -77,7 +73,6 @@ void LayerDock::updateLayerCount(){
         connect(layerButtons[i*5+5], SIGNAL(clicked()),this, SLOT(changeCurrentLayer()));
     }
     layerButtons[interactionTool->getPicture()->getCurrentLayerIndex()*5+1]->setChecked(true);
-    //if(interactionTool->getPicture()->getLayerCount()>1){
         layerButtons[interactionTool->getPicture()->getCurrentLayerIndex()*5+3]->setEnabled(false);
     //}
     layers = new QWidget(layerDock);
@@ -85,15 +80,12 @@ void LayerDock::updateLayerCount(){
     layerScrollArea = new QScrollArea();
     layerScrollArea->setWidget(layers);
     layerDock->setWidget(layerScrollArea);
-    //addDockWidget(Qt::RightDockWidgetArea, layerDock);
     emit updateLayerDock();
     layerDock->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
 }
 void LayerDock::changeCurrentLayer(){
     if (layerButtons[0]->isChecked()){
         emit newLayer();
-        //interactionTool->getPicture()->moveLayer(0,interactionTool->getPicture()->getLayerCount()-1);
-        //updateLayers();
         layerButtons[0]->setChecked(false);
     }
     for (int i = 0; i < interactionTool->getPicture()->getLayerCount(); i++) {
@@ -101,9 +93,6 @@ void LayerDock::changeCurrentLayer(){
             layerButtons[interactionTool->getPicture()->getCurrentLayerIndex()*5+1]->setChecked(false);
             layerButtons[interactionTool->getPicture()->getCurrentLayerIndex()*5+3]->setEnabled(true);
             interactionTool->getPicture()->setCurrentLayer(i);
-            //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-            //updateVisible();
-            //updateColors();
             emit update();
             layerButtons[interactionTool->getPicture()->getCurrentLayerIndex()*5+3]->setEnabled(false);
         } else if(layerButtons[i*5+2]->isChecked()){
@@ -116,20 +105,14 @@ void LayerDock::changeCurrentLayer(){
             layerButtons[i*5+3]->setChecked(false);
             interactionTool->getPicture()->removeLayer(i);
             if(interactionTool->getPicture()->getLayerCount()==0){//TODO
-                //hasLayer=false;
-                //imageLabel = new QLabel();
-                //imageLabel->setBackgroundRole(QPalette::Dark);
-                //imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-                //imageLabel->setScaledContents(true);
+
             }
             updateLayerCount();
-            //updateVisible();
             emit update();
         } else if(layerButtons[i*5+4]->isChecked()){
             interactionTool->getPicture()->moveLayer(i+1,i);
             updateLayers();
             layerButtons[i*5+4]->setChecked(false);
-            //updateVisible();
             emit update();
         } else if(layerButtons[i*5+5]->isChecked()&&i+1!=interactionTool->getPicture()->getLayerCount()){
             layerButtons[i*5+5]->setChecked(false);
@@ -143,8 +126,6 @@ void LayerDock::changeCurrentLayer(){
 
         } else if(layerButtons[i*5+5]->isChecked()&&i+1==interactionTool->getPicture()->getLayerCount()){
             newLayer();
-            //interactionTool->getPicture()->moveLayer(i+1,i);
-            //updateLayers();
             layerButtons[i*5+5]->setChecked(false);
         }
     }
@@ -163,7 +144,6 @@ void LayerDock::createLayerDock(){
     layerScrollArea = new QScrollArea();
     layerScrollArea->setWidget(layers);
     layerDock->setWidget(layerScrollArea);
-    //addDockWidget(Qt::RightDockWidgetArea, layerDock);
     layerDock->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
 }
 
@@ -179,9 +159,6 @@ void LayerDock::doMergeII(toolParameters_t *param){
     interactionTool->getPicture()->removeLayer(i);
     param = nullptr;
     updateLayerCount();
-    //updateColors();
-    //setImage(*interactionTool->getPicture()->getCurrentLayerAsQ());
-    //updateVisible();
     emit update();
 }
 void LayerDock::updateVisible(){

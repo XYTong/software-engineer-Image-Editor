@@ -1,6 +1,8 @@
 #include "merge.h"
 #include "floydSteinberg.h"
 #include <QPainter>
+#include <sys/time.h>
+#include <stdio.h>
 
 bool MergeTool::initTool(toolParameters_t *param){
     layerIndex1 = param->layerIndex1;
@@ -12,6 +14,9 @@ bool MergeTool::initTool(toolParameters_t *param){
 }
 
 bool MergeTool::useTool(){
+    timeval t1;
+    timeval t2;
+    gettimeofday(&t1,nullptr);
     int xOffset;
     int yOffset;
     if (pic->xOffset(layerIndex1)>pic->xOffset(layerIndex2)){
@@ -91,6 +96,7 @@ bool MergeTool::useTool(){
     if(shaped){
         pic->makeCurrentLayerShaped();
     }
-
+    gettimeofday(&t2,nullptr);
+    printf("Merge: %ld usec\n",(t2.tv_sec-t1.tv_sec)*1000000+t2.tv_usec-t1.tv_usec);
     return true;
 }

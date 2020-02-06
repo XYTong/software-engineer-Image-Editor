@@ -1,5 +1,7 @@
 #include "translationTool.h"
 #include "stdio.h"
+#include <sys/time.h>
+#include <stdio.h>
 
 bool TranslationTool::initTool(toolParameters_t *param){
     mat = param->mat;
@@ -11,6 +13,9 @@ bool TranslationTool::initTool(toolParameters_t *param){
 }
 
 bool TranslationTool::useTool(){
+    timeval t1;
+    timeval t2;
+    gettimeofday(&t1,nullptr);
     QImage *qPic = new QImage(pic->getCurrentLayerAsQ()->transformed(mat));
     bool shaped = pic->isShaped();
     int xOffset=pic->currentXOffset();
@@ -50,5 +55,7 @@ bool TranslationTool::useTool(){
     if(isRot||shaped){
         pic->makeCurrentLayerShaped();
     }
+    gettimeofday(&t2,nullptr);
+    printf("Translation: %ld usec\n",(t2.tv_sec-t1.tv_sec)*1000000+t2.tv_usec-t1.tv_usec);
     return true;
 }

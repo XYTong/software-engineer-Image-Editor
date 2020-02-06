@@ -1,5 +1,7 @@
 #include "polygon.h"
 #include <qpainter.h>
+#include <sys/time.h>
+#include <stdio.h>
 
 bool PolygonTool::initTool(toolParameters_t *param){
     poly = param->poly;
@@ -12,6 +14,9 @@ bool PolygonTool::initTool(toolParameters_t *param){
 }
 
 bool PolygonTool::useTool(){
+    timeval t1;
+    timeval t2;
+    gettimeofday(&t1,nullptr);
     QImage tempImage = QImage(pic->getCurrentLayerAsQ()->width(), pic->getCurrentLayerAsQ()->height(), QImage::Format_ARGB32);
     tempImage.fill(QColor(0,0,0,0));
     QPainter painter(&tempImage);
@@ -36,6 +41,7 @@ bool PolygonTool::useTool(){
 
         }
     }
-
+    gettimeofday(&t2,nullptr);
+    printf("Polygon: %ld usec\n",(t2.tv_sec-t1.tv_sec)*1000000+t2.tv_usec-t1.tv_usec);
     return true;
 }

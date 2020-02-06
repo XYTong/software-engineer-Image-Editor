@@ -54,9 +54,7 @@ bool ImageViewer::loadFile(const QString &fileName){
     QImage *newImage = new QImage;
     *newImage = reader.read();
     if (newImage->isNull()) {
-        QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
-                                 tr("Cannot load %1: %2")
-                                 .arg(QDir::toNativeSeparators(fileName), reader.errorString()));
+        QMessageBox::information(this, QGuiApplication::applicationDisplayName(), tr("Cannot load %1: %2").arg(QDir::toNativeSeparators(fileName), reader.errorString()));
         return false;
     }
     param = new toolParameters_t;
@@ -76,10 +74,8 @@ bool ImageViewer::loadFile(const QString &fileName){
 void ImageViewer::setImage(QImage newImage){//remove Parameter
     image = newImage;
     imageLabel->setPixmap(QPixmap::fromImage(image));
-    //fitToWindowAct->setEnabled(true);
     updateActions();
-    //if (!fitToWindowAct->isChecked())
-       imageLabel->adjustSize();
+    imageLabel->adjustSize();
 }
 
 bool ImageViewer::saveFile(const QString &fileName){
@@ -90,7 +86,6 @@ bool ImageViewer::saveFile(const QString &fileName){
     for (int i = 0; i < interactionTool->getPicture()->getLayerCount(); i++) {
         if (layerDock->isLayerCheckboxChecked(i)){
             painter->drawImage(interactionTool->getPicture()->xOffset(i)-interactionTool->getPicture()->getMinOffset().width(),interactionTool->getPicture()->yOffset(i)-interactionTool->getPicture()->getMinOffset().height(),*interactionTool->getPicture()->getLayerAsQ(i));
-            //painter->drawI
         }
     }
     if (!writer.write(px->toImage())) {
@@ -209,6 +204,8 @@ void ImageViewer::updateActions(){
     drawToolAct->setEnabled(hasLayer);
     translateAct->setEnabled(hasLayer);
     makeToShaped->setEnabled(hasLayer);
+    makeToShaped->setChecked(interactionTool->getPicture()->isShaped());
+    makeToShaped->setEnabled(!interactionTool->getPicture()->isShaped());
 }
 
 void ImageViewer::scaleImage(double factor){
@@ -222,8 +219,7 @@ void ImageViewer::scaleImage(double factor){
 }
 
 void ImageViewer::adjustScrollBar(QScrollBar *scrollBar, double factor){
-    scrollBar->setValue(int(factor * scrollBar->value()
-                            + ((factor - 1) * scrollBar->pageStep()/2)));
+    scrollBar->setValue(int(factor * scrollBar->value() + ((factor - 1) * scrollBar->pageStep()/2)));
 }
 
 void ImageViewer::draw(){
@@ -235,7 +231,6 @@ void ImageViewer::mousePressEvent(QMouseEvent *event){
     } else
     if (event->button() == Qt::LeftButton && interactionTool->getPicture()->hasLayer()){
         moveStart=true;
-
         move = event->pos()-QPoint(scrollArea->x()-scrollArea->horizontalScrollBar()->value(),scrollArea->y()-scrollArea->verticalScrollBar()->value());
     }
 }
@@ -279,14 +274,7 @@ void  ImageViewer::translate(){
 };
 
 void ImageViewer::updateVisible(){
-    //for (int i = 0; i < interactionTool->getPicture()->getLayerCount(); i++) {
-    //    if (layerCheckboxes[i]->isChecked()){
-            //TODO: Syncronisieren vom Bild
-    //    }
-    //}
     updateActions();
-    makeToShaped->setChecked(interactionTool->getPicture()->isShaped());
-    makeToShaped->setEnabled(!interactionTool->getPicture()->isShaped());
     QString message;
     message.sprintf("Dimensions: %dx%d",interactionTool->getPicture()->getCurrentLayerAsQ()->width(),interactionTool->getPicture()->getCurrentLayerAsQ()->height());
     statusBar()->showMessage(message);

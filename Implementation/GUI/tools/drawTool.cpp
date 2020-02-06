@@ -1,5 +1,8 @@
 #include "drawTool.h"
 #include <qpainter.h>
+#include <sys/time.h>
+#include <stdio.h>
+
 
 bool DrawTool::initTool(toolParameters_t *param){
     sPoint = param->startPoint-QPoint(pic->currentXOffset(),pic->currentYOffset());
@@ -13,6 +16,9 @@ bool DrawTool::initTool(toolParameters_t *param){
 }
 
 bool DrawTool::useTool(){
+    timeval t1;
+    timeval t2;
+    gettimeofday(&t1,nullptr);
     QImage *tempImage = new QImage(pic->getCurrentLayerAsQ()->width(), pic->getCurrentLayerAsQ()->height(), QImage::Format_ARGB32);
     tempImage->fill(QColor(0,0,0,0));
     QPainter painter(tempImage);
@@ -32,6 +38,8 @@ bool DrawTool::useTool(){
     }
     painter.end();
     delete tempImage;
+    gettimeofday(&t2,nullptr);
+    printf("Draw: %ld usec\n",(t2.tv_sec-t1.tv_sec)*1000000+t2.tv_usec-t1.tv_usec);
     return true;
 }
 DrawTool::~DrawTool(){
