@@ -1,0 +1,249 @@
+%% Creator: Inkscape inkscape 0.92.4, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'Klassendiagramm.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{1050bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.72571429)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{Klassendiagramm.pdf}}%
+    \put(0.00392857,0.71607143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}IntelliPhoto\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{Klassendiagramm.pdf}}%
+    \put(0.34964286,0.27607143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}InteractionTool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{Klassendiagramm.pdf}}%
+    \put(0.29464286,0.25892857){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}picture : Picture\end{tabular}}}}%
+    \put(0.29464286,0.2475){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}manipulationTool : ManipulationTool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{Klassendiagramm.pdf}}%
+    \put(0.29464286,0.23035714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}getPicture() : Picture\end{tabular}}}}%
+    \put(0.29464286,0.21892857){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}useTool(parameters : Parameter) : bool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{Klassendiagramm.pdf}}%
+    \put(0.35107143,0.4475){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Imageviewer\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{Klassendiagramm.pdf}}%
+    \put(0.31178571,0.43035714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}image : QImage\end{tabular}}}}%
+    \put(0.31178571,0.41892857){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}menu : QManu\end{tabular}}}}%
+    \put(0.31178571,0.4075){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}colorVector : QVector<QRgb>\end{tabular}}}}%
+    \put(0.31178571,0.39607143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}hasLayer : bool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{Klassendiagramm.pdf}}%
+    \put(0.31178571,0.37892857){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}createMenus() : void\end{tabular}}}}%
+    \put(0.31178571,0.3675){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}calculateVisible() : void\end{tabular}}}}%
+    \put(0.31178571,0.35607143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}update() : void\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{Klassendiagramm.pdf}}%
+    \put(0.09392857,0.69321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}ColorDock\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{Klassendiagramm.pdf}}%
+    \put(0.00892857,0.67607143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}colorDock : QDockWidget\end{tabular}}}}%
+    \put(0.00892857,0.66464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}colorVector : QVector<QRgb>\end{tabular}}}}%
+    \put(0.00892857,0.65321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}colorButtons : QVector<QPushButton>\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{Klassendiagramm.pdf}}%
+    \put(0.00892857,0.63607143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}getDockWidget() : QDockWidget\end{tabular}}}}%
+    \put(0.00892857,0.62464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}update() : void\end{tabular}}}}%
+    \put(0.00892857,0.61321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}setColorVect(colorVect : QVector<QRgb>) : void\end{tabular}}}}%
+    \put(0.00892857,0.60178571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}getColorVect() : QVector<QRgb>\end{tabular}}}}%
+    \put(0.00892857,0.59035714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}createColorDock() : void\end{tabular}}}}%
+    \put(0.00892857,0.57892857){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}addColor(color : QColor,position : int) : void\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{Klassendiagramm.pdf}}%
+    \put(0.35607143,0.69321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}LayerDock\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{Klassendiagramm.pdf}}%
+    \put(0.2775,0.67607143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}layerButtons : QVector<QPushButton>\end{tabular}}}}%
+    \put(0.2775,0.66464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}visibleCheckbox : QVector<QCheckbox>\end{tabular}}}}%
+    \put(0.2775,0.65321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}layerDock : QDockWidget\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{Klassendiagramm.pdf}}%
+    \put(0.2775,0.63607143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}getDockWidget() : QDockWidget\end{tabular}}}}%
+    \put(0.2775,0.62464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}update() : void\end{tabular}}}}%
+    \put(0.2775,0.61321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}changeCurrentLayer() : void\end{tabular}}}}%
+    \put(0.2775,0.60178571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}createLayerDock() : void\end{tabular}}}}%
+    \put(0.2775,0.59035714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}updateLayerCount() : void\end{tabular}}}}%
+    \put(0.2775,0.57892857){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}getVisibleCheckboxChecked(index : int) : bool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{Klassendiagramm.pdf}}%
+    \put(0.06107143,0.44178571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}DrawDock\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{Klassendiagramm.pdf}}%
+    \put(0.00892857,0.42464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}drawDock : QDockWidget\end{tabular}}}}%
+    \put(0.00892857,0.41321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}parameter : Parameter\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{Klassendiagramm.pdf}}%
+    \put(0.00892857,0.39607143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}createDrawDock() : QDockWidget\end{tabular}}}}%
+    \put(0.00892857,0.38464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}setColor() : void\end{tabular}}}}%
+    \put(0.00892857,0.37321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}setWidth() : void\end{tabular}}}}%
+    \put(0.00892857,0.36178571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}setModus() : void\end{tabular}}}}%
+    \put(0.00892857,0.35035714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}draw() : void\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=17]{Klassendiagramm.pdf}}%
+    \put(0.62964286,0.4475){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}NewLayerDock\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=18]{Klassendiagramm.pdf}}%
+    \put(0.56892857,0.43035714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}newLayerDock : QDockWidget\end{tabular}}}}%
+    \put(0.56892857,0.41892857){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}parameter : Parameter\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=19]{Klassendiagramm.pdf}}%
+    \put(0.56892857,0.40178571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}createNewLayerDock() : QDockWidget\end{tabular}}}}%
+    \put(0.56892857,0.39035714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}setColorVect(colorVector : QVector) : void\end{tabular}}}}%
+    \put(0.56892857,0.37892857){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}color() : void\end{tabular}}}}%
+    \put(0.56892857,0.3675){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}colorVect() : void\end{tabular}}}}%
+    \put(0.56892857,0.35607143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}size(x : int,y : int) : void\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=20]{Klassendiagramm.pdf}}%
+    \put(0.61892857,0.69321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}TranslationDock\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=21]{Klassendiagramm.pdf}}%
+    \put(0.56321429,0.67607143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}translationDock : QDockWidget\end{tabular}}}}%
+    \put(0.56321429,0.66464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}parameter : Parameter\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=22]{Klassendiagramm.pdf}}%
+    \put(0.56321429,0.6475){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}createTranslationDock() : QDockWidget+\end{tabular}}}}%
+    \put(0.56321429,0.63607143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}translate() : void\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=23]{Klassendiagramm.pdf}}%
+    \put(0.07392857,0.31035714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Picture\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=24]{Klassendiagramm.pdf}}%
+    \put(0.00892857,0.29321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}layers : Vector<Layer>\end{tabular}}}}%
+    \put(0.00892857,0.28178571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}currentLayer : Layer\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=25]{Klassendiagramm.pdf}}%
+    \put(0.00892857,0.26464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}addLayer(picture : QImage) : void\end{tabular}}}}%
+    \put(0.00892857,0.25321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}getLayer(index : int) : Layer\end{tabular}}}}%
+    \put(0.00892857,0.24178571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}makeLayerShaped(index : int) : void\end{tabular}}}}%
+    \put(0.00892857,0.23035714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}isLayerShaped(index : int) : bool\end{tabular}}}}%
+    \put(0.00892857,0.21892857){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}getMaximumSize() : int\end{tabular}}}}%
+    \put(0.00892857,0.2075){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}getMinimumOffset() : int\end{tabular}}}}%
+    \put(0.00892857,0.19607143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}hasLayer() : bool\end{tabular}}}}%
+    \put(0.00892857,0.18464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}moveLayer(x : int,y : int) : void\end{tabular}}}}%
+    \put(0.00892857,0.17321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}getXOffset(index : int) : int\end{tabular}}}}%
+    \put(0.00892857,0.16178571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}getYoffset(index : int) : int\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=26]{Klassendiagramm.pdf}}%
+    \put(0.59678571,0.26464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}ManipulationTool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=27]{Klassendiagramm.pdf}}%
+    \put(0.5175,0.2475){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}picture : Picture\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=28]{Klassendiagramm.pdf}}%
+    \put(0.5175,0.23035714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}useTool(parameters : Parameters) : bool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=29]{Klassendiagramm.pdf}}%
+    \put(0.61535714,0.16178571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textit{Tool}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=30]{Klassendiagramm.pdf}}%
+    \put(0.53464286,0.14464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}picture : Picture\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=31]{Klassendiagramm.pdf}}%
+    \put(0.53464286,0.1275){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}initTool(parameters : Parameters) : bool\end{tabular}}}}%
+    \put(0.53464286,0.11607143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}useTool() : bool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=32]{Klassendiagramm.pdf}}%
+    \put(0.35964286,0.16178571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}NewLayerTool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=33]{Klassendiagramm.pdf}}%
+    \put(0.30035714,0.14464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}newPicture : QImage\end{tabular}}}}%
+    \put(0.30035714,0.13321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}colorVector : QVector<QRgb>\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=34]{Klassendiagramm.pdf}}%
+    \put(0.30035714,0.11607143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}initTool(parameters : Parameters) : bool\end{tabular}}}}%
+    \put(0.30035714,0.10464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}useTool() : bool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=35]{Klassendiagramm.pdf}}%
+    \put(0.36678571,0.07035714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}MergeTool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=36]{Klassendiagramm.pdf}}%
+    \put(0.30035714,0.05321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}masterLayerIndex : int\end{tabular}}}}%
+    \put(0.30035714,0.04178571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}SlaveLayerIndex : int\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=37]{Klassendiagramm.pdf}}%
+    \put(0.30035714,0.02464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}initTool(parameters : Parameters) : bool\end{tabular}}}}%
+    \put(0.30035714,0.01321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}useTool() : bool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=38]{Klassendiagramm.pdf}}%
+    \put(0.11107143,0.09321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}FloydSteinberg\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=39]{Klassendiagramm.pdf}}%
+    \put(0.00892857,0.05535714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}getIndexed(picture : QImage,colorVector : QVector) : QImage\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=40]{Klassendiagramm.pdf}}%
+    \put(0.60964286,0.07035714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}MoveTool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=41]{Klassendiagramm.pdf}}%
+    \put(0.54035714,0.05321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}xOffset : int\end{tabular}}}}%
+    \put(0.54035714,0.04178571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}yOffset : int\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=42]{Klassendiagramm.pdf}}%
+    \put(0.54035714,0.02464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}initTool(parameters : Parameters) : bool\end{tabular}}}}%
+    \put(0.54035714,0.01321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}useTool() : bool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=43]{Klassendiagramm.pdf}}%
+    \put(0.86464286,0.05892857){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}TranslationTool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=44]{Klassendiagramm.pdf}}%
+    \put(0.80892857,0.04178571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}translationMatrix : QMatrix\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=45]{Klassendiagramm.pdf}}%
+    \put(0.80892857,0.02464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}initTool(parameters : Parameters) : bool\end{tabular}}}}%
+    \put(0.80892857,0.01321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}useTool() : bool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=46]{Klassendiagramm.pdf}}%
+    \put(0.87178571,0.1675){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}PolygonTool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=47]{Klassendiagramm.pdf}}%
+    \put(0.80892857,0.15035714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}polygon : QPolygon\end{tabular}}}}%
+    \put(0.80892857,0.13892857){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}color : int\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=48]{Klassendiagramm.pdf}}%
+    \put(0.80892857,0.12178571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}initTool(parameters : Parameters) : bool\end{tabular}}}}%
+    \put(0.80892857,0.11035714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}useTool() : bool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=49]{Klassendiagramm.pdf}}%
+    \put(0.87892857,0.29321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}drawTool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=50]{Klassendiagramm.pdf}}%
+    \put(0.80892857,0.27607143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}startPoint : QPoint\end{tabular}}}}%
+    \put(0.80892857,0.26464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}endPoint : QPoint\end{tabular}}}}%
+    \put(0.80892857,0.25321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}color : int\end{tabular}}}}%
+    \put(0.80892857,0.24178571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}width : int\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=51]{Klassendiagramm.pdf}}%
+    \put(0.80892857,0.22464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}initTool(parameters : Parameters) : bool\end{tabular}}}}%
+    \put(0.80892857,0.21321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}useTool() : bool\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=52]{Klassendiagramm.pdf}}%
+    \put(0.24464286,0.5625){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0.30678571,0.47535714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=53]{Klassendiagramm.pdf}}%
+    \put(0.35678571,0.46892857){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0.35678571,0.5525){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=54]{Klassendiagramm.pdf}}%
+    \put(0.62678571,0.21107143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0.62178571,0.17678571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}0..*\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=55]{Klassendiagramm.pdf}}%
+    \put(0.16178571,0.40321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}0..1\end{tabular}}}}%
+    \put(0.29535714,0.40321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=56]{Klassendiagramm.pdf}}%
+    \put(0.54678571,0.40321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}0..1\end{tabular}}}}%
+    \put(0.45535714,0.40321429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=57]{Klassendiagramm.pdf}}%
+    \put(0.53178571,0.61892857){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}0..1\end{tabular}}}}%
+    \put(0.44321429,0.47535714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=58]{Klassendiagramm.pdf}}%
+    \put(0.28892857,0.1375){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0.11821429,0.10678571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=59]{Klassendiagramm.pdf}}%
+    \put(0.28392857,0.02035714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0.10464286,0.03035714){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=60]{Klassendiagramm.pdf}}%
+    \put(0.37535714,0.32964286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0.37535714,0.2975){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=61]{Klassendiagramm.pdf}}%
+    \put(0.4775,0.25178571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0.50607143,0.25107143){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=62]{Klassendiagramm.pdf}}%
+    \put(0.27821429,0.25464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0.18035714,0.25464286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+  \end{picture}%
+\endgroup%
