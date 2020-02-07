@@ -3,7 +3,10 @@
 #ifndef MOVETOOL_H
 #define MOVETOOL_H
 
-
+/*!
+ * \class MoveTool
+ * \brief Bewegt das Aktuelle Layer.
+ */
 class MoveTool : public Tool{
     public:
         bool initTool(toolParameters_t *param);

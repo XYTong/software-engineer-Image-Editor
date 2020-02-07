@@ -2,19 +2,19 @@
 
 NewLayerDock::NewLayerDock(InteractionTool *interaction){
     newLayerXSpinbox = new QSpinBox();
-    newLayerXSpinbox->setRange(1,1000);
+    newLayerXSpinbox->setRange(1,2000);
     newLayerXSpinbox->setValue(100);
     connect(newLayerXSpinbox, QOverload<int>::of(&QSpinBox::valueChanged),this, &NewLayerDock::setNewLayerX);
     newLayerXSlider = new QSlider(Qt::Horizontal);
-    newLayerXSlider->setRange(1,1000);
+    newLayerXSlider->setRange(1,2000);
     newLayerXSlider->setValue(100);
     connect(newLayerXSlider, QOverload<int>::of(&QSlider::valueChanged),this, &NewLayerDock::setNewLayerX);
     newLayerYSpinbox = new QSpinBox();
-    newLayerYSpinbox->setRange(1,1000);
+    newLayerYSpinbox->setRange(1,2000);
     newLayerYSpinbox->setValue(100);
     connect(newLayerYSpinbox, QOverload<int>::of(&QSpinBox::valueChanged),this, &NewLayerDock::setNewLayerY);
     newLayerYSlider = new QSlider(Qt::Horizontal);
-    newLayerYSlider->setRange(1,1000);
+    newLayerYSlider->setRange(1,2000);
     newLayerYSlider->setValue(100);
     connect(newLayerYSlider, QOverload<int>::of(&QSlider::valueChanged),this, &NewLayerDock::setNewLayerY);
     newColorButton = new QPushButton();

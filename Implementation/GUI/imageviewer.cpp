@@ -45,13 +45,13 @@ ImageViewer::ImageViewer(QWidget *parent): QMainWindow(parent), imageLabel(new Q
     resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
 }
 
-bool ImageViewer::loadFile(const QString &fileName){
-    QImageReader reader(fileName);
+bool ImageViewer::loadFile(const QString &inputFile){
+    QImageReader reader(inputFile);
     reader.setAutoTransform(true);
     QImage *newImage = new QImage;
     *newImage = reader.read();
     if (newImage->isNull()) {
-        QMessageBox::information(this, QGuiApplication::applicationDisplayName(), tr("Cannot load %1: %2").arg(QDir::toNativeSeparators(fileName), reader.errorString()));
+        QMessageBox::information(this, QGuiApplication::applicationDisplayName(), tr("Cannot load %1: %2").arg(QDir::toNativeSeparators(inputFile), reader.errorString()));
         return false;
     }
     param = new toolParameters_t;

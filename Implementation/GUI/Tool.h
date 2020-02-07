@@ -28,7 +28,10 @@ typedef struct toolParameters {
     QVector<QRgb> colorVect;
 } toolParameters_t;
 
-
+/*!
+ * \class Tool
+ * \brief Abstrakte Klasse als Grundgerüst für alle Tools.
+ */
 class Tool{
 	public:
         bool useTool(){return false;}

@@ -28,6 +28,10 @@ typedef struct para2{
     int i;
 } para2;
 
+/*!
+ * \class DrawDock
+ * \brief Managet das DrawDock und koordiniert das Zeichnen.
+ */
 class DrawDock : public QObject
 {
     Q_OBJECT

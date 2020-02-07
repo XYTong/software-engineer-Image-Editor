@@ -13,6 +13,10 @@ typedef struct layer_t {
     int yOffset;
 } layer_t;
 
+/*!
+ * \class Picture
+ * \brief Koordiniert dei Layer eines Bildes, deren Größe, deren Offset, deren Sichtbarkeit. Kann Layer hinzufügen, löschen und tauschen. Kann sich einen Layer als aktiven Merken.
+ */
 class Picture{
     public:
         void addLayer(QImage* qImage);

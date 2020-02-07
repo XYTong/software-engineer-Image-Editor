@@ -8,6 +8,10 @@
 #include <QPainter>
 #include <QColorDialog>
 
+/*!
+ * \class ColorDoc
+ * \brief Verwaltet den ColorDock und managet somit die Aktuelle Farbtabelle.
+ */
 class ColorDock : public QObject
 {
     Q_OBJECT

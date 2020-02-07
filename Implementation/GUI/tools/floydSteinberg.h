@@ -1,3 +1,10 @@
+/* Class is responsible for correctly transforming an image from an arbitrary 4Byte
+   format to IntelliPhoto 1Byte format by fitting it to current colormap granting
+   a decent colour gradient. To this end the class implements the Floyd-Steinberg
+   algorithm, a commonly used algorithm for such converting purposes.
+   For further informations to the algoritm have a look at
+   https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering */
+
 #include <QImage>
 
 #ifndef FLOYDSTINBERG_H

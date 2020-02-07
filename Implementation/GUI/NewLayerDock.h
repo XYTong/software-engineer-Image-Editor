@@ -14,7 +14,10 @@
 #include <QMenu>
 #include <QPainter>
 
-
+/*!
+ * \class NewLayerDock
+ * \brief Managet das NewLayerDock und koordiniert das anlegen neuer Layer. Hier werden auch die Farbtabellen für neue Layer (auch beim öffnen neuer Bilder).
+ */
 class NewLayerDock : public QObject
 {
     Q_OBJECT

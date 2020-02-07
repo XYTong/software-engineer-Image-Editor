@@ -7,6 +7,10 @@
 #include <QPushButton>
 #include <QCheckBox>
 
+/*!
+ * \brief LayerDock
+ * \brief Verwaltet den LayerDock und die sichtbarkeit der einzelnen Layer. Kann das mergen, tauschen und Löschen von Layern initiieren.
+ */
 class LayerDock : public QObject
 {
     Q_OBJECT

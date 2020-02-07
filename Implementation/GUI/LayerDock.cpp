@@ -99,7 +99,9 @@ void LayerDock::changeCurrentLayer(){
             interactionTool->getPicture()->moveLayer(i,i-1);
             updateLayers();
             layerButtons[i*5+2]->setChecked(false);
-            //updateVisible();
+            bool h = layerCheckboxes[i]->isChecked();
+            layerCheckboxes[i]->setChecked(layerCheckboxes[i-1]->isChecked());
+            layerCheckboxes[i-1]->setChecked(h);
             emit update();
         } else if(layerButtons[i*5+3]->isChecked()){
             layerButtons[i*5+3]->setChecked(false);
@@ -111,6 +113,9 @@ void LayerDock::changeCurrentLayer(){
             emit update();
         } else if(layerButtons[i*5+4]->isChecked()){
             interactionTool->getPicture()->moveLayer(i+1,i);
+            bool h = layerCheckboxes[i]->isChecked();
+            layerCheckboxes[i]->setChecked(layerCheckboxes[i+1]->isChecked());
+            layerCheckboxes[i+1]->setChecked(h);
             updateLayers();
             layerButtons[i*5+4]->setChecked(false);
             emit update();

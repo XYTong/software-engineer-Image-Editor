@@ -3,6 +3,10 @@
 #ifndef DRAWTOOL_H
 #define DRAWTOOL_H
 
+/*!
+ * \class DrawTool
+ * \brief Zum Zeichnen auf dem aktuellen Layer.
+ */
 class DrawTool : public Tool{
     public:
         bool initTool(toolParameters_t *param);

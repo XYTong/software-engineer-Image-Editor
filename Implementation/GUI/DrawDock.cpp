@@ -50,6 +50,7 @@ DrawDock::DrawDock(InteractionTool *interaction){
     interactionTool=interaction;
     param=nullptr;
 }
+
 DrawDock::~DrawDock(){
 
 }

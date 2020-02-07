@@ -3,6 +3,10 @@
 #ifndef POLYGON_H
 #define POLYGON_H
 
+/*!
+ * \class PolygonTool
+ * \brief Zeichnet ein Polygon in den aktiven Layer.
+ */
 class PolygonTool : public Tool{
     public:
         bool initTool(toolParameters_t *param);

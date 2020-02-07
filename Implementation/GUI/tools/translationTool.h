@@ -3,6 +3,10 @@
 #ifndef TRANSLATIONTOOL_H
 #define TRANSLATIONTOOL_H
 
+/*!
+ * \class TranslationTool
+ * \brief Transformiert den aktiven Layer.
+ */
 class TranslationTool : public Tool{
     public:
         bool initTool(toolParameters_t *param);

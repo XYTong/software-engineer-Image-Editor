@@ -10,7 +10,10 @@
 #include <QPushButton>
 
 
-
+/*!
+ * \class TranslationDock
+ * \brief Managet das TranslationDock und koordiniert das skalieren, drehen und Spiegeln von Layern..
+ */
 class TranslationDock : public QObject
 {
     Q_OBJECT
