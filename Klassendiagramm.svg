@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="1055" version="1.1" width="1428" xmlns="http://www.w3.org/2000/svg">
+<polygon fill="#ffffff" points="14,14 1364,14 1364,37 1413,37 1413,1029 14,1029 14,14" stroke="#ffffff" stroke-width="1"/>
+<rect fill="none" height="23" stroke="#000000" stroke-width="1" width="1350" x="14" y="14"/>
+<text font-family="Dialog" font-size="12" x="19" y="27">
+IntelliPhoto</text>
+<rect fill="none" height="992" stroke="#000000" stroke-width="1" width="1399" x="14" y="37"/>
+<rect fill="#ffffff" height="104" stroke="#ffffff" stroke-width="1" width="257" x="422" y="630"/>
+<rect fill="none" height="104" stroke="#000000" stroke-width="1" width="257" x="422" y="630"/>
+<text font-family="Dialog" font-size="12" x="503" y="643">
+InteractionTool</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="257" x="422" y="653"/>
+<text font-family="Dialog" font-size="12" x="426" y="667">
+picture : Picture</text>
+<text font-family="Dialog" font-size="12" x="426" y="683">
+manipulationTool : ManipulationTool</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="257" x="422" y="693"/>
+<text font-family="Dialog" font-size="12" x="426" y="707">
+getPicture() : Picture</text>
+<text font-family="Dialog" font-size="12" x="426" y="723">
+useTool(parameters : Parameter) : bool</text>
+<rect fill="#ffffff" height="152" stroke="#ffffff" stroke-width="1" width="195" x="446" y="390"/>
+<rect fill="none" height="152" stroke="#000000" stroke-width="1" width="195" x="446" y="390"/>
+<text font-family="Dialog" font-size="12" x="505" y="403">
+Imageviewer</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="195" x="446" y="413"/>
+<text font-family="Dialog" font-size="12" x="450" y="427">
+image : QImage</text>
+<text font-family="Dialog" font-size="12" x="450" y="443">
+menu : QManu</text>
+<text font-family="Dialog" font-size="12" x="450" y="459">
+colorVector : QVector&lt;QRgb&gt;</text>
+<text font-family="Dialog" font-size="12" x="450" y="475">
+hasLayer : bool</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="195" x="446" y="485"/>
+<text font-family="Dialog" font-size="12" x="450" y="499">
+createMenus() : void</text>
+<text font-family="Dialog" font-size="12" x="450" y="515">
+calculateVisible() : void</text>
+<text font-family="Dialog" font-size="12" x="450" y="531">
+update() : void</text>
+<rect fill="#ffffff" height="184" stroke="#ffffff" stroke-width="1" width="309" x="22" y="46"/>
+<rect fill="none" height="184" stroke="#000000" stroke-width="1" width="309" x="22" y="46"/>
+<text font-family="Dialog" font-size="12" x="145" y="59">
+ColorDock</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="309" x="22" y="69"/>
+<text font-family="Dialog" font-size="12" x="26" y="83">
+colorDock : QDockWidget</text>
+<text font-family="Dialog" font-size="12" x="26" y="99">
+colorVector : QVector&lt;QRgb&gt;</text>
+<text font-family="Dialog" font-size="12" x="26" y="115">
+colorButtons : QVector&lt;QPushButton&gt;</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="309" x="22" y="125"/>
+<text font-family="Dialog" font-size="12" x="26" y="139">
+getDockWidget() : QDockWidget</text>
+<text font-family="Dialog" font-size="12" x="26" y="155">
+update() : void</text>
+<text font-family="Dialog" font-size="12" x="26" y="171">
+setColorVect(colorVect : QVector&lt;QRgb&gt;) : void</text>
+<text font-family="Dialog" font-size="12" x="26" y="187">
+getColorVect() : QVector&lt;QRgb&gt;</text>
+<text font-family="Dialog" font-size="12" x="26" y="203">
+createColorDock() : void</text>
+<text font-family="Dialog" font-size="12" x="26" y="219">
+addColor(color : QColor,position : int) : void</text>
+<rect fill="#ffffff" height="184" stroke="#ffffff" stroke-width="1" width="293" x="398" y="46"/>
+<rect fill="none" height="184" stroke="#000000" stroke-width="1" width="293" x="398" y="46"/>
+<text font-family="Dialog" font-size="12" x="512" y="59">
+LayerDock</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="293" x="398" y="69"/>
+<text font-family="Dialog" font-size="12" x="402" y="83">
+layerButtons : QVector&lt;QPushButton&gt;</text>
+<text font-family="Dialog" font-size="12" x="402" y="99">
+visibleCheckbox : QVector&lt;QCheckbox&gt;</text>
+<text font-family="Dialog" font-size="12" x="402" y="115">
+layerDock : QDockWidget</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="293" x="398" y="125"/>
+<text font-family="Dialog" font-size="12" x="402" y="139">
+getDockWidget() : QDockWidget</text>
+<text font-family="Dialog" font-size="12" x="402" y="155">
+update() : void</text>
+<text font-family="Dialog" font-size="12" x="402" y="171">
+changeCurrentLayer() : void</text>
+<text font-family="Dialog" font-size="12" x="402" y="187">
+createLayerDock() : void</text>
+<text font-family="Dialog" font-size="12" x="402" y="203">
+updateLayerCount() : void</text>
+<text font-family="Dialog" font-size="12" x="402" y="219">
+getVisibleCheckboxChecked(index : int) : bool</text>
+<rect fill="#ffffff" height="152" stroke="#ffffff" stroke-width="1" width="216" x="22" y="398"/>
+<rect fill="none" height="152" stroke="#000000" stroke-width="1" width="216" x="22" y="398"/>
+<text font-family="Dialog" font-size="12" x="99" y="411">
+DrawDock</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="216" x="22" y="421"/>
+<text font-family="Dialog" font-size="12" x="26" y="435">
+drawDock : QDockWidget</text>
+<text font-family="Dialog" font-size="12" x="26" y="451">
+parameter : Parameter</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="216" x="22" y="461"/>
+<text font-family="Dialog" font-size="12" x="26" y="475">
+createDrawDock() : QDockWidget</text>
+<text font-family="Dialog" font-size="12" x="26" y="491">
+setColor() : void</text>
+<text font-family="Dialog" font-size="12" x="26" y="507">
+setWidth() : void</text>
+<text font-family="Dialog" font-size="12" x="26" y="523">
+setModus() : void</text>
+<text font-family="Dialog" font-size="12" x="26" y="539">
+draw() : void</text>
+<rect fill="#ffffff" height="152" stroke="#ffffff" stroke-width="1" width="269" x="806" y="390"/>
+<rect fill="none" height="152" stroke="#000000" stroke-width="1" width="269" x="806" y="390"/>
+<text font-family="Dialog" font-size="12" x="895" y="403">
+NewLayerDock</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="269" x="806" y="413"/>
+<text font-family="Dialog" font-size="12" x="810" y="427">
+newLayerDock : QDockWidget</text>
+<text font-family="Dialog" font-size="12" x="810" y="443">
+parameter : Parameter</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="269" x="806" y="453"/>
+<text font-family="Dialog" font-size="12" x="810" y="467">
+createNewLayerDock() : QDockWidget</text>
+<text font-family="Dialog" font-size="12" x="810" y="483">
+setColorVect(colorVector : QVector) : void</text>
+<text font-family="Dialog" font-size="12" x="810" y="499">
+color() : void</text>
+<text font-family="Dialog" font-size="12" x="810" y="515">
+colorVect() : void</text>
+<text font-family="Dialog" font-size="12" x="810" y="531">
+size(x : int,y : int) : void</text>
+<rect fill="#ffffff" height="104" stroke="#ffffff" stroke-width="1" width="265" x="798" y="46"/>
+<rect fill="none" height="104" stroke="#000000" stroke-width="1" width="265" x="798" y="46"/>
+<text font-family="Dialog" font-size="12" x="880" y="59">
+TranslationDock</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="265" x="798" y="69"/>
+<text font-family="Dialog" font-size="12" x="802" y="83">
+translationDock : QDockWidget</text>
+<text font-family="Dialog" font-size="12" x="802" y="99">
+parameter : Parameter</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="265" x="798" y="109"/>
+<text font-family="Dialog" font-size="12" x="802" y="123">
+createTranslationDock() : QDockWidget+</text>
+<text font-family="Dialog" font-size="12" x="802" y="139">
+translate() : void</text>
+<rect fill="#ffffff" height="232" stroke="#ffffff" stroke-width="1" width="234" x="22" y="582"/>
+<rect fill="none" height="232" stroke="#000000" stroke-width="1" width="234" x="22" y="582"/>
+<text font-family="Dialog" font-size="12" x="117" y="595">
+Picture</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="234" x="22" y="605"/>
+<text font-family="Dialog" font-size="12" x="26" y="619">
+layers : Vector&lt;Layer&gt;</text>
+<text font-family="Dialog" font-size="12" x="26" y="635">
+currentLayer : Layer</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="234" x="22" y="645"/>
+<text font-family="Dialog" font-size="12" x="26" y="659">
+addLayer(picture : QImage) : void</text>
+<text font-family="Dialog" font-size="12" x="26" y="675">
+getLayer(index : int) : Layer</text>
+<text font-family="Dialog" font-size="12" x="26" y="691">
+makeLayerShaped(index : int) : void</text>
+<text font-family="Dialog" font-size="12" x="26" y="707">
+isLayerShaped(index : int) : bool</text>
+<text font-family="Dialog" font-size="12" x="26" y="723">
+getMaximumSize() : int</text>
+<text font-family="Dialog" font-size="12" x="26" y="739">
+getMinimumOffset() : int</text>
+<text font-family="Dialog" font-size="12" x="26" y="755">
+hasLayer() : bool</text>
+<text font-family="Dialog" font-size="12" x="26" y="771">
+moveLayer(x : int,y : int) : void</text>
+<text font-family="Dialog" font-size="12" x="26" y="787">
+getXOffset(index : int) : int</text>
+<text font-family="Dialog" font-size="12" x="26" y="803">
+getYoffset(index : int) : int</text>
+<rect fill="#ffffff" height="72" stroke="#ffffff" stroke-width="1" width="337" x="734" y="646"/>
+<rect fill="none" height="72" stroke="#000000" stroke-width="1" width="337" x="734" y="646"/>
+<text font-family="Dialog" font-size="12" x="849" y="659">
+ManipulationTool</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="337" x="734" y="669"/>
+<text font-family="Dialog" font-size="12" x="738" y="683">
+picture : Picture</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="337" x="734" y="693"/>
+<text font-family="Dialog" font-size="12" x="738" y="707">
+useTool(parameters : Parameters) : bool</text>
+<rect fill="#ffffff" height="88" stroke="#ffffff" stroke-width="1" width="260" x="758" y="790"/>
+<rect fill="none" height="88" stroke="#000000" stroke-width="1" width="260" x="758" y="790"/>
+<text font-family="Dialog" font-size="12" font-style="italic" x="875" y="803">
+Tool</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="260" x="758" y="813"/>
+<text font-family="Dialog" font-size="12" x="762" y="827">
+picture : Picture</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="260" x="758" y="837"/>
+<text font-family="Dialog" font-size="12" x="762" y="851">
+initTool(parameters : Parameters) : bool</text>
+<text font-family="Dialog" font-size="12" x="762" y="867">
+useTool() : bool</text>
+<rect fill="#ffffff" height="104" stroke="#ffffff" stroke-width="1" width="260" x="430" y="790"/>
+<rect fill="none" height="104" stroke="#000000" stroke-width="1" width="260" x="430" y="790"/>
+<text font-family="Dialog" font-size="12" x="517" y="803">
+NewLayerTool</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="260" x="430" y="813"/>
+<text font-family="Dialog" font-size="12" x="434" y="827">
+newPicture : QImage</text>
+<text font-family="Dialog" font-size="12" x="434" y="843">
+colorVector : QVector&lt;QRgb&gt;</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="260" x="430" y="853"/>
+<text font-family="Dialog" font-size="12" x="434" y="867">
+initTool(parameters : Parameters) : bool</text>
+<text font-family="Dialog" font-size="12" x="434" y="883">
+useTool() : bool</text>
+<rect fill="#ffffff" height="104" stroke="#ffffff" stroke-width="1" width="260" x="430" y="918"/>
+<rect fill="none" height="104" stroke="#000000" stroke-width="1" width="260" x="430" y="918"/>
+<text font-family="Dialog" font-size="12" x="527" y="931">
+MergeTool</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="260" x="430" y="941"/>
+<text font-family="Dialog" font-size="12" x="434" y="955">
+masterLayerIndex : int</text>
+<text font-family="Dialog" font-size="12" x="434" y="971">
+SlaveLayerIndex : int</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="260" x="430" y="981"/>
+<text font-family="Dialog" font-size="12" x="434" y="995">
+initTool(parameters : Parameters) : bool</text>
+<text font-family="Dialog" font-size="12" x="434" y="1011">
+useTool() : bool</text>
+<rect fill="#ffffff" height="85" stroke="#ffffff" stroke-width="1" width="388" x="22" y="886"/>
+<rect fill="none" height="85" stroke="#000000" stroke-width="1" width="388" x="22" y="886"/>
+<text font-family="Dialog" font-size="12" x="169" y="899">
+FloydSteinberg</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="388" x="22" y="909"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="388" x="22" y="938"/>
+<text font-family="Dialog" font-size="12" x="26" y="952">
+getIndexed(picture : QImage,colorVector : QVector) : QImage</text>
+<rect fill="#ffffff" height="104" stroke="#ffffff" stroke-width="1" width="260" x="766" y="918"/>
+<rect fill="none" height="104" stroke="#000000" stroke-width="1" width="260" x="766" y="918"/>
+<text font-family="Dialog" font-size="12" x="867" y="931">
+MoveTool</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="260" x="766" y="941"/>
+<text font-family="Dialog" font-size="12" x="770" y="955">
+xOffset : int</text>
+<text font-family="Dialog" font-size="12" x="770" y="971">
+yOffset : int</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="260" x="766" y="981"/>
+<text font-family="Dialog" font-size="12" x="770" y="995">
+initTool(parameters : Parameters) : bool</text>
+<text font-family="Dialog" font-size="12" x="770" y="1011">
+useTool() : bool</text>
+<rect fill="#ffffff" height="88" stroke="#ffffff" stroke-width="1" width="260" x="1142" y="934"/>
+<rect fill="none" height="88" stroke="#000000" stroke-width="1" width="260" x="1142" y="934"/>
+<text font-family="Dialog" font-size="12" x="1224" y="947">
+TranslationTool</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="260" x="1142" y="957"/>
+<text font-family="Dialog" font-size="12" x="1146" y="971">
+translationMatrix : QMatrix</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="260" x="1142" y="981"/>
+<text font-family="Dialog" font-size="12" x="1146" y="995">
+initTool(parameters : Parameters) : bool</text>
+<text font-family="Dialog" font-size="12" x="1146" y="1011">
+useTool() : bool</text>
+<rect fill="#ffffff" height="104" stroke="#ffffff" stroke-width="1" width="260" x="1142" y="782"/>
+<rect fill="none" height="104" stroke="#000000" stroke-width="1" width="260" x="1142" y="782"/>
+<text font-family="Dialog" font-size="12" x="1234" y="795">
+PolygonTool</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="260" x="1142" y="805"/>
+<text font-family="Dialog" font-size="12" x="1146" y="819">
+polygon : QPolygon</text>
+<text font-family="Dialog" font-size="12" x="1146" y="835">
+color : int</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="260" x="1142" y="845"/>
+<text font-family="Dialog" font-size="12" x="1146" y="859">
+initTool(parameters : Parameters) : bool</text>
+<text font-family="Dialog" font-size="12" x="1146" y="875">
+useTool() : bool</text>
+<rect fill="#ffffff" height="136" stroke="#ffffff" stroke-width="1" width="260" x="1142" y="606"/>
+<rect fill="none" height="136" stroke="#000000" stroke-width="1" width="260" x="1142" y="606"/>
+<text font-family="Dialog" font-size="12" x="1244" y="619">
+drawTool</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="260" x="1142" y="629"/>
+<text font-family="Dialog" font-size="12" x="1146" y="643">
+startPoint : QPoint</text>
+<text font-family="Dialog" font-size="12" x="1146" y="659">
+endPoint : QPoint</text>
+<text font-family="Dialog" font-size="12" x="1146" y="675">
+color : int</text>
+<text font-family="Dialog" font-size="12" x="1146" y="691">
+width : int</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="260" x="1142" y="701"/>
+<text font-family="Dialog" font-size="12" x="1146" y="715">
+initTool(parameters : Parameters) : bool</text>
+<text font-family="Dialog" font-size="12" x="1146" y="731">
+useTool() : bool</text>
+<polyline fill="none" points="330,229 446,390" stroke="#000000" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="356" y="242">
+1</text>
+<text font-family="Dialog" font-size="12" x="443" y="364">
+1</text>
+<polyline fill="none" points="534,390 534,229" stroke="#000000" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="513" y="373">
+1</text>
+<text font-family="Dialog" font-size="12" x="513" y="256">
+1</text>
+<polyline fill="none" points="878,717 878,790" stroke="#000000" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="891" y="734">
+1</text>
+<text font-family="Dialog" font-size="12" x="884" y="782">
+0..*</text>
+<polyline fill="none" points="237,470 446,470" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="237,470 247,465 257,470 247,475" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="237,470 247,465 257,470 247,475" stroke="#000000" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="240" y="465">
+0..1</text>
+<text font-family="Dialog" font-size="12" x="427" y="465">
+1</text>
+<polyline fill="none" points="806,470 640,470" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="806,470 796,475 786,470 796,465" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="806,470 796,475 786,470 796,465" stroke="#000000" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="779" y="465">
+0..1</text>
+<text font-family="Dialog" font-size="12" x="651" y="465">
+1</text>
+<polyline fill="none" points="798,149 640,390" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="798,149 796,160 788,165 788,154" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="798,149 796,160 788,165 788,154" stroke="#000000" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="758" y="163">
+0..1</text>
+<text font-family="Dialog" font-size="12" x="634" y="364">
+1</text>
+<polyline fill="none" points="689,830 758,830" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="758,830 746,837 746,823" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="758,830 746,837 746,823" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="862,918 862,877" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="862,877 869,889 855,889" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="862,877 869,889 855,889" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="689,918 758,877" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="758,877 751,889 744,877" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="758,877 751,889 744,877" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="1142,934 1017,877" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="1017,877 1030,875 1025,888" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="1017,877 1030,875 1025,888" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="1142,838 1017,838" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="1017,838 1029,831 1029,845" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="1017,838 1029,831 1029,845" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="1142,741 1017,790" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="1017,790 1025,779 1030,792" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="1017,790 1025,779 1030,792" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="430,846 166,846 166,886" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="159" x2="166" y1="874" y2="886"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="173" x2="166" y1="874" y2="886"/>
+<text font-family="Dialog" font-size="12" x="418" y="837">
+1</text>
+<text font-family="Dialog" font-size="12" x="179" y="880">
+1</text>
+<polyline fill="none" points="430,1006 182,1006 182,970" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="189" x2="182" y1="982" y2="970"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="175" x2="182" y1="982" y2="970"/>
+<text font-family="Dialog" font-size="12" x="411" y="1001">
+1</text>
+<text font-family="Dialog" font-size="12" x="160" y="987">
+1</text>
+<polyline fill="none" points="526,541 526,630" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="519" x2="526" y1="618" y2="630"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="533" x2="526" y1="618" y2="630"/>
+<text font-family="Dialog" font-size="12" x="539" y="568">
+1</text>
+<text font-family="Dialog" font-size="12" x="539" y="613">
+1</text>
+<polyline fill="none" points="678,686 734,686" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="722" x2="734" y1="693" y2="686"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="722" x2="734" y1="679" y2="686"/>
+<text font-family="Dialog" font-size="12" x="682" y="677">
+1</text>
+<text font-family="Dialog" font-size="12" x="722" y="678">
+1</text>
+<polyline fill="none" points="422,678 255,678" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="267" x2="255" y1="671" y2="678"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="267" x2="255" y1="685" y2="678"/>
+<text font-family="Dialog" font-size="12" x="403" y="673">
+1</text>
+<text font-family="Dialog" font-size="12" x="266" y="673">
+1</text>
+</svg>
