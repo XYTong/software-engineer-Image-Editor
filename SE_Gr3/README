@@ -1,0 +1,13 @@
+InteliPhoto:
+
+compillieren:
+cd source/
+qmake
+make
+cp imageviewer ../executable/intelliPhoto
+
+ausführen:
+cd executable
+./intelliPhoto
+
+Bei Fragen bitte wenden sie sich an Gruppe 3 Softwareengeneering oder direkt an pascal.schroeter@s2017.tu-chemnitz.de
