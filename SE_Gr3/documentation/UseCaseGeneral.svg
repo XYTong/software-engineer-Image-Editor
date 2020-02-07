@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="604" version="1.1" width="844" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="576" stroke="#ffffff" stroke-width="1" width="456" x="254" y="14"/>
+<rect fill="none" height="576" stroke="#000000" stroke-width="1" width="456" x="254" y="14"/>
+<text font-family="Dialog" font-size="12" x="82" y="106">
+Casual User</text>
+<ellipse cx="119" cy="55" fill="#000000" rx="8.0" ry="7.5" stroke="#000000" stroke-width="1"/>
+<ellipse cx="119" cy="55" fill="#ffffff" rx="7.0" ry="6.5" stroke="#ffffff" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="119" x2="119" y1="63" y2="78"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="109" x2="129" y1="68" y2="68"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="119" x2="114" y1="78" y2="93"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="119" x2="124" y1="78" y2="93"/>
+<polygon fill="#ffffff" points="414,14 489,14 499,24 499,49 414,49 414,14" stroke="#ffffff" stroke-width="1"/>
+<polyline fill="none" points="414,14 489,14 499,24 499,49 414,49 414,14" stroke="#000000" stroke-width="1"/>
+<polygon fill="#b2b2b2" points="489,14 499,24 489,24 489,14" stroke="#b2b2b2" stroke-width="1"/>
+<polyline fill="none" points="489,14 499,24 489,24 489,14" stroke="#000000" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="417" y="29">
+IntelliPhoto</text>
+<text font-family="Dialog" font-size="12" x="754" y="194">
+Einsteiger</text>
+<ellipse cx="785" cy="143" fill="#000000" rx="8.0" ry="7.5" stroke="#000000" stroke-width="1"/>
+<ellipse cx="785" cy="143" fill="#ffffff" rx="7.0" ry="6.5" stroke="#ffffff" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="785" x2="785" y1="151" y2="166"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="775" x2="795" y1="156" y2="156"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="785" x2="780" y1="166" y2="181"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="785" x2="790" y1="166" y2="181"/>
+<text font-family="Dialog" font-size="12" x="20" y="338">
+Freiberufliche Fotografen</text>
+<ellipse cx="99" cy="287" fill="#000000" rx="8.0" ry="7.5" stroke="#000000" stroke-width="1"/>
+<ellipse cx="99" cy="287" fill="#ffffff" rx="7.0" ry="6.5" stroke="#ffffff" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="99" x2="99" y1="295" y2="310"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="89" x2="109" y1="300" y2="300"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="99" x2="94" y1="310" y2="325"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="99" x2="104" y1="310" y2="325"/>
+<text font-family="Dialog" font-size="12" x="754" y="402">
+3D-Künstler</text>
+<ellipse cx="790" cy="351" fill="#000000" rx="8.0" ry="7.5" stroke="#000000" stroke-width="1"/>
+<ellipse cx="790" cy="351" fill="#ffffff" rx="7.0" ry="6.5" stroke="#ffffff" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="790" x2="790" y1="359" y2="374"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="780" x2="800" y1="364" y2="364"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="790" x2="785" y1="374" y2="389"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="790" x2="795" y1="374" y2="389"/>
+<ellipse cx="431" cy="195" fill="#000000" rx="57.0" ry="21.0" stroke="#000000" stroke-width="1"/>
+<ellipse cx="431" cy="195" fill="#ffffff" rx="56.0" ry="20.0" stroke="#ffffff" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="408" y="196">
+Drehen</text>
+<ellipse cx="463" cy="96" fill="#000000" rx="81.0" ry="26.0" stroke="#000000" stroke-width="1"/>
+<ellipse cx="463" cy="96" fill="#ffffff" rx="80.0" ry="25.0" stroke="#ffffff" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="395" y="97">
+Zusammenschneiden</text>
+<ellipse cx="446" cy="280" fill="#000000" rx="80.0" ry="26.0" stroke="#000000" stroke-width="1"/>
+<ellipse cx="446" cy="280" fill="#ffffff" rx="79.0" ry="25.0" stroke="#ffffff" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="379" y="281">
+Ändern Bildauflösung</text>
+<ellipse cx="471" cy="355" fill="#000000" rx="57.0" ry="21.0" stroke="#000000" stroke-width="1"/>
+<ellipse cx="471" cy="355" fill="#ffffff" rx="56.0" ry="20.0" stroke="#ffffff" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="432" y="356">
+Bildretusche</text>
+<ellipse cx="474" cy="439" fill="#000000" rx="76.0" ry="25.0" stroke="#000000" stroke-width="1"/>
+<ellipse cx="474" cy="439" fill="#ffffff" rx="75.0" ry="24.0" stroke="#ffffff" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="412" y="440">
+Korrekturwerkzeuge</text>
+<ellipse cx="494" cy="524" fill="#000000" rx="64.0" ry="22.0" stroke="#000000" stroke-width="1"/>
+<ellipse cx="494" cy="524" fill="#ffffff" rx="63.0" ry="21.0" stroke="#ffffff" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="444" y="525">
+3D-Schnittstelle</text>
+<ellipse cx="434" cy="147" fill="#000000" rx="60.0" ry="21.0" stroke="#000000" stroke-width="1"/>
+<ellipse cx="434" cy="147" fill="#ffffff" rx="59.0" ry="20.0" stroke="#ffffff" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="389" y="148">
+Layerstrucktur</text>
+<polyline fill="none" points="537,425 742,382 526,360" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="129,68 384,89" stroke="#000000" stroke-width="1"/>
+<ellipse cx="256" cy="77" fill="#000000" rx="0.5" ry="0.5" stroke="#000000" stroke-width="1"/>
+<ellipse cx="257" cy="78" fill="#ffffff" rx="-0.5" ry="-0.5" stroke="#ffffff" stroke-width="1"/>
+<polyline fill="none" points="385,134 134,70 393,179" stroke="#000000" stroke-width="1"/>
+<ellipse cx="144" cy="73" fill="#000000" rx="0.5" ry="0.5" stroke="#000000" stroke-width="1"/>
+<ellipse cx="145" cy="74" fill="#ffffff" rx="-0.5" ry="-0.5" stroke="#ffffff" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="134" x2="374" y1="70" y2="270"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="134" x2="422" y1="78" y2="358"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="118" x2="422" y1="318" y2="358"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="118" x2="414" y1="318" y2="422"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="542" x2="766" y1="102" y2="182"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="486" x2="766" y1="198" y2="182"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="526" x2="766" y1="278" y2="182"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="526" x2="758" y1="350" y2="182"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="382" x2="118" y1="158" y2="318"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="486" x2="742" y1="158" y2="382"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="518" x2="742" y1="502" y2="382"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="494" x2="766" y1="142" y2="182"/>
+</svg>

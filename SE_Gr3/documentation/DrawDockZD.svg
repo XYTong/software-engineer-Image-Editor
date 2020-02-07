@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="556" version="1.1" width="732" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#00ff" height="528" rx="16" ry="16" stroke="#00ff" stroke-width="1" width="704" x="14" y="14"/>
+<rect fill="#ffffff" height="528" rx="16" ry="16" stroke="#000000" stroke-width="1" width="704" x="14" y="14"/>
+<rect fill="#ffffff" height="526" rx="16" ry="16" stroke="#ffffff" stroke-width="1" width="702" x="15" y="15"/>
+<text font-family="Dialog" font-size="12" x="335" y="27">
+DrawDock</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="14" x2="717" y1="37" y2="37"/>
+<ellipse cx="190" cy="78" fill="#000000" rx="8.0" ry="8.0" stroke="#000000" stroke-width="1"/>
+<rect fill="#00ff" height="44" rx="16" ry="16" stroke="#00ff" stroke-width="1" width="70" x="294" y="134"/>
+<rect fill="#ffffff" height="44" rx="16" ry="16" stroke="#000000" stroke-width="1" width="70" x="294" y="134"/>
+<rect fill="#ffffff" height="42" rx="16" ry="16" stroke="#ffffff" stroke-width="1" width="68" x="295" y="135"/>
+<text font-family="Dialog" font-size="12" x="310" y="147">
+Pencil</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="294" x2="363" y1="157" y2="157"/>
+<rect fill="#00ff" height="44" rx="16" ry="16" stroke="#00ff" stroke-width="1" width="72" x="406" y="246"/>
+<rect fill="#ffffff" height="44" rx="16" ry="16" stroke="#000000" stroke-width="1" width="72" x="406" y="246"/>
+<rect fill="#ffffff" height="42" rx="16" ry="16" stroke="#ffffff" stroke-width="1" width="70" x="407" y="247"/>
+<text font-family="Dialog" font-size="12" x="426" y="259">
+Lines</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="406" x2="477" y1="269" y2="269"/>
+<rect fill="#00ff" height="44" rx="16" ry="16" stroke="#00ff" stroke-width="1" width="113" x="118" y="246"/>
+<rect fill="#ffffff" height="44" rx="16" ry="16" stroke="#000000" stroke-width="1" width="113" x="118" y="246"/>
+<rect fill="#ffffff" height="42" rx="16" ry="16" stroke="#ffffff" stroke-width="1" width="111" x="119" y="247"/>
+<text font-family="Dialog" font-size="12" x="150" y="259">
+Polygon</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="118" x2="230" y1="269" y2="269"/>
+<rect fill="#00ff" height="44" rx="16" ry="16" stroke="#00ff" stroke-width="1" width="110" x="286" y="382"/>
+<rect fill="#ffffff" height="44" rx="16" ry="16" stroke="#000000" stroke-width="1" width="110" x="286" y="382"/>
+<rect fill="#ffffff" height="42" rx="16" ry="16" stroke="#ffffff" stroke-width="1" width="108" x="287" y="383"/>
+<text font-family="Dialog" font-size="12" x="292" y="395">
+Inverse Polygon</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="286" x2="395" y1="405" y2="405"/>
+<polyline fill="none" points="197,81 294,134" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="280" x2="294" y1="134" y2="134"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="286" x2="294" y1="122" y2="134"/>
+<text font-family="Dialog" font-size="12" x="212" y="83">
+open DrawDock</text>
+<polyline fill="none" points="310,177 310,382" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="303" x2="310" y1="370" y2="382"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="317" x2="310" y1="370" y2="382"/>
+<text font-family="Dialog" font-size="12" x="250" y="211">
+inversePolygon</text>
+<polyline fill="none" points="342,382 342,177" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="349" x2="342" y1="189" y2="177"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="335" x2="342" y1="189" y2="177"/>
+<text font-family="Dialog" font-size="12" x="344" y="350">
+pencil</text>
+<polyline fill="none" points="230,262 406,262" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="394" x2="406" y1="269" y2="262"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="394" x2="406" y1="255" y2="262"/>
+<text font-family="Dialog" font-size="12" x="245" y="257">
+lines</text>
+<polyline fill="none" points="406,278 230,278" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="242" x2="230" y1="271" y2="278"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="242" x2="230" y1="285" y2="278"/>
+<text font-family="Dialog" font-size="12" x="348" y="294">
+polygon</text>
+<polyline fill="none" points="222,246 222,174 294,174" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="282" x2="294" y1="181" y2="174"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="282" x2="294" y1="167" y2="174"/>
+<text font-family="Dialog" font-size="12" x="224" y="238">
+pencil</text>
+<polyline fill="none" points="294,158 206,158 206,246" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="199" x2="206" y1="234" y2="246"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="213" x2="206" y1="234" y2="246"/>
+<text font-family="Dialog" font-size="12" x="221" y="152">
+polygon</text>
+<polyline fill="none" points="363,174 438,174 438,246" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="431" x2="438" y1="234" y2="246"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="445" x2="438" y1="234" y2="246"/>
+<text font-family="Dialog" font-size="12" x="374" y="189">
+lines</text>
+<polyline fill="none" points="462,246 462,158 363,158" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="375" x2="363" y1="151" y2="158"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="375" x2="363" y1="165" y2="158"/>
+<text font-family="Dialog" font-size="12" x="464" y="225">
+pencil</text>
+<polyline fill="none" points="446,289 446,390 395,390" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="407" x2="395" y1="383" y2="390"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="407" x2="395" y1="397" y2="390"/>
+<text font-family="Dialog" font-size="12" x="366" y="319">
+inversePolygon</text>
+<polyline fill="none" points="395,414 470,414 470,289" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="477" x2="470" y1="301" y2="289"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="463" x2="470" y1="301" y2="289"/>
+<text font-family="Dialog" font-size="12" x="433" y="428">
+lines</text>
+<polyline fill="none" points="206,289 206,406 286,406" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="274" x2="286" y1="413" y2="406"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="274" x2="286" y1="399" y2="406"/>
+<text font-family="Dialog" font-size="12" x="123" y="318">
+inversePolygon</text>
+<polyline fill="none" points="286,382 222,382 222,289" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="229" x2="222" y1="301" y2="289"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="215" x2="222" y1="301" y2="289"/>
+<text font-family="Dialog" font-size="12" x="225" y="369">
+polygon</text>
+<rect fill="#00ff" height="44" rx="16" ry="16" stroke="#00ff" stroke-width="1" width="113" x="374" y="54"/>
+<rect fill="#ffffff" height="44" rx="16" ry="16" stroke="#000000" stroke-width="1" width="113" x="374" y="54"/>
+<rect fill="#ffffff" height="42" rx="16" ry="16" stroke="#ffffff" stroke-width="1" width="111" x="375" y="55"/>
+<text font-family="Dialog" font-size="12" x="395" y="67">
+draw pencil</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="374" x2="486" y1="77" y2="77"/>
+<rect fill="#00ff" height="44" rx="16" ry="16" stroke="#00ff" stroke-width="1" width="113" x="558" y="262"/>
+<rect fill="#ffffff" height="44" rx="16" ry="16" stroke="#000000" stroke-width="1" width="113" x="558" y="262"/>
+<rect fill="#ffffff" height="42" rx="16" ry="16" stroke="#ffffff" stroke-width="1" width="111" x="559" y="263"/>
+<text font-family="Dialog" font-size="12" x="583" y="275">
+drwa lines</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="558" x2="670" y1="285" y2="285"/>
+<rect fill="#00ff" height="44" rx="16" ry="16" stroke="#00ff" stroke-width="1" width="144" x="294" y="494"/>
+<rect fill="#ffffff" height="44" rx="16" ry="16" stroke="#000000" stroke-width="1" width="144" x="294" y="494"/>
+<rect fill="#ffffff" height="42" rx="16" ry="16" stroke="#ffffff" stroke-width="1" width="142" x="295" y="495"/>
+<text font-family="Dialog" font-size="12" x="300" y="507">
+draw inverse polygon</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="294" x2="437" y1="517" y2="517"/>
+<rect fill="#00ff" height="44" rx="16" ry="16" stroke="#00ff" stroke-width="1" width="95" x="22" y="142"/>
+<rect fill="#ffffff" height="44" rx="16" ry="16" stroke="#000000" stroke-width="1" width="95" x="22" y="142"/>
+<rect fill="#ffffff" height="42" rx="16" ry="16" stroke="#ffffff" stroke-width="1" width="93" x="23" y="143"/>
+<text font-family="Dialog" font-size="12" x="28" y="155">
+draw polygon</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="22" x2="116" y1="165" y2="165"/>
+<polyline fill="none" points="374,94 350,94 350,134" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="343" x2="350" y1="122" y2="134"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="357" x2="350" y1="122" y2="134"/>
+<text font-family="Dialog" font-size="12" x="318" y="100">
+stop</text>
+<polyline fill="none" points="363,142 454,142 454,97" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="461" x2="454" y1="109" y2="97"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="447" x2="454" y1="109" y2="97"/>
+<text font-family="Dialog" font-size="12" x="416" y="137">
+start</text>
+<polyline fill="none" points="116,182 142,182 142,246" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="135" x2="142" y1="234" y2="246"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="149" x2="142" y1="234" y2="246"/>
+<text font-family="Dialog" font-size="12" x="145" y="191">
+stop</text>
+<polyline fill="none" points="118,262 62,262 62,185" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="69" x2="62" y1="197" y2="185"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="55" x2="62" y1="197" y2="185"/>
+<text font-family="Dialog" font-size="12" x="70" y="277">
+start</text>
+<polyline fill="none" points="342,425 342,494" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="335" x2="342" y1="482" y2="494"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="349" x2="342" y1="482" y2="494"/>
+<text font-family="Dialog" font-size="12" x="309" y="466">
+start</text>
+<polyline fill="none" points="366,494 366,425" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="373" x2="366" y1="437" y2="425"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="359" x2="366" y1="437" y2="425"/>
+<text font-family="Dialog" font-size="12" x="370" y="466">
+stop</text>
+<polyline fill="none" points="477,262 558,262" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="546" x2="558" y1="269" y2="262"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="546" x2="558" y1="255" y2="262"/>
+<text font-family="Dialog" font-size="12" x="502" y="257">
+start</text>
+<polyline fill="none" points="558,286 477,286" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="489" x2="477" y1="279" y2="286"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="489" x2="477" y1="293" y2="286"/>
+<text font-family="Dialog" font-size="12" x="504" y="281">
+stop</text>
+</svg>

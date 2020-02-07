@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="300" version="1.1" width="532" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#00ff" height="272" rx="16" ry="16" stroke="#00ff" stroke-width="1" width="504" x="14" y="14"/>
+<rect fill="#ffffff" height="272" rx="16" ry="16" stroke="#000000" stroke-width="1" width="504" x="14" y="14"/>
+<rect fill="#ffffff" height="270" rx="16" ry="16" stroke="#ffffff" stroke-width="1" width="502" x="15" y="15"/>
+<text font-family="Dialog" font-size="12" x="244" y="27">
+Picture</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="14" x2="517" y1="37" y2="37"/>
+<ellipse cx="46" cy="62" fill="#000000" rx="8.0" ry="8.0" stroke="#000000" stroke-width="1"/>
+<rect fill="#00ff" height="44" rx="16" ry="16" stroke="#00ff" stroke-width="1" width="70" x="134" y="46"/>
+<rect fill="#ffffff" height="44" rx="16" ry="16" stroke="#000000" stroke-width="1" width="70" x="134" y="46"/>
+<rect fill="#ffffff" height="42" rx="16" ry="16" stroke="#ffffff" stroke-width="1" width="68" x="135" y="47"/>
+<text font-family="Dialog" font-size="12" x="150" y="59">
+empty</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="134" x2="203" y1="69" y2="69"/>
+<polyline fill="none" points="54,62 134,62" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="122" x2="134" y1="69" y2="62"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="122" x2="134" y1="55" y2="62"/>
+<text font-family="Dialog" font-size="12" x="74" y="57">
+create</text>
+<rect fill="#00ff" height="168" rx="16" ry="16" stroke="#00ff" stroke-width="1" width="332" x="166" y="110"/>
+<rect fill="#ffffff" height="168" rx="16" ry="16" stroke="#000000" stroke-width="1" width="332" x="166" y="110"/>
+<rect fill="#ffffff" height="166" rx="16" ry="16" stroke="#ffffff" stroke-width="1" width="330" x="167" y="111"/>
+<text font-family="Dialog" font-size="12" x="304" y="123">
+hasLayer</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="166" x2="497" y1="133" y2="133"/>
+<polyline fill="none" points="203,62 430,62 430,110" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="423" x2="430" y1="98" y2="110"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="437" x2="430" y1="98" y2="110"/>
+<text font-family="Dialog" font-size="12" x="305" y="55">
+addLayer</text>
+<polyline fill="none" points="166,206 110,206 110,166 166,166" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="154" x2="166" y1="173" y2="166"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="154" x2="166" y1="159" y2="166"/>
+<text font-family="Dialog" font-size="12" x="51" y="188">
+addLayer</text>
+<rect fill="#00ff" height="44" rx="16" ry="16" stroke="#00ff" stroke-width="1" width="70" x="342" y="166"/>
+<rect fill="#ffffff" height="44" rx="16" ry="16" stroke="#000000" stroke-width="1" width="70" x="342" y="166"/>
+<rect fill="#ffffff" height="42" rx="16" ry="16" stroke="#ffffff" stroke-width="1" width="68" x="343" y="167"/>
+<text font-family="Dialog" font-size="12" x="366" y="179">
+idle</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="342" x2="411" y1="189" y2="189"/>
+<ellipse cx="470" cy="174" fill="#000000" rx="8.0" ry="8.0" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="462,174 411,174" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="423" x2="411" y1="167" y2="174"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="423" x2="411" y1="181" y2="174"/>
+<polyline fill="none" points="342,198 262,198 262,166 342,166" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="330" x2="342" y1="173" y2="166"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="330" x2="342" y1="159" y2="166"/>
+<text font-family="Dialog" font-size="12" x="193" y="187">
+moveLayer</text>
+<polyline fill="none" points="350,209 350,246 406,246 406,209" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="413" x2="406" y1="221" y2="209"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="399" x2="406" y1="221" y2="209"/>
+<text font-family="Dialog" font-size="12" x="337" y="264">
+makeShaped</text>
+</svg>
